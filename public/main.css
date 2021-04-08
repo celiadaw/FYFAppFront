@@ -6,7 +6,7 @@
 html {
     font-size: .75em;
 }
-.container {
+.wrapper {
     width: 90%;
     margin: 0 auto;
 }
@@ -15,6 +15,16 @@ html {
 }
 .img__box img {
     width: 100%;
+}
+.input__box-signup {
+    display: flex;
+    flex-direction: column;
+}
+.input__mail-signup, .input__pass-signup {
+    width: 60%;
+}
+.text__aux-box {
+    display: flex;
 }
 /* body {
     font-family: 'Nunito Sans', sans-serif;

@@ -141,8 +141,9 @@ const body = fn.querySelection('body');
 // VISTA MAESTRO ------------------------------------------>
 
 const mainHtml = (body) => {
-    const mainCont = fn.createElement('main', 'main__login');
-    const container = fn.createElement('div', 'container');
+    const mainCont = fn.createElement('main', 'main__cont');
+    const container = fn.createElement('div', 'home__cont');
+        fn.addClass(container, 'wrapper');
     fn.appendElement(body, mainCont);
     fn.appendElement(mainCont, container)
 
@@ -153,11 +154,12 @@ const mainHtml = (body) => {
 };
 const main = mainHtml(body);
 
-const btnLogsHtml = (mainCont) => {
 
+const btnLogsHtml = (container) => {
+    
     const btnLogsBox = fn.createElement('div', 'btn__logs-box');
     const btnLogs = fn.createElement('a', 'btn__logs');
-    fn.appendElement(mainCont, btnLogsBox);
+    fn.appendElement(container, btnLogsBox);
   
     if(logged) {
         const btnFavs = fn.createElement('a', 'btn__favs');
@@ -173,57 +175,144 @@ const btnLogsHtml = (mainCont) => {
 
         
     } else {
-        const btnSingUp = fn.createElement('a', 'btn__sign-up');
+        const btnSignUp = fn.createElement('a', 'btn__sign-up');
 
-        fn.appendElement(btnLogsBox, btnSingUp);
+        fn.appendElement(btnLogsBox, btnSignUp);
         fn.appendElement(btnLogsBox, btnLogs);
 
-        btnSingUp.textContent = 'Sign up';
+        btnSignUp.textContent = 'Sign up';
         btnLogs.textContent = 'Log in';
+
+        return {
+            btnLogsBox,
+            btnSignUp,
+            btnLogs
+        }
+
     };
     
-    
 };
-const btnLogs = btnLogsHtml(main.container, 'Log in');
+const btns = btnLogsHtml(main.container);
 
-const mainTitleApp = (mainCont) => {
+
+    
+
+// VISTA PANTALLA SIGNUP
+const signUpCompScreen = (container, mainCont, courses) => {
+    fn.remover(container);
+    const signUpCont = fn.createElement('div', 'signup__cont');
+        fn.addClass(signUpCont, 'wrapper');
+        fn.appendElement(mainCont, signUpCont);
+    
+    const btnHomeBoxSignUp = fn.createElement('div', 'btn__home-box-signup');
+        fn.appendElement(signUpCont, btnHomeBoxSignUp);
+
+    const btnHome = fn.createElement('a', 'btn__home-signup');
+        btnHome.textContent = 'Home';
+        fn.appendElement(btnHomeBoxSignUp, btnHome);
+
+    const signUpInputsBox = fn.createElement('div', 'input__box-signup'); 
+        fn.appendElement(signUpCont, signUpInputsBox);
+    const inputMail = fn.createElement('input', 'input__mail-signup');
+        fn.appendElement(signUpInputsBox, inputMail);
+    const inputPass = fn.createElement('input', 'input__pass-signup');
+        fn.appendElement(signUpInputsBox, inputPass);
+    
+    const btnSend = fn.createElement('a', 'btn__send');
+        fn.appendElement(signUpInputsBox, btnSend);
+        btnSend.textContent = 'Send';
+
+    const textAuxBox = fn.createElement('div', 'text__aux-box');
+    const textAux = fn.createElement('p', 'text__aux');
+        textAux.textContent = '¿Ya estás registrado?';
+    const btnLoginAux = fn.createElement('a', 'btn__login-aux');
+        btnLoginAux.textContent = 'Log in';
+        fn.appendElement(signUpCont, textAuxBox);
+        fn.appendElement(textAuxBox, textAux);
+        fn.appendElement(textAuxBox, btnLoginAux);
+
+    const googleSignUpBox = fn.createElement('div', 'google__signup-box');
+    const googleSignUp = fn.createElement('a', 'google__signup');
+        googleSignUp.textContent = 'GOOGLE';
+        fn.appendElement(signUpCont, googleSignUpBox);
+        fn.appendElement(googleSignUpBox, googleSignUp);
+    
+    const body = fn.querySelection('body');
+    console.log(body);
+
+
+    // BACK TO HOME
+    btnHome.addEventListener('click', () => {
+        fn.remover(mainCont);
+        let main = mainHtml(body);
+        let btns = btnLogsHtml(main.container);
+        let title = mainTitleApp(main.container, main.mainCont);
+        let input = inputBox(main.container, courses);
+    });
+
+};
+
+const mainTitleApp = (container, mainCont) => {
+    
+    console.log(987987);
     const mainTitleBox = fn.createElement('div', 'main__title-box');
     const mainTitle = fn.createElement('h1', 'main__title');
 
-    fn.appendElement(mainCont, mainTitleBox);
+    fn.appendElement(container, mainTitleBox);
     fn.appendElement(mainTitleBox, mainTitle);
 
     mainTitle.textContent = 'FYFApp';
+
+    if(!logged) {
+        btns.btnSignUp.addEventListener('click', () => {
+            signUpCompScreen(container, mainCont);
+        });
+    };
 
     return {
         mainTitleBox,
         mainTitle
     };
+
 };
-const title = mainTitleApp(main.container);
+const title = mainTitleApp(main.container, main.mainCont);
 
 const inputBox = (mainCont) => {
-    const inputBox = fn.createElement('div', 'input__box');
-    const input = fn.createElement('input', 'input');
+
+    const inputBox = fn.createElement('div', 'input__box-search');
+    const input = fn.createElement('input', 'input__search');
     const btnBox = fn.createElement('div', 'btn__search-box');
-    const btn = fn.createElement('a', 'btn__search');
+    const btnSearch = fn.createElement('a', 'btn__search');
 
     fn.appendElement(mainCont, inputBox);
     fn.appendElement(inputBox, input);
     fn.appendElement(inputBox, btnBox);
-    fn.appendElement(btnBox, btn);
+    fn.appendElement(btnBox, btnSearch);
 
-    btn.textContent = 'Search';
+    btnSearch.textContent = 'Search';
+
+    btnSearch.addEventListener('click', () => {
+        let appTitle = fn.querySelection('.main__title-box');
+        fn.remover(appTitle);
+        console.log(courses);
+        
+        courses.map( (course) => {
+            resultComp(course)
+        });
+    
+    });
 
     return {
-        btn
+        btnSearch
     }
+
 };
 const input = inputBox(main.container);
 
+
 const resultComp = (course) => {
     
-    let container = fn.querySelection('.container');
+    let container = fn.querySelection('.home__cont');
     
 
     const courseComponents = fn.createElement('div', 'course__components');
@@ -296,20 +385,8 @@ const resultComp = (course) => {
 
 // <-------------------------------------------VISTA MAESTRO
 
+    
 
 
 
 
-
-
-// EVENTO CLICK BTN SEARCH
-const btn = fn.querySelection('.btn__search');
-btn.addEventListener('click', () => {
-    let appTitle = fn.querySelection('.main__title-box');
-    fn.remover(appTitle);
-
-    courses.map( (course) => {
-        resultComp(course);
-    });
-
-});
