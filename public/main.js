@@ -123,7 +123,8 @@ const courses = [
 const body = fn.querySelection('body');
 let logged = true;
 
-// NO LOGIN PAGE-----------------------------------------------
+// VISTA MAESTRO ------------------------------------------>
+
 const mainHtml = (body) => {
     const mainCont = fn.createElement('main', 'main__login');
     const container = fn.createElement('div', 'container');
@@ -135,6 +136,7 @@ const mainHtml = (body) => {
         container
     };
 };
+const main = mainHtml(body);
 
 const btnLogsHtml = (mainCont) => {
 
@@ -167,6 +169,7 @@ const btnLogsHtml = (mainCont) => {
     
     
 };
+const btnLogs = btnLogsHtml(main.container, 'Log in');
 
 const mainTitleApp = (mainCont) => {
     const mainTitleBox = fn.createElement('div', 'main__title-box');
@@ -182,6 +185,7 @@ const mainTitleApp = (mainCont) => {
         mainTitle
     };
 };
+const title = mainTitleApp(main.container);
 
 const inputBox = (mainCont) => {
     const inputBox = fn.createElement('div', 'input__box');
@@ -200,15 +204,8 @@ const inputBox = (mainCont) => {
         btn
     }
 };
-
-
-const main = mainHtml(body);
-const btnLogs = btnLogsHtml(main.container, 'Log in');
-const title = mainTitleApp(main.container);
 const input = inputBox(main.container);
 
-
-// DETAIL VIEW
 const resultComp = (course) => {
     
     let container = fn.querySelection('.container');
@@ -282,6 +279,15 @@ const resultComp = (course) => {
 
 };
 
+// <-------------------------------------------VISTA MAESTRO
+
+
+
+
+
+
+
+// EVENTO CLICK BTN SEARCH
 const btn = fn.querySelection('.btn__search');
 btn.addEventListener('click', () => {
     let appTitle = fn.querySelection('.main__title-box');
