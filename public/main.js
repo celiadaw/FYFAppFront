@@ -119,9 +119,27 @@ const courses = [
       author: 'César Alberca'
     }
   ]
+//    /authuser GET
+//    req.header[authoritation] = bearer (token)
+// const check = (state) => {
+//     return state;
+// };
+// const fn = check(true);
+// ok 1 true
+// ok 0 false
+
+// AUTH STATE
+const logged = ( () => {
+
+    let response = false;
+    response.OK === 1 ? true  :  false;
+    return response;
+
+})  ();
+
 
 const body = fn.querySelection('body');
-let logged = true;
+// let logged = true;
 
 // VISTA MAESTRO ------------------------------------------>
 
