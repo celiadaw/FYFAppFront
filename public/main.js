@@ -121,10 +121,6 @@ const courses = [
   ]
 //    /authuser GET
 //    req.header[authoritation] = bearer (token)
-// const check = (state) => {
-//     return state;
-// };
-// const fn = check(true);
 // ok 1 true
 // ok 0 false
 
@@ -141,6 +137,7 @@ const logged = ( () => {
 const body = fn.querySelection('body');
 // let logged = true;
 
+// RAMA GIT vistaMaestro
 // VISTA MAESTRO ------------------------------------------>
 
 const mainHtml = (body) => {
