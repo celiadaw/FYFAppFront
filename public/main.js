@@ -136,23 +136,36 @@ const mainHtml = (body) => {
     };
 };
 
-const btnLogsHtml = (mainCont, string) => {
+const btnLogsHtml = (mainCont) => {
 
-    const btnLogsBox = fn.createElement('div', 'btnLogsBox');
-    const btnLogs = fn.createElement('a', 'btnLogs');
-
+    const btnLogsBox = fn.createElement('div', 'btn__logs-box');
+    const btnLogs = fn.createElement('a', 'btn__logs');
     fn.appendElement(mainCont, btnLogsBox);
-    fn.appendElement(btnLogsBox, btnLogs);
+  
+    if(logged) {
+        const btnFavs = fn.createElement('a', 'btn__favs');
+        const btnProfile = fn.createElement('a', 'btn__profile');
 
-    logged? string = 'Log out' : 'Log in';
+        fn.appendElement(btnLogsBox, btnProfile);
+        fn.appendElement(btnLogsBox, btnFavs);
+        fn.appendElement(btnLogsBox, btnLogs);
 
-    btnLogs.textContent = string;
+        btnFavs.textContent = 'Favourites';
+        btnProfile.textContent = 'Profile';
+        btnLogs.textContent = 'Log out';
 
-    return {
-        btnLogsBox, 
-        btnLogs
+        
+    } else {
+        const btnSingUp = fn.createElement('a', 'btn__sign-up');
+
+        fn.appendElement(btnLogsBox, btnSingUp);
+        fn.appendElement(btnLogsBox, btnLogs);
+
+        btnSingUp.textContent = 'Sign up';
+        btnLogs.textContent = 'Log in';
     };
-
+    
+    
 };
 
 const mainTitleApp = (mainCont) => {
@@ -188,14 +201,11 @@ const inputBox = (mainCont) => {
     }
 };
 
-console.log(99999);
 
 const main = mainHtml(body);
 const btnLogs = btnLogsHtml(main.container, 'Log in');
 const title = mainTitleApp(main.container);
 const input = inputBox(main.container);
-
-
 
 
 // DETAIL VIEW
@@ -282,56 +292,3 @@ btn.addEventListener('click', () => {
     });
 
 });
-
-
-
-// const isLogged = (course, valid) => {
-
-//     if(valid !== undefined) {
-//         btnLogsHtml(main.container, 'Log out');
-//         detailView(course);
-//     } else {
-//         btnLogsHtml(main.container, 'Log in');
-//         detailView(course);
-//     };
-
-// };
-
-
-
-
-
-
-// // LOGIN PAGE---------------------------------------------------
-// const loginPage = (element, string) => {
-//     element.btnLogs.textContent = string;
-// };
-
-
-
-
-
-
-
-
-// // EVENTOS CLICK
-// event.shotEvent(input.btn);
-
-
-// const painterLogin = (body, login) => {
-//     login(body);
-// };
-// painterLogin(body, login)
-
-// fn.remover(btnLogsNoLogin);
-
-
-// EVENTOS CLICK
-// input.btn.addEventListener('click', () => {
-//     remover(main.mainCont);
-// });
-
-
-
-
-
