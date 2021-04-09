@@ -43,6 +43,11 @@ html {
 .btn__prof-box {
     display: flex;
 }
+.input__box-reset {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
 
 /* body {
     font-family: 'Nunito Sans', sans-serif;

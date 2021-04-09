@@ -426,18 +426,24 @@ const logInCompScreen = () => {
     const inputPass = fn.createElement('input', 'input__pass-signup');
         fn.appendElement(signUpInputsBox, inputPass);
     
+    const sendAndVerifyBox = fn.createElement('div', 'btn__verify-box');
+        fn.appendElement(loginCont, sendAndVerifyBox);
     const btnSend = fn.createElement('a', 'btn__send');
-        fn.appendElement(signUpInputsBox, btnSend);
+        fn.appendElement(sendAndVerifyBox, btnSend);
         btnSend.textContent = 'Send';
+    const btnVerify = fn.createElement('a', 'btn__verify');
+        fn.appendElement(sendAndVerifyBox, btnVerify);
+        btnVerify.textContent = 'Reset password';
+    
 
     const textAuxBox = fn.createElement('div', 'text__aux-box');
+        fn.appendElement(loginCont, textAuxBox);
     const textAux = fn.createElement('p', 'text__aux');
+        fn.appendElement(textAuxBox, textAux);
         textAux.textContent = 'Not already one of us?';
     const btnSignUpOut = fn.createElement('a', 'btn__login-aux');
-        btnSignUpOut.textContent = 'Sign up';
-        fn.appendElement(loginCont, textAuxBox);
-        fn.appendElement(textAuxBox, textAux);
         fn.appendElement(textAuxBox, btnSignUpOut);
+        btnSignUpOut.textContent = 'Sign up';
 
     const googleSignUpBox = fn.createElement('div', 'google__signup-box');
     const googleSignUp = fn.createElement('a', 'google__signup');
@@ -458,8 +464,13 @@ const logInCompScreen = () => {
         setTimeout(() => {
             signUpCompScreen();
         }, 1200);
-            
     });
+
+    btnVerify.addEventListener('click', () => {
+        fn.remover(loginCont);
+        resetPassScreen();
+    });
+            
 
 };
 
@@ -644,6 +655,43 @@ const favCompScreen = (course) => {
         init();
     });
    
+};
+
+// PANTALLA DE RESET PASSWORD
+const resetPassScreen = () => {
+
+    const mainCont = fn.querySelection('.main__cont');
+    // fn.remover(container);
+    const resetCont = fn.createElement('div', 'reset__cont');
+        fn.addClass(resetCont, 'wrapper');
+        fn.appendElement(mainCont, resetCont);
+    
+    const btnResetHomeBox = fn.createElement('div', 'btn__home-box-reset');
+        fn.appendElement(resetCont, btnResetHomeBox);
+
+    const btnResetHome = fn.createElement('a', 'btn__home-reset');
+        btnResetHome.textContent = 'Home';
+        fn.appendElement(btnResetHomeBox, btnResetHome);
+
+    const resetInputsBox = fn.createElement('div', 'input__box-reset'); 
+        fn.appendElement(resetCont, resetInputsBox);
+    const inputResetMail = fn.createElement('input', 'input__mail-reset');
+        fn.appendElement(resetInputsBox, inputResetMail);
+    const inputResetPass = fn.createElement('input', 'input__pass-reset');
+        fn.appendElement(resetInputsBox, inputResetPass);
+    
+    const btnResetSendBox = fn.createElement('div', 'btn__reset-box');
+        fn.appendElement(resetCont, btnResetSendBox);
+    const btnResetSend = fn.createElement('a', 'btn__send');
+        fn.appendElement(btnResetSendBox, btnResetSend);
+        btnResetSend.textContent = 'Send';
+
+
+    btnResetHome.addEventListener('click', () => {
+        resetCont.remove();
+        init();
+    });
+
 };
 
 
