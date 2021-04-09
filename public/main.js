@@ -124,7 +124,7 @@ const courses = [
 // AUTH STATE
 let logged = ( () => {
 
-    let response = true;
+    let response = false;
     response.OK === 1 ? true  :  false;
     return response;
 
