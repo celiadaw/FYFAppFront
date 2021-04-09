@@ -170,6 +170,11 @@ const btnLogsHtml = () => {
             mainCont.remove();
             profileCompScreen();
         });
+
+        // Botón Favoritos
+        btnFavs.addEventListener('click', () => {
+            favCompScreen(courses[0]);
+        });
      
     } else {
         const btnSignUp = fn.createElement('a', 'btn__sign-up');
@@ -269,12 +274,10 @@ const resultComp = (course) => {
     
     let container = fn.querySelection('.home__cont');
     
-
     const courseComponents = fn.createElement('div', 'course__components');
     
     const imgBox = fn.createElement('div', 'img__box');
     const img = fn.createElement('img');
-        // img.src = `${course.image}`;
         img.src = `${course.image}`;
 
     fn.appendElement(container, courseComponents);
@@ -529,6 +532,111 @@ const profileCompScreen = () => {
         fn.appendElement(googleSyncBox, googleSync);
 
 };
+
+// PANTALLA DE FAVORITOS
+const favCompScreen = (course) => {
+
+    let removeCont = fn.querySelection('.main__cont');
+    removeCont.remove();
+
+    let body = fn.querySelection('body');
+    
+    const favCont = fn.createElement('div', 'fav__cont');
+        fn.addClass(favCont, 'wrapper');
+        fn.appendElement(body, favCont);
+    const btnFavBox = fn.createElement('div', 'btn__prof-box');
+        fn.appendElement(favCont, btnFavBox);
+    const btnFavHome = fn.createElement('a', 'btn__home');
+        fn.appendElement(btnFavBox, btnFavHome);
+        btnFavHome.textContent = 'Home';
+    const btnFavLogOut = fn.createElement('a', 'btn__prof-logout');
+        fn.appendElement(btnFavBox, btnFavLogOut);
+        btnFavLogOut.textContent = 'Log out';
+        
+    
+    const courseComponents = fn.createElement('div', 'course__components');
+        fn.appendElement(favCont, courseComponents);
+
+    const imgBox = fn.createElement('div', 'img__box');
+        fn.appendElement(courseComponents, imgBox);
+    const img = fn.createElement('img');
+        img.src = `${course.image}`;
+        fn.appendElement(imgBox, img);
+    
+    // Click a la imagen para ir a vista detalle
+        img.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open(`${course.url}`);
+        });
+
+    const priceBox = fn.createElement('div', 'price__box');
+    const price = fn.createElement('h2');
+        price.textContent = `${course.price}`;
+        fn.appendElement(imgBox, priceBox);
+        fn.appendElement(priceBox, price);
+        
+    const titleBox = fn.createElement('h3', 'title__box');
+    const title = fn.createElement('h3');
+        title.textContent = `${course.title}`;
+        fn.appendElement(courseComponents, titleBox);
+        fn.appendElement(titleBox, title);
+
+    if(logged) {
+        const btnFav = fn.createElement('a', 'btnFav');
+        fn.appendElement(titleBox, btnFav);
+        btnFav.textContent = 'FAVBTN';
+    }
+            
+    // Click al título para ir a vista detalle
+    title.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open(`${course.url}`);
+    });
+
+    const descriptionBox = fn.createElement( 'div', 'description__box');
+    const description = fn.createElement('p');
+        description.textContent = `${course.resume}`;
+
+        fn.appendElement(courseComponents, descriptionBox);
+        fn.appendElement(descriptionBox, description);
+
+    
+    const ratingBox = fn.createElement('div', 'rating__box');
+    const rating = fn.createElement('p');
+        rating.textContent = `${course.currentRating}`;
+        
+        fn.appendElement(courseComponents, ratingBox);
+        fn.appendElement(ratingBox, rating);
+
+    const courseLevelBox = fn.createElement('div', 'course__level-box');
+    const courseLevel = fn.createElement('p');
+        courseLevel.textContent = `${course.level}`;
+
+    fn.appendElement(courseComponents, courseLevelBox);
+    fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
+
+    // Botón Home
+    btnFavHome.addEventListener('click', () => {
+        favCont.remove();
+        init();
+    });
+
+    // Botón Log out
+    btnFavLogOut.addEventListener('click', () => {
+        favCont.remove();
+        init();
+    });
+   
+};
+
+
+
+
+
+
+
+
+
 
 
 
