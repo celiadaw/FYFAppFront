@@ -393,59 +393,5 @@ const resultComp = (course) => {
     
 
 
-btnLogs.addEventListener('click', () => {
-    homeCont.remove();
-    logInCompScreen();
-});
-
-const logInCompScreen = () => {
-    
-    const mainCont = fn.querySelection('.main__cont');
-    // fn.remover(container);
-    const signInCont = fn.createElement('div', 'signup__cont');
-        fn.addClass(signInCont, 'wrapper');
-        fn.appendElement(mainCont, signInCont);
-    
-    const btnHomeBoxSignUp = fn.createElement('div', 'btn__home-box-signup');
-        fn.appendElement(signInCont, btnHomeBoxSignUp);
-
-    const btnHome = fn.createElement('a', 'btn__home-signup');
-        btnHome.textContent = 'Home';
-        fn.appendElement(btnHomeBoxSignUp, btnHome);
-
-    const signUpInputsBox = fn.createElement('div', 'input__box-signup'); 
-        fn.appendElement(signInCont, signUpInputsBox);
-    const inputMail = fn.createElement('input', 'input__mail-signup');
-        fn.appendElement(signUpInputsBox, inputMail);
-    const inputPass = fn.createElement('input', 'input__pass-signup');
-        fn.appendElement(signUpInputsBox, inputPass);
-    
-    const btnSend = fn.createElement('a', 'btn__send');
-        fn.appendElement(signUpInputsBox, btnSend);
-        btnSend.textContent = 'Send';
-
-    const textAuxBox = fn.createElement('div', 'text__aux-box');
-    const textAux = fn.createElement('p', 'text__aux');
-        textAux.textContent = '¿Aún no eres uno de nosotros?';
-    const btnLoginAux = fn.createElement('a', 'btn__login-aux');
-        btnLoginAux.textContent = 'Regístrate';
-        fn.appendElement(signInCont, textAuxBox);
-        fn.appendElement(textAuxBox, textAux);
-        fn.appendElement(textAuxBox, btnLoginAux);
-
-    const googleSignUpBox = fn.createElement('div', 'google__signup-box');
-    const googleSignUp = fn.createElement('a', 'google__signup');
-        googleSignUp.textContent = 'GOOGLE';
-        fn.appendElement(signInCont, googleSignUpBox);
-        fn.appendElement(googleSignUpBox, googleSignUp);
-    
-    const body = fn.querySelection('body');
 
 
-    // BACK TO HOME
-    btnHome.addEventListener('click', () => {
-        fn.remover(mainCont);
-        init();
-    });
-
-};
