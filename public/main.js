@@ -393,24 +393,34 @@ const signUpCompScreen = () => {
         init();
     });
 
+    // REDIRECT TO LOGIN
+    btnLoginAux.addEventListener('click', () => {
+        fn.remover(signUpCont);
+        setTimeout(() => {
+            logInCompScreen();
+        }, 1200);
+            
+    });
+
 };
+
 const logInCompScreen = () => {
     
     const mainCont = fn.querySelection('.main__cont');
     // fn.remover(container);
-    const signInCont = fn.createElement('div', 'signup__cont');
-        fn.addClass(signInCont, 'wrapper');
-        fn.appendElement(mainCont, signInCont);
+    const loginCont = fn.createElement('div', 'login__cont');
+        fn.addClass(loginCont, 'wrapper');
+        fn.appendElement(mainCont, loginCont);
     
     const btnHomeBoxSignUp = fn.createElement('div', 'btn__home-box-signup');
-        fn.appendElement(signInCont, btnHomeBoxSignUp);
+        fn.appendElement(loginCont, btnHomeBoxSignUp);
 
     const btnHome = fn.createElement('a', 'btn__home-signup');
         btnHome.textContent = 'Home';
         fn.appendElement(btnHomeBoxSignUp, btnHome);
 
     const signUpInputsBox = fn.createElement('div', 'input__box-signup'); 
-        fn.appendElement(signInCont, signUpInputsBox);
+        fn.appendElement(loginCont, signUpInputsBox);
     const inputMail = fn.createElement('input', 'input__mail-signup');
         fn.appendElement(signUpInputsBox, inputMail);
     const inputPass = fn.createElement('input', 'input__pass-signup');
@@ -423,25 +433,32 @@ const logInCompScreen = () => {
     const textAuxBox = fn.createElement('div', 'text__aux-box');
     const textAux = fn.createElement('p', 'text__aux');
         textAux.textContent = 'Not already one of us?';
-    const btnLoginAux = fn.createElement('a', 'btn__login-aux');
-        btnLoginAux.textContent = 'Sign up';
-        fn.appendElement(signInCont, textAuxBox);
+    const btnSignUpOut = fn.createElement('a', 'btn__login-aux');
+        btnSignUpOut.textContent = 'Sign up';
+        fn.appendElement(loginCont, textAuxBox);
         fn.appendElement(textAuxBox, textAux);
-        fn.appendElement(textAuxBox, btnLoginAux);
+        fn.appendElement(textAuxBox, btnSignUpOut);
 
     const googleSignUpBox = fn.createElement('div', 'google__signup-box');
     const googleSignUp = fn.createElement('a', 'google__signup');
         googleSignUp.textContent = 'GOOGLE';
-        fn.appendElement(signInCont, googleSignUpBox);
+        fn.appendElement(loginCont, googleSignUpBox);
         fn.appendElement(googleSignUpBox, googleSignUp);
-    
-    const body = fn.querySelection('body');
 
 
     // BACK TO HOME
     btnHome.addEventListener('click', () => {
         fn.remover(mainCont);
         init();
+    });
+
+    // REDIRECT TO SIGN UP
+    btnSignUpOut.addEventListener('click', () => {
+        fn.remover(loginCont);
+        setTimeout(() => {
+            signUpCompScreen();
+        }, 1200);
+            
     });
 
 };
