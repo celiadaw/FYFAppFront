@@ -122,9 +122,9 @@ const courses = [
   ]
 
 // AUTH STATE
-const logged = ( () => {
+let logged = ( () => {
 
-    let response = false;
+    let response = true;
     response.OK === 1 ? true  :  false;
     return response;
 
@@ -146,12 +146,14 @@ const mainHtml = () => {
 };
 const btnLogsHtml = () => {
     
+    const mainCont = fn.querySelection('.main__cont');
     const homeCont = fn.querySelection('.home__cont');
     const btnLogsBox = fn.createElement('div', 'btn__logs-box');
     const btnLogs = fn.createElement('a', 'btn__logs');
         fn.appendElement(homeCont, btnLogsBox);
   
     if(logged) {
+
         const btnFavs = fn.createElement('a', 'btn__favs');
         const btnProfile = fn.createElement('a', 'btn__profile');
 
@@ -163,7 +165,12 @@ const btnLogsHtml = () => {
         btnProfile.textContent = 'Profile';
         btnLogs.textContent = 'Log out';
 
-        
+        // Botón profile
+        btnProfile.addEventListener('click', () => {
+            mainCont.remove();
+            profileCompScreen();
+        });
+     
     } else {
         const btnSignUp = fn.createElement('a', 'btn__sign-up');
 
@@ -360,7 +367,7 @@ const signUpCompScreen = () => {
 
     const textAuxBox = fn.createElement('div', 'text__aux-box');
     const textAux = fn.createElement('p', 'text__aux');
-        textAux.textContent = '¿Ya estás registrado?';
+        textAux.textContent = 'You´re one of us?';
     const btnLoginAux = fn.createElement('a', 'btn__login-aux');
         btnLoginAux.textContent = 'Log in';
         fn.appendElement(signUpCont, textAuxBox);
@@ -412,9 +419,9 @@ const logInCompScreen = () => {
 
     const textAuxBox = fn.createElement('div', 'text__aux-box');
     const textAux = fn.createElement('p', 'text__aux');
-        textAux.textContent = '¿Aún no eres uno de nosotros?';
+        textAux.textContent = 'Not already one of us?';
     const btnLoginAux = fn.createElement('a', 'btn__login-aux');
-        btnLoginAux.textContent = 'Regístrate';
+        btnLoginAux.textContent = 'Sign up';
         fn.appendElement(signInCont, textAuxBox);
         fn.appendElement(textAuxBox, textAux);
         fn.appendElement(textAuxBox, btnLoginAux);
@@ -435,5 +442,93 @@ const logInCompScreen = () => {
     });
 
 };
+
+// PANTALLA DE PROFILE
+const profileCompScreen = () => {
+
+    const body = fn.querySelection('body');
+
+    const profCont = fn.createElement('div', 'prof__cont');
+        fn.addClass(profCont, 'wrapper');
+    const btnProfBox = fn.createElement('div', 'btn__prof-box');
+        fn.appendElement(profCont, btnProfBox);
+    const btnProfHome = fn.createElement('a', 'btn__home');
+        fn.appendElement(btnProfBox, btnProfHome);
+        btnProfHome.textContent = 'Home';
+    const btnProfLogOut = fn.createElement('a', 'btn__prof-logout');
+        fn.appendElement(btnProfBox, btnProfLogOut);
+        btnProfLogOut.textContent = 'Log out';
+
+
+    const imgProfBox = fn.createElement('div', 'imgProfBox');
+        fn.appendElement(body, profCont);
+        fn.appendElement(profCont, imgProfBox);
+    const imgProf = fn.createElement('img', 'imgProf');
+        imgProf.src = './media/user-img.png';
+        fn.appendElement(imgProfBox, imgProf);
+    const btnImg = fn.createElement('a', 'btnImg');
+        btnImg.textContent = 'Edit';
+        fn.appendElement(imgProfBox, btnImg);
+
+    // Caja de input FirstName
+    const userDataBox = fn.createElement('div', 'user__Data-Box');
+        fn.appendElement(profCont, userDataBox);
+    
+    const firstNameBox = fn.createElement('div', 'firstName__box');
+        fn.appendElement(userDataBox, firstNameBox);
+
+    const firstNameText = fn.createElement('h4', 'firstName__text');
+        fn.appendElement(firstNameBox, firstNameText);
+        firstNameText.textContent = 'First Name';
+
+    const userDataFirstName = fn.createElement('input', 'input__data-firstName');
+        fn.appendElement(firstNameBox, userDataFirstName);
+
+    // Caja de input LastName
+    const lastNameBox = fn.createElement('div', 'firstName__box');
+        fn.appendElement(userDataBox, lastNameBox);
+
+    const lastNameTextOne = fn.createElement('h4', 'firstName__text');
+        fn.appendElement(lastNameBox, lastNameTextOne);
+        lastNameTextOne.textContent = 'Last Name';
+
+    const userDataLastName = fn.createElement('input', 'input__data-firstName');
+        fn.appendElement(lastNameBox, userDataLastName);
+
+    const lastNameTextTwo = fn.createElement('h4', 'firstName__text');
+        fn.appendElement(lastNameBox, lastNameTextTwo);
+        lastNameTextTwo.textContent = 'Last Name';
+
+    const userDataLastNameTwo = fn.createElement('input', 'input__data-firstName');
+        fn.appendElement(lastNameBox, userDataLastNameTwo);
+    const btnEditBox = fn.createElement('div', 'btn__edit-box');
+    const btnEdit = fn.createElement('a', 'btn__edit');
+        fn.appendElement(userDataBox, btnEditBox);
+        fn.appendElement(btnEditBox, btnEdit);
+        btnEdit.textContent = 'Edit';
+
+    
+    // Botón Home
+    btnProfHome.addEventListener('click', () => {
+        profCont.remove();
+        init();
+    });
+
+    // Botón Log out
+    btnProfLogOut.addEventListener('click', () => {
+        profCont.remove();
+        init();
+    });
+
+    
+    // Botón de google
+    const googleSyncBox = fn.createElement('div', 'google__sync-box');
+    const googleSync = fn.createElement('a', 'google__sync');
+        googleSync.textContent = 'GOOGLE';
+        fn.appendElement(profCont, googleSyncBox);
+        fn.appendElement(googleSyncBox, googleSync);
+
+};
+
 
 

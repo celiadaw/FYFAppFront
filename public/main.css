@@ -26,6 +26,24 @@ html {
 .text__aux-box {
     display: flex;
 }
+
+.imgProf {
+    width: 10rem;
+}
+.user__Data-Box {
+    display: flex;
+    flex-direction: column;
+}
+.input__data-firstName, .input__data-lastName {
+    width: 60%;
+}
+.google__sync, .google__signup {
+    border: 2px solid black;
+}
+.btn__prof-box {
+    display: flex;
+}
+
 /* body {
     font-family: 'Nunito Sans', sans-serif;
 }
