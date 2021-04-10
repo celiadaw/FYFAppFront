@@ -124,7 +124,7 @@ const courses = [
 // AUTH STATE
 let logged = ( () => {
 
-    let response = false;
+    let response = true;
     response.OK === 1 ? true  :  false;
     return response;
 
@@ -581,7 +581,18 @@ const favCompScreen = (course) => {
         fn.appendElement(btnFavBox, btnFavLogOut);
         btnFavLogOut.textContent = 'Log out';
         
-    
+    const favInputBox = fn.createElement('div', 'favinput__search-box');
+        fn.appendElement(favCont, favInputBox);
+    const favInput = fn.createElement('input', 'favinput__search');
+        fn.appendElement(favInputBox, favInput);
+
+    const favBtnSearchBox = fn.createElement('div', 'favBtn__search-box');
+        fn.appendElement(favInputBox, favBtnSearchBox);
+    const favBtnSearch = fn.createElement('a', 'favBtn__search');
+        fn.appendElement(favBtnSearchBox, favBtnSearch )
+        favBtnSearch.textContent = 'Search';
+
+
     const courseComponents = fn.createElement('div', 'course__components');
         fn.appendElement(favCont, courseComponents);
 
