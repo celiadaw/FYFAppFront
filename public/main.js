@@ -256,7 +256,6 @@ const fetchToAllCourses = async (searchValue) => {
 };
         
 
-
 // PANTALLAS DE SIGN UP Y SIGN IN
 const signUpCompScreen = () => {
     
