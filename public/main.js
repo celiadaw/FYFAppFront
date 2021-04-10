@@ -242,6 +242,25 @@ const fetchToAllCourses = async (searchValue) => {
   }
 };
 
+const fetchToSignUp = async (email, pass) => {
+  const data = { email, pass };
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const response = await fetch(
+    `http://localhost:3000/signup`,
+    options,
+  ).then((data) => data.json());
+  console.log(response);
+  if (response.OK === 1) {
+    return true; //devuelvo true para decir que todo ha ido bien
+  } else if (response.OK === 0) {
+    alert('Todo mal');
+  }
+};
+
 // PANTALLAS DE SIGN UP Y SIGN IN
 const signUpCompScreen = () => {
   const mainCont = fn.querySelection('.main__cont');
@@ -298,6 +317,16 @@ const signUpCompScreen = () => {
     setTimeout(() => {
       logInCompScreen();
     }, 1200);
+  });
+  //SIGNUP FETCH
+  btnSend.addEventListener('click', () => {
+    const result = fetchToSignUp(inputMail.value, inputPass.value);
+    if (result) {
+      fn.remover(signUpCont);
+      setTimeout(() => {
+        logInCompScreen();
+      }, 1200);
+    }
   });
 };
 
