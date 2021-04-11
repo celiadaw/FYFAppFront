@@ -3,14 +3,65 @@ import * as fn from './js/fn.js';
 //variable global que guardará los cursos para no tener que pedir la búsqueda de nuevo a back si no es necesario
 let globalCourses = [];
 
-// AUTH STATE
-let logged = (() => {
-  let response = false;
-  response.OK === 1 ? true : false;
-  return response;
-})();
+// let logged = (async () => {
+
+//   let token = localStorage.getItem('Token');
+
+//   const options = {
+//     method: 'GET',
+//     headers: {
+//       authorization: 'bearer ' + token
+//     }
+//   };
+//   const response = await fetch(
+//     `http://localhost:3000/authuser`, 
+//     options)
+//     .then( (data) => data.json() );
+//     if(response.OK === 1) {
+//       return true;
+//     } else if(response.OK === 0) {
+//       return false;
+//     }
+
+//   // let response = false;
+//   // response.OK === 1 ? true : false;
+//   // return response;
+// })();
+
+// const fetchToAuth = async (token) => {
+  
+//   const options = {
+//     method: 'GET',
+//     headers: {
+//       'authorization': 'bearer ' + token
+//     }
+//   };
+//   const response = await fetch(
+//     `http://localhost:3000/authuser`, 
+//     options)
+//     .then( (data) => data.json() );
+    
+//   if(response.OK === 1) {
+//     return true;
+//   } else if(response.OK) {
+//     return false;
+//   }
+
+// };
+
+// const acces = () => {
+  
+
+
+// }
+// acces()
+
+let logged = false;
+
+
 
 const mainHtml = () => {
+  console.log();
   const body = fn.querySelection('body');
   const mainCont = fn.createElement('main', 'main__cont');
   const container = fn.createElement('div', 'home__cont');
@@ -22,6 +73,7 @@ const mainHtml = () => {
     mainCont,
     container,
   };
+
 };
 const btnLogsHtml = () => {
   const mainCont = fn.querySelection('.main__cont');
@@ -117,20 +169,17 @@ const inputBox = () => {
 
   btnSearch.addEventListener('click', (e) => {
     e.preventDefault();
+    
     let appTitle = fn.querySelection('.main__title-box');
-    appTitle.remove();
+    const param = input.value;
 
-    //   if (localStorage.getItem('courses')) {
-    //     localStorage.clear();
-    //  }
+    fetchToAllCourses(param, appTitle);
+    input.value = '';
 
-    const searchValue = input.value;
-
-    fetchToAllCourses(searchValue);
   });
 };
 
-const resultComp = (course) => {
+const resultComp = () => {
   let container = fn.querySelection('.home__cont');
 
   const courseComponents = fn.createElement('div', 'course__components');
@@ -195,71 +244,130 @@ const resultComp = (course) => {
   fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
 };
 const init = () => {
-  console.log('GLOBAL COURSES!', globalCourses);
-  console.log(globalCourses.length);
+
   if (globalCourses.length !== 0) {
-    globalCourses.map((cur) => {
-      console.log(cur);
+
       mainHtml();
       btnLogsHtml();
       inputBox();
+
+    globalCourses.map((cur) => {
       resultComp(cur);
     });
-  }
-
-  /*   if (localStorage.getItem('courses'))
-    JSON.parse(localStorage.getItem('courses')).map((cur) => {
-      mainHtml();
-      btnLogsHtml();
-      inputBox();
-      resultComp(cur);
-    }); */
+      
+  };
 
   mainHtml();
   btnLogsHtml();
   mainTitleApp();
   inputBox();
+
+  return logged;
+
 };
-init();
+init()
 
-// PANTALLA DE RESULTADOS
 
-const fetchToAllCourses = async (searchValue) => {
-  const response = await fetch(
-    `http://localhost:3000/courses?search=${searchValue}`,
-  ).then((data) => data.json());
-  if (response.OK === 1) {
-    const courses = response.courses;
 
-    courses.map((cur) => {
-      resultComp(cur);
-    });
-    //llenamos la variable global con los cursos
-    globalCourses = courses;
-    //localStorage.setItem('courses', JSON.stringify(courses));
-  } else if (response.OK === 0) {
-    alert('Todo mal');
-  }
+
+// OBTENER TODOS LOS RESULTADOS DE UNA BUSQUEDA
+const fetchToAllCourses = async (param, contRemoved) => {
+
+  if(param.length === 0) {
+    return alert('Search field must be contain any parameter to search');
+    // Mirar de hacer esto con un poquito de gracia en la interfaz de usuario en vez de un alert. Eso es para el Chris del fururo.
+  } else {
+
+      const response = await fetch(
+        `http://localhost:3000/courses?search=${param}`,
+      ).then((data) => data.json());
+    
+      if (response.OK === 1) {
+        const courses = response.courses;
+        if(courses.length === 0){
+          alert('Tu búsqueda no ha tenido ningún resultado');
+          // Arreglar esto con UI en vez de con este alert de mierda.
+        }
+        courses.map((cur) => {
+          resultComp(cur);
+        });
+        //llenamos la variable global con los cursos
+        globalCourses = courses;
+
+        fn.remover(contRemoved);
+
+      } else if (response.OK === 0) {
+        alert('Todo mal');
+      };
+  
+  };
+
 };
 
-const fetchToSignUp = async (email, pass) => {
+// REGISTRAR USUARIO
+const fetchToSignUp = async (email, pass, contRemoved) => {
   const data = { email, pass };
+
   const options = {
     method: 'POST',
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' },
   };
+
   const response = await fetch(
     `http://localhost:3000/signup`,
     options,
   ).then((data) => data.json());
+
   console.log(response);
+  
   if (response.OK === 1) {
-    return true; //devuelvo true para decir que todo ha ido bien
+
+    fn.remover(contRemoved);
+
+    setTimeout(() => {
+      logInCompScreen();
+    }, 1200);
+
   } else if (response.OK === 0) {
-    alert('Todo mal');
-  }
+    return alert(response.message);
+  };
+    
 };
+
+const fetchToLogin = async (email, pass, contRemoved) => {
+
+  const data = { email, pass };
+
+  if(!email || !pass) {
+    return alert('LLena los campos subnormal')
+  }
+
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json' },
+  };
+
+  const response = await fetch( 
+    `http://localhost:3000/login`, 
+    options )
+    .then( (data) => data.json() );
+
+    if(response.OK === 1) {
+      fn.remover(contRemoved);
+      localStorage.setItem('Token', response.token);
+      setTimeout(() => {
+        init();
+      }, 1500);
+    
+    } else if(response.OK === 0) {
+      return alert('User not exist')
+    }
+      
+
+};
+
 
 // PANTALLAS DE SIGN UP Y SIGN IN
 const signUpCompScreen = () => {
@@ -283,7 +391,7 @@ const signUpCompScreen = () => {
   const inputPass = fn.createElement('input', 'input__pass-signup');
   fn.appendElement(signUpInputsBox, inputPass);
 
-  const btnSend = fn.createElement('a', 'btn__send');
+  const btnSend = fn.createElement('button', 'btn__send');
   fn.appendElement(signUpInputsBox, btnSend);
   btnSend.textContent = 'Send';
 
@@ -302,35 +410,35 @@ const signUpCompScreen = () => {
   fn.appendElement(signUpCont, googleSignUpBox);
   fn.appendElement(googleSignUpBox, googleSignUp);
 
-  const body = fn.querySelection('body');
-  console.log(body);
-
   // BACK TO HOME
-  btnHome.addEventListener('click', () => {
+  btnHome.addEventListener('click', (e) => {
+    e.preventDefault();
     fn.remover(mainCont);
     init();
   });
 
   // REDIRECT TO LOGIN
-  btnLoginAux.addEventListener('click', () => {
+  btnLoginAux.addEventListener('click', (e) => {
+    e.preventDefault();
     fn.remover(signUpCont);
     setTimeout(() => {
       logInCompScreen();
     }, 1200);
   });
-  //SIGNUP FETCH
-  btnSend.addEventListener('click', () => {
-    const result = fetchToSignUp(inputMail.value, inputPass.value);
-    if (result) {
-      fn.remover(signUpCont);
-      setTimeout(() => {
-        logInCompScreen();
-      }, 1200);
-    }
+  
+  //SIGNUP FETCH 
+  btnSend.addEventListener('click', (e) => {
+    e.preventDefault();
+    fetchToSignUp(inputMail.value, inputPass.value, signUpCont);
+    inputMail.value = '';
+    inputPass.value = '';
+
   });
+      
 };
 
 const logInCompScreen = () => {
+
   const mainCont = fn.querySelection('.main__cont');
   // fn.remover(container);
   const loginCont = fn.createElement('div', 'login__cont');
@@ -353,9 +461,9 @@ const logInCompScreen = () => {
 
   const sendAndVerifyBox = fn.createElement('div', 'btn__verify-box');
   fn.appendElement(loginCont, sendAndVerifyBox);
-  const btnSend = fn.createElement('a', 'btn__send');
-  fn.appendElement(sendAndVerifyBox, btnSend);
-  btnSend.textContent = 'Send';
+  const btnSendLogin = fn.createElement('a', 'btn__send-login');
+  fn.appendElement(sendAndVerifyBox, btnSendLogin);
+  btnSendLogin.textContent = 'Send';
   const btnVerify = fn.createElement('a', 'btn__verify');
   fn.appendElement(sendAndVerifyBox, btnVerify);
   btnVerify.textContent = 'Reset password';
@@ -375,6 +483,8 @@ const logInCompScreen = () => {
   fn.appendElement(loginCont, googleSignUpBox);
   fn.appendElement(googleSignUpBox, googleSignUp);
 
+
+
   // BACK TO HOME
   btnHome.addEventListener('click', () => {
     fn.remover(mainCont);
@@ -389,10 +499,20 @@ const logInCompScreen = () => {
     }, 1200);
   });
 
+  // RESET PASSWORD
   btnVerify.addEventListener('click', () => {
     fn.remover(loginCont);
     resetPassScreen();
   });
+
+  // GO TO HOME AFTER LOGIN
+  btnSendLogin.addEventListener('click', (e) => {
+    e.preventDefault();
+    fetchToLogin(inputMail.value, inputPass.value, loginCont);
+    inputMail.value = '';
+    inputPass.value = '';
+  });
+
 };
 
 // PANTALLA DE PROFILE
