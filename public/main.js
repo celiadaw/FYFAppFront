@@ -1,63 +1,9 @@
+
 import * as fn from './js/fn.js';
 
 //variable global que guardará los cursos para no tener que pedir la búsqueda de nuevo a back si no es necesario
 let globalCourses = [];
-
-// let logged = (async () => {
-
-//   let token = localStorage.getItem('Token');
-
-//   const options = {
-//     method: 'GET',
-//     headers: {
-//       authorization: 'bearer ' + token
-//     }
-//   };
-//   const response = await fetch(
-//     `http://localhost:3000/authuser`, 
-//     options)
-//     .then( (data) => data.json() );
-//     if(response.OK === 1) {
-//       return true;
-//     } else if(response.OK === 0) {
-//       return false;
-//     }
-
-//   // let response = false;
-//   // response.OK === 1 ? true : false;
-//   // return response;
-// })();
-
-// const fetchToAuth = async (token) => {
-  
-//   const options = {
-//     method: 'GET',
-//     headers: {
-//       'authorization': 'bearer ' + token
-//     }
-//   };
-//   const response = await fetch(
-//     `http://localhost:3000/authuser`, 
-//     options)
-//     .then( (data) => data.json() );
-    
-//   if(response.OK === 1) {
-//     return true;
-//   } else if(response.OK) {
-//     return false;
-//   }
-
-// };
-
-// const acces = () => {
-  
-
-
-// }
-// acces()
-
 let logged = false;
-
 
 
 const mainHtml = () => {
@@ -100,10 +46,20 @@ const btnLogsHtml = () => {
       profileCompScreen();
     });
 
+    // Botón LogOut
+    btnLogs.addEventListener('click', () => {
+      let token = localStorage.getItem('Token');
+      globalCourses = [];
+      fetchToLogOut(token, mainCont);
+      logged = false;
+    })
+
     // Botón Favoritos
     btnFavs.addEventListener('click', () => {
-      favCompScreen(courses[0]);
+      favCompScreen(course);
     });
+
+
   } else {
     const btnSignUp = fn.createElement('a', 'btn__sign-up');
 
@@ -120,7 +76,7 @@ const btnLogsHtml = () => {
       signUpCompScreen();
     });
 
-    // SIGNIN BTN
+    // LOGIN BTN
     btnLogs.addEventListener('click', () => {
       homeCont.remove();
       logInCompScreen();
@@ -167,9 +123,17 @@ const inputBox = () => {
 
   btnSearch.textContent = 'Search';
 
+  // Botón de buscar cursos
   btnSearch.addEventListener('click', (e) => {
     e.preventDefault();
-    
+
+    let comp = document.querySelectorAll('.course__components');
+    if(comp.length !== 0) {
+      comp.forEach( (cur) => {
+        cur.remove();
+      })
+    };
+
     let appTitle = fn.querySelection('.main__title-box');
     const param = input.value;
 
@@ -177,9 +141,62 @@ const inputBox = () => {
     input.value = '';
 
   });
+
 };
 
-const resultComp = () => {
+const fetchToAuth = async(token) => {
+
+  const options = {
+    method: 'GET',
+    headers: {
+      'authorization': `bearer ${token}`
+    }
+  };
+  const response = await fetch(
+    `http://localhost:3000/authuser`, 
+    options)
+    .then( (data) => data.json() );
+    
+    if(response.OK === 1) {
+      return true;
+    } else {
+      return false;
+    };
+
+};
+
+const init = async () => {
+
+  if(localStorage.getItem('Token')) {
+    let token = localStorage.getItem('Token');
+    logged = await fetchToAuth(token);
+  };
+
+  if (globalCourses.length !== 0) {
+
+      mainHtml();
+      btnLogsHtml();
+      inputBox();
+
+    globalCourses.map((cur) => {
+      resultComp(cur);
+    });
+      
+  } else {
+
+    mainHtml();
+    btnLogsHtml();
+    mainTitleApp();
+    inputBox();
+  }
+  
+};
+init();
+
+
+
+
+const resultComp = (course) => {
   let container = fn.querySelection('.home__cont');
 
   const courseComponents = fn.createElement('div', 'course__components');
@@ -211,7 +228,28 @@ const resultComp = () => {
   if (logged) {
     const btnFav = fn.createElement('a', 'btnFav');
     fn.appendElement(titleBox, btnFav);
-    btnFav.textContent = 'FAVBTN';
+
+    if(course.favorito) {
+      btnFav.textContent = 'FAVBTN-TRUE';
+      btnFav.addEventListener('click', () => {
+  
+      });
+      
+    } else {
+      btnFav.textContent = 'FAVBTN-FALSE';
+      btnFav.addEventListener('click', () => {
+        const response = fetchToAddFav(course);
+
+        if(response) {
+          btnFav.textContent = 'FAVBTN-TRUE';
+        }
+
+      });
+    }
+
+
+
+
   }
 
   title.addEventListener('click', (e) => {
@@ -243,31 +281,6 @@ const resultComp = () => {
   fn.appendElement(courseComponents, courseLevelBox);
   fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
 };
-const init = () => {
-
-  if (globalCourses.length !== 0) {
-
-      mainHtml();
-      btnLogsHtml();
-      inputBox();
-
-    globalCourses.map((cur) => {
-      resultComp(cur);
-    });
-      
-  };
-
-  mainHtml();
-  btnLogsHtml();
-  mainTitleApp();
-  inputBox();
-
-  return logged;
-
-};
-init()
-
-
 
 
 // OBTENER TODOS LOS RESULTADOS DE UNA BUSQUEDA
@@ -275,6 +288,7 @@ const fetchToAllCourses = async (param, contRemoved) => {
 
   if(param.length === 0) {
     return alert('Search field must be contain any parameter to search');
+    
     // Mirar de hacer esto con un poquito de gracia en la interfaz de usuario en vez de un alert. Eso es para el Chris del fururo.
   } else {
 
@@ -283,18 +297,25 @@ const fetchToAllCourses = async (param, contRemoved) => {
       ).then((data) => data.json());
     
       if (response.OK === 1) {
+
         const courses = response.courses;
+        console.log(courses);
         if(courses.length === 0){
           alert('Tu búsqueda no ha tenido ningún resultado');
           // Arreglar esto con UI en vez de con este alert de mierda.
-        }
+        };
+
         courses.map((cur) => {
           resultComp(cur);
         });
+
         //llenamos la variable global con los cursos
         globalCourses = courses;
 
-        fn.remover(contRemoved);
+        if(contRemoved) {
+          fn.remover(contRemoved);
+        };
+
 
       } else if (response.OK === 0) {
         alert('Todo mal');
@@ -303,7 +324,6 @@ const fetchToAllCourses = async (param, contRemoved) => {
   };
 
 };
-
 // REGISTRAR USUARIO
 const fetchToSignUp = async (email, pass, contRemoved) => {
   const data = { email, pass };
@@ -334,7 +354,7 @@ const fetchToSignUp = async (email, pass, contRemoved) => {
   };
     
 };
-
+// LOGUEAR USUARIO
 const fetchToLogin = async (email, pass, contRemoved) => {
 
   const data = { email, pass };
@@ -357,6 +377,7 @@ const fetchToLogin = async (email, pass, contRemoved) => {
     if(response.OK === 1) {
       fn.remover(contRemoved);
       localStorage.setItem('Token', response.token);
+      
       setTimeout(() => {
         init();
       }, 1500);
@@ -367,6 +388,58 @@ const fetchToLogin = async (email, pass, contRemoved) => {
       
 
 };
+// LOGOUT USUARIO
+const fetchToLogOut = async (token, contRemoved) => {
+
+  const options = {
+    headers: { 'Authorization': `bearer ${token}` },
+  };
+
+  const response = await fetch( 
+    `http://localhost:3000/logout`, 
+    options )
+    .then( (data) => data.json() );
+
+    if(response.OK === 1) {
+      
+      // setTimeout(() => {
+        init();
+      // }, 500);
+      fn.remover(contRemoved);
+      
+    } else if(response.OK === 0) {
+      return alert('Incorrect data')
+    };
+      
+};
+
+// AÑADIR FAVORITO
+const fetchToAddFav = async (course) => {
+  
+  // const courseFav{ author, currentRating, image, level, popularity, price, resume, title, url } = course;
+
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(course),
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const response = await fetch(
+    `http://localhost:3000/courses/fav`, 
+    options )
+    .then( (data) => data.json() );
+    return response.OK;
+
+};
+
+// QUITAR FAVORITO
+const fetchToRemoveFav = async () => {
+
+}
+
+
+
+
+
 
 
 // PANTALLAS DE SIGN UP Y SIGN IN
@@ -380,7 +453,7 @@ const signUpCompScreen = () => {
   const btnHomeBoxSignUp = fn.createElement('div', 'btn__home-box-signup');
   fn.appendElement(signUpCont, btnHomeBoxSignUp);
 
-  const btnHome = fn.createElement('a', 'btn__home-signup');
+  const btnHome = fn.createElement('button', 'btn__home-signup');
   btnHome.textContent = 'Home';
   fn.appendElement(btnHomeBoxSignUp, btnHome);
 
@@ -398,14 +471,14 @@ const signUpCompScreen = () => {
   const textAuxBox = fn.createElement('div', 'text__aux-box');
   const textAux = fn.createElement('p', 'text__aux');
   textAux.textContent = 'You´re one of us?';
-  const btnLoginAux = fn.createElement('a', 'btn__login-aux');
+  const btnLoginAux = fn.createElement('button', 'btn__login-aux');
   btnLoginAux.textContent = 'Log in';
   fn.appendElement(signUpCont, textAuxBox);
   fn.appendElement(textAuxBox, textAux);
   fn.appendElement(textAuxBox, btnLoginAux);
 
   const googleSignUpBox = fn.createElement('div', 'google__signup-box');
-  const googleSignUp = fn.createElement('a', 'google__signup');
+  const googleSignUp = fn.createElement('button', 'google__signup');
   googleSignUp.textContent = 'GOOGLE';
   fn.appendElement(signUpCont, googleSignUpBox);
   fn.appendElement(googleSignUpBox, googleSignUp);
@@ -461,10 +534,10 @@ const logInCompScreen = () => {
 
   const sendAndVerifyBox = fn.createElement('div', 'btn__verify-box');
   fn.appendElement(loginCont, sendAndVerifyBox);
-  const btnSendLogin = fn.createElement('a', 'btn__send-login');
+  const btnSendLogin = fn.createElement('button', 'btn__send-login');
   fn.appendElement(sendAndVerifyBox, btnSendLogin);
   btnSendLogin.textContent = 'Send';
-  const btnVerify = fn.createElement('a', 'btn__verify');
+  const btnVerify = fn.createElement('button', 'btn__verify');
   fn.appendElement(sendAndVerifyBox, btnVerify);
   btnVerify.textContent = 'Reset password';
 
@@ -473,12 +546,12 @@ const logInCompScreen = () => {
   const textAux = fn.createElement('p', 'text__aux');
   fn.appendElement(textAuxBox, textAux);
   textAux.textContent = 'Not already one of us?';
-  const btnSignUpOut = fn.createElement('a', 'btn__login-aux');
+  const btnSignUpOut = fn.createElement('button', 'btn__login-aux');
   fn.appendElement(textAuxBox, btnSignUpOut);
   btnSignUpOut.textContent = 'Sign up';
 
   const googleSignUpBox = fn.createElement('div', 'google__signup-box');
-  const googleSignUp = fn.createElement('a', 'google__signup');
+  const googleSignUp = fn.createElement('button', 'google__signup');
   googleSignUp.textContent = 'GOOGLE';
   fn.appendElement(loginCont, googleSignUpBox);
   fn.appendElement(googleSignUpBox, googleSignUp);
@@ -508,7 +581,7 @@ const logInCompScreen = () => {
   // GO TO HOME AFTER LOGIN
   btnSendLogin.addEventListener('click', (e) => {
     e.preventDefault();
-    fetchToLogin(inputMail.value, inputPass.value, loginCont);
+    fetchToLogin(inputMail.value, inputPass.value, mainCont);
     inputMail.value = '';
     inputPass.value = '';
   });
@@ -523,10 +596,10 @@ const profileCompScreen = () => {
   fn.addClass(profCont, 'wrapper');
   const btnProfBox = fn.createElement('div', 'btn__prof-box');
   fn.appendElement(profCont, btnProfBox);
-  const btnProfHome = fn.createElement('a', 'btn__home');
+  const btnProfHome = fn.createElement('button', 'btn__home');
   fn.appendElement(btnProfBox, btnProfHome);
   btnProfHome.textContent = 'Home';
-  const btnProfLogOut = fn.createElement('a', 'btn__prof-logout');
+  const btnProfLogOut = fn.createElement('button', 'btn__prof-logout');
   fn.appendElement(btnProfBox, btnProfLogOut);
   btnProfLogOut.textContent = 'Log out';
 
@@ -536,7 +609,7 @@ const profileCompScreen = () => {
   const imgProf = fn.createElement('img', 'imgProf');
   imgProf.src = './media/user-img.png';
   fn.appendElement(imgProfBox, imgProf);
-  const btnImg = fn.createElement('a', 'btnImg');
+  const btnImg = fn.createElement('button', 'btnImg');
   btnImg.textContent = 'Edit';
   fn.appendElement(imgProfBox, btnImg);
 
@@ -575,7 +648,7 @@ const profileCompScreen = () => {
   );
   fn.appendElement(lastNameBox, userDataLastNameTwo);
   const btnEditBox = fn.createElement('div', 'btn__edit-box');
-  const btnEdit = fn.createElement('a', 'btn__edit');
+  const btnEdit = fn.createElement('button', 'btn__edit');
   fn.appendElement(userDataBox, btnEditBox);
   fn.appendElement(btnEditBox, btnEdit);
   btnEdit.textContent = 'Edit';
@@ -594,7 +667,7 @@ const profileCompScreen = () => {
 
   // Botón de google
   const googleSyncBox = fn.createElement('div', 'google__sync-box');
-  const googleSync = fn.createElement('a', 'google__sync');
+  const googleSync = fn.createElement('button', 'google__sync');
   googleSync.textContent = 'GOOGLE';
   fn.appendElement(profCont, googleSyncBox);
   fn.appendElement(googleSyncBox, googleSync);
@@ -612,10 +685,10 @@ const favCompScreen = (course) => {
   fn.appendElement(body, favCont);
   const btnFavBox = fn.createElement('div', 'btn__prof-box');
   fn.appendElement(favCont, btnFavBox);
-  const btnFavHome = fn.createElement('a', 'btn__home');
+  const btnFavHome = fn.createElement('button', 'btn__home');
   fn.appendElement(btnFavBox, btnFavHome);
   btnFavHome.textContent = 'Home';
-  const btnFavLogOut = fn.createElement('a', 'btn__prof-logout');
+  const btnFavLogOut = fn.createElement('button', 'btn__prof-logout');
   fn.appendElement(btnFavBox, btnFavLogOut);
   btnFavLogOut.textContent = 'Log out';
 
@@ -626,7 +699,7 @@ const favCompScreen = (course) => {
 
   const favBtnSearchBox = fn.createElement('div', 'favBtn__search-box');
   fn.appendElement(favInputBox, favBtnSearchBox);
-  const favBtnSearch = fn.createElement('a', 'favBtn__search');
+  const favBtnSearch = fn.createElement('button', 'favBtn__search');
   fn.appendElement(favBtnSearchBox, favBtnSearch);
   favBtnSearch.textContent = 'Search';
 
@@ -658,7 +731,7 @@ const favCompScreen = (course) => {
   fn.appendElement(titleBox, title);
 
   if (logged) {
-    const btnFav = fn.createElement('a', 'btnFav');
+    const btnFav = fn.createElement('button', 'btnFav');
     fn.appendElement(titleBox, btnFav);
     btnFav.textContent = 'FAVBTN';
   }
@@ -714,7 +787,7 @@ const resetPassScreen = () => {
   const btnResetHomeBox = fn.createElement('div', 'btn__home-box-reset');
   fn.appendElement(resetCont, btnResetHomeBox);
 
-  const btnResetHome = fn.createElement('a', 'btn__home-reset');
+  const btnResetHome = fn.createElement('button', 'btn__home-reset');
   btnResetHome.textContent = 'Home';
   fn.appendElement(btnResetHomeBox, btnResetHome);
 
@@ -727,7 +800,7 @@ const resetPassScreen = () => {
 
   const btnResetSendBox = fn.createElement('div', 'btn__reset-box');
   fn.appendElement(resetCont, btnResetSendBox);
-  const btnResetSend = fn.createElement('a', 'btn__send');
+  const btnResetSend = fn.createElement('button', 'btn__send');
   fn.appendElement(btnResetSendBox, btnResetSend);
   btnResetSend.textContent = 'Send';
 
@@ -735,4 +808,5 @@ const resetPassScreen = () => {
     resetCont.remove();
     init();
   });
+
 };
