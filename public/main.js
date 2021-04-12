@@ -1,13 +1,11 @@
-
 import * as fn from './js/fn.js';
 
 //variable global que guardará los cursos para no tener que pedir la búsqueda de nuevo a back si no es necesario
 let globalCourses = [];
 let logged = false;
 
-
 const mainHtml = () => {
-  console.log();
+
   const body = fn.querySelection('body');
   const mainCont = fn.createElement('main', 'main__cont');
   const container = fn.createElement('div', 'home__cont');
@@ -19,7 +17,6 @@ const mainHtml = () => {
     mainCont,
     container,
   };
-
 };
 const btnLogsHtml = () => {
   const mainCont = fn.querySelection('.main__cont');
@@ -52,14 +49,12 @@ const btnLogsHtml = () => {
       globalCourses = [];
       fetchToLogOut(token, mainCont);
       logged = false;
-    })
+    });
 
     // Botón Favoritos
     btnFavs.addEventListener('click', () => {
       favCompScreen(course);
     });
-
-
   } else {
     const btnSignUp = fn.createElement('a', 'btn__sign-up');
 
@@ -119,6 +114,7 @@ const inputBox = () => {
   fn.appendElement(homeCont, inputBox);
   fn.appendElement(inputBox, input);
   fn.appendElement(inputBox, btnBox);
+  401;
   fn.appendElement(btnBox, btnSearch);
 
   btnSearch.textContent = 'Search';
@@ -128,75 +124,63 @@ const inputBox = () => {
     e.preventDefault();
 
     let comp = document.querySelectorAll('.course__components');
-    if(comp.length !== 0) {
-      comp.forEach( (cur) => {
+    if (comp.length !== 0) {
+      comp.forEach((cur) => {
         cur.remove();
-      })
-    };
+      });
+    }
 
     let appTitle = fn.querySelection('.main__title-box');
     const param = input.value;
 
     fetchToAllCourses(param, appTitle);
     input.value = '';
-
   });
-
 };
 
-const fetchToAuth = async(token) => {
-
+const fetchToAuth = async (token) => {
   const options = {
     method: 'GET',
     headers: {
-      'authorization': `bearer ${token}`
-    }
+      authorization: `bearer ${token}`,
+    },
   };
   const response = await fetch(
-    `http://localhost:3000/authuser`, 
-    options)
-    .then( (data) => data.json() );
-    
-    if(response.OK === 1) {
-      return true;
-    } else {
-      return false;
-    };
+    `http://localhost:3000/authuser`,
+    options,
+  ).then((data) => data.json());
 
+  if (response.OK === 1) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 const init = async () => {
-
-  if(localStorage.getItem('Token')) {
+  if (localStorage.getItem('Token')) {
     let token = localStorage.getItem('Token');
     logged = await fetchToAuth(token);
-  };
+  }
 
   if (globalCourses.length !== 0) {
+    mainHtml();
+    btnLogsHtml();
+    inputBox();
 
-      mainHtml();
-      btnLogsHtml();
-      inputBox();
-
-    globalCourses.map((cur) => {
-      resultComp(cur);
+    globalCourses.map((cur, index) => {
+      resultComp(cur, index);
     });
-      
   } else {
-
     mainHtml();
     btnLogsHtml();
     mainTitleApp();
     inputBox();
   }
-  
 };
 init();
 
-
-
-
-const resultComp = (course) => {
+const resultComp = (course, index) => {
   let container = fn.querySelection('.home__cont');
 
   const courseComponents = fn.createElement('div', 'course__components');
@@ -229,27 +213,32 @@ const resultComp = (course) => {
     const btnFav = fn.createElement('a', 'btnFav');
     fn.appendElement(titleBox, btnFav);
 
-    if(course.favorito) {
-      btnFav.textContent = 'FAVBTN-TRUE';
-      btnFav.addEventListener('click', () => {
-  
-      });
-      
+    if (course.favorito) {
+      btnFav.classList.add('fa-3x', 'fas', 'fa-thumbs-up');
     } else {
-      btnFav.textContent = 'FAVBTN-FALSE';
-      btnFav.addEventListener('click', () => {
-        const response = fetchToAddFav(course);
-
-        if(response) {
-          btnFav.textContent = 'FAVBTN-TRUE';
-        }
-
-      });
+      btnFav.classList.add('fa-3x', 'far', 'fa-thumbs-up');
     }
-
-
-
-
+    btnFav.addEventListener('click', () => {
+      if (course.favorito) {
+        if (fetchToDelFav(course)) {
+          btnFav.classList.remove('fas');
+          btnFav.classList.add('far');
+          course.favorito = false;
+          globalCourses[index].favorito = false;
+        } else {
+          console.error('No se ha podido borrar favorito ', course.url);
+        }
+      } else {
+        if (fetchToAddFav(course, index)) {
+          btnFav.classList.remove('far');
+          btnFav.classList.add('fas');
+          course.favorito = true;
+          globalCourses[index].favorito = true;
+        } else {
+          console.error('No se ha podido añadir favorito ', course.url);
+        }
+      }
+    });
   }
 
   title.addEventListener('click', (e) => {
@@ -282,47 +271,46 @@ const resultComp = (course) => {
   fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
 };
 
-
 // OBTENER TODOS LOS RESULTADOS DE UNA BUSQUEDA
 const fetchToAllCourses = async (param, contRemoved) => {
-
-  if(param.length === 0) {
+  if (param.length === 0) {
     return alert('Search field must be contain any parameter to search');
-    
+
     // Mirar de hacer esto con un poquito de gracia en la interfaz de usuario en vez de un alert. Eso es para el Chris del fururo.
   } else {
-
-      const response = await fetch(
-        `http://localhost:3000/courses?search=${param}`,
-      ).then((data) => data.json());
-    
-      if (response.OK === 1) {
-
-        const courses = response.courses;
-        console.log(courses);
-        if(courses.length === 0){
-          alert('Tu búsqueda no ha tenido ningún resultado');
-          // Arreglar esto con UI en vez de con este alert de mierda.
-        };
-
-        courses.map((cur) => {
-          resultComp(cur);
-        });
-
-        //llenamos la variable global con los cursos
-        globalCourses = courses;
-
-        if(contRemoved) {
-          fn.remover(contRemoved);
-        };
-
-
-      } else if (response.OK === 0) {
-        alert('Todo mal');
+    let options;
+    if (logged) {
+      const token = localStorage.getItem('Token');
+      options = {
+        headers: { Authorization: `bearer ${token}` },
       };
-  
-  };
+    } else options = {};
 
+    const response = await fetch(
+      `http://localhost:3000/courses?search=${param}`,
+      options,
+    ).then((data) => data.json());
+    if (response.OK === 1) {
+      const courses = response.courses;
+      if (courses.length === 0) {
+        alert('Tu búsqueda no ha tenido ningún resultado');
+        // Arreglar esto con UI en vez de con este alert de mierda.
+      }
+
+      courses.map((cur, index) => {
+        resultComp(cur, index);
+      });
+
+      //llenamos la variable global con los cursos
+      globalCourses = courses;
+
+      if (contRemoved) {
+        fn.remover(contRemoved);
+      }
+    } else if (response.OK === 0) {
+      alert('Todo mal');
+    }
+  }
 };
 // REGISTRAR USUARIO
 const fetchToSignUp = async (email, pass, contRemoved) => {
@@ -339,28 +327,22 @@ const fetchToSignUp = async (email, pass, contRemoved) => {
     options,
   ).then((data) => data.json());
 
-  console.log(response);
-  
   if (response.OK === 1) {
-
     fn.remover(contRemoved);
 
     setTimeout(() => {
       logInCompScreen();
     }, 1200);
-
   } else if (response.OK === 0) {
     return alert(response.message);
-  };
-    
+  }
 };
 // LOGUEAR USUARIO
 const fetchToLogin = async (email, pass, contRemoved) => {
-
   const data = { email, pass };
 
-  if(!email || !pass) {
-    return alert('LLena los campos subnormal')
+  if (!email || !pass) {
+    return alert('LLena los campos subnormal');
   }
 
   const options = {
@@ -369,78 +351,82 @@ const fetchToLogin = async (email, pass, contRemoved) => {
     headers: { 'Content-Type': 'application/json' },
   };
 
-  const response = await fetch( 
-    `http://localhost:3000/login`, 
-    options )
-    .then( (data) => data.json() );
+  const response = await fetch(
+    `http://localhost:3000/login`,
+    options,
+  ).then((data) => data.json());
 
-    if(response.OK === 1) {
-      fn.remover(contRemoved);
-      localStorage.setItem('Token', response.token);
-      
-      setTimeout(() => {
-        init();
-      }, 1500);
-    
-    } else if(response.OK === 0) {
-      return alert('User not exist')
-    }
-      
+  if (response.OK === 1) {
+    fn.remover(contRemoved);
+    localStorage.setItem('Token', response.token);
 
+    setTimeout(() => {
+      init();
+    }, 1500);
+  } else if (response.OK === 0) {
+    return alert('User not exist');
+  }
 };
 // LOGOUT USUARIO
 const fetchToLogOut = async (token, contRemoved) => {
-
   const options = {
-    headers: { 'Authorization': `bearer ${token}` },
+    headers: { Authorization: `bearer ${token}` },
   };
 
-  const response = await fetch( 
-    `http://localhost:3000/logout`, 
-    options )
-    .then( (data) => data.json() );
+  const response = await fetch(
+    `http://localhost:3000/logout`,
+    options,
+  ).then((data) => data.json());
 
-    if(response.OK === 1) {
-      
-      // setTimeout(() => {
-        init();
-      // }, 500);
-      fn.remover(contRemoved);
-      
-    } else if(response.OK === 0) {
-      return alert('Incorrect data')
-    };
-      
+  if (response.OK === 1) {
+    // setTimeout(() => {
+    init();
+    // }, 500);
+    fn.remover(contRemoved);
+  } else if (response.OK === 0) {
+    return alert('Incorrect data');
+  }
 };
 
 // AÑADIR FAVORITO
-const fetchToAddFav = async (course) => {
-  
+const fetchToAddFav = async (course, index) => {
   // const courseFav{ author, currentRating, image, level, popularity, price, resume, title, url } = course;
-
+  const token = localStorage.getItem('Token');
   const options = {
     method: 'POST',
     body: JSON.stringify(course),
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `bearer ${token}`,
+    },
   };
   const response = await fetch(
-    `http://localhost:3000/courses/fav`, 
-    options )
-    .then( (data) => data.json() );
-    return response.OK;
+    `http://localhost:3000/courses/fav`,
+    options,
+  ).then((data) => data.json());
+  globalCourses[index].favoritoID = response.insertId;
+  return response.OK;
+};
 
+const fetchToDelFav = async (course) => {
+  const token = localStorage.getItem('Token');
+  const options = {
+    method: 'DELETE',
+    body: JSON.stringify(course),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `bearer ${token}`,
+    },
+  };
+  const response = await fetch(
+    `http://localhost:3000/courses/delete/${course.favoritoID}`,
+    options,
+  ).then((data) => data.json());
+  return response.OK;
 };
 
 // QUITAR FAVORITO
-const fetchToRemoveFav = async () => {
-
-}
-
-
-
-
-
-
+const fetchToRemoveFav = async () => {};
 
 // PANTALLAS DE SIGN UP Y SIGN IN
 const signUpCompScreen = () => {
@@ -498,20 +484,17 @@ const signUpCompScreen = () => {
       logInCompScreen();
     }, 1200);
   });
-  
-  //SIGNUP FETCH 
+
+  //SIGNUP FETCH
   btnSend.addEventListener('click', (e) => {
     e.preventDefault();
     fetchToSignUp(inputMail.value, inputPass.value, signUpCont);
     inputMail.value = '';
     inputPass.value = '';
-
   });
-      
 };
 
 const logInCompScreen = () => {
-
   const mainCont = fn.querySelection('.main__cont');
   // fn.remover(container);
   const loginCont = fn.createElement('div', 'login__cont');
@@ -556,8 +539,6 @@ const logInCompScreen = () => {
   fn.appendElement(loginCont, googleSignUpBox);
   fn.appendElement(googleSignUpBox, googleSignUp);
 
-
-
   // BACK TO HOME
   btnHome.addEventListener('click', () => {
     fn.remover(mainCont);
@@ -585,7 +566,6 @@ const logInCompScreen = () => {
     inputMail.value = '';
     inputPass.value = '';
   });
-
 };
 
 // PANTALLA DE PROFILE
@@ -808,5 +788,4 @@ const resetPassScreen = () => {
     resetCont.remove();
     init();
   });
-
 };
