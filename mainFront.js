@@ -21,6 +21,13 @@ server.use(express.json());
 // });
 
 //servidor de ficheros estáticos
+
+const sendFileOptions = {
+  root: `${__dirname}/public/`,};
+  server.get('/newpass', (req, res) => {
+  res.sendFile('/', sendFileOptions);
+});
+
 server.use('/', express.static('./public'));
 
 server.listen(HTTP.port, HTTP.host, () => {

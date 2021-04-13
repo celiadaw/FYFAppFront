@@ -85,4 +85,4 @@ const replaceCont = (a, b) => {
 
 
 
-export {createElement, appendElement, querySelection, replaceCont, addClass, addAttr, createHtmlArrays, remover, removeAll};
+export {createElement, appendElement, querySelection, replaceCont, addClass, removeClass, addAttr, createHtmlArrays, remover, removeAll};

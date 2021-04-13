@@ -2,14 +2,154 @@ import * as fn from './js/fn.js';
 
 //variable global que guardará los cursos para no tener que pedir la búsqueda de nuevo a back si no es necesario
 let globalCourses = [];
+let logged = false;
+const courses = [
+  {
+    id:
+      'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9iYWNrLWVkZ2UtZGVzYXJyb2xsby13ZWItYWwtbGltaXRlLW5vZGVqcy1lczYtbnBtLW1vbmdvZGI',
+    title: 'Back Edge, desarrollo web al límite, NodeJS, ES6, npm, MongoDB',
+    resume:
+      'Desarrollo de aplicaciones web con las últimas tecnologías alrededor de NodeJS y del mundo backend',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/thumbnail-imagen-curso-backedge-49.jpg',
+    level: 2,
+    url:
+      'https://escuela.it/cursos/back-edge-desarrollo-web-al-limite-nodejs-es6-npm-mongodb',
+    popularity: 4.857142857142857,
+    tags:
+      '  Express NodeJS Javascript Backend backend  Express NodeJS Javascript Backend ',
+    price: '89€',
+    currentRating: '5',
+    author: 'Alberto Basalo',
+  },
+  {
+    id:
+      'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1kZS1kZXNhcnJvbGxvLWF2YW56YWRvLWNvbi1hbmd1bGFyanMtMTUteS10ZWNub2xvZ2lhcy1qYXZhc2NyaXB0',
+    title:
+      'Curso de Desarrollo avanzado con AngularJS 1.5 y tecnologías JavaScript',
+    resume:
+      'Un curso completo donde aprenderás a crear paso a paso aplicaciones Front-end',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/thumbnail-imagen-curso-angularjs-31.jpg',
+    level: 2,
+    url:
+      'https://escuela.it/cursos/curso-de-desarrollo-avanzado-con-angularjs-15-y-tecnologias-javascript',
+    popularity: 0.16666666666666666,
+    tags: '  NodeJS AngularJS frontend backend  NodeJS AngularJS ',
+    price: '60€',
+    currentRating: '4',
+    author: 'Alberto Basalo',
+  },
+  {
+    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1kZS1ub2RlanM',
+    title: 'Curso de NodeJS',
+    resume: 'Curso de básico a avanzado para el desarrollo en NodeJS',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/thumbnail-imagen-curso-nodejs-16.jpg',
+    level: 2,
+    url: 'https://escuela.it/cursos/curso-de-nodejs',
+    popularity: 3.55,
+    tags: '  NodeJS frontend backend  NodeJS ',
+    price: '99€',
+    currentRating: '5',
+    author: 'Jonathan MirCha',
+  },
+  {
+    id:
+      'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9maXJlYmFzZS1kZXNkZS1ub2RlanMtc2RrLWZpcmViYXNlLWFkbWlu',
+    title: 'Firebase desde NodeJS: SDK firebase-admin',
+    resume:
+      'Estudio con carácter práctico del SDK de administración de Firebase 3, desde el lado del servidor con NodeJS',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/thumbnail-firebase-48.jpg',
+    level: 2,
+    url: 'https://escuela.it/cursos/firebase-desde-nodejs-sdk-firebase-admin',
+    popularity: 2.25,
+    tags: '  Backend Firebase frontend backend apps  Backend Firebase ',
+    price: '49€',
+    currentRating: '5',
+    author: 'Miguel Angel Alvarez',
+  },
+  {
+    id:
+      'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9kZXBsb3ktYXBsaWNhY2lvbmVzLW5vZGVqcw',
+    title: 'Curso de Deploy de Aplicaciones NodeJS',
+    resume:
+      'Aprende a llevar a producción aplicaciones NodeJS, mediante varias alternativas y las mejores prácticas',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/thumbnail-deploy-apps-nodejs-32.jpg',
+    level: 2,
+    url: 'https://escuela.it/cursos/deploy-aplicaciones-nodejs',
+    popularity: 3.391304347826087,
+    tags: '  NodeJS DevOps backend  NodeJS DevOps ',
+    price: '75€',
+    currentRating: '5',
+    author: 'Miguel Angel AlvarezAlberto BasaloAndres CenciJavier Riera Peiro',
+  },
+  {
+    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1kZS1ncmFwaHFsLXktbm9kZUpT',
+    title: 'Curso de GraphQL y NodeJS',
+    resume:
+      'Aprende a implementar GraphQL con Node para construir APIs potentes y rápidas',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/thumbnail-curso-graphql-31.jpg',
+    level: 2,
+    url: 'https://escuela.it/cursos/curso-de-graphql-y-nodeJS',
+    popularity: 7.888888888888889,
+    tags: '  NodeJS Backend backend  NodeJS Backend ',
+    price: '65€',
+    currentRating: '4',
+    author: 'Nicolas Molina',
+  },
+  {
+    id:
+      'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1ub2RlLWRlc2Fycm9sbGFkb3Jlcy1qYXZhc2NyaXB0',
+    title: 'Curso de Node para desarrolladores Javascript',
+    resume:
+      'Aprende NodeJS, Express, MongoDB y otras tecnologías del lado del servidor con Javascript',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/curso-express-nodejs-mini-65.jpg',
+    level: 2,
+    url: 'https://escuela.it/cursos/curso-node-desarrolladores-javascript',
+    popularity: 17.833333333333332,
+    tags: '  NodeJS backend  NodeJS ',
+    price: '69€',
+    currentRating: '5',
+    author: 'Mario Romero',
+  },
+  {
+    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1ucG0',
+    title: 'Curso de npm',
+    resume: 'Aprovecha las funciones más útiles y desconocidas de npm',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/imagen-curso-npm-mini-97.jpg',
+    level: 2,
+    url: 'https://escuela.it/cursos/curso-npm',
+    popularity: 7.166666666666667,
+    tags:
+      '  NodeJS Javascript DevOps frontend backend  NodeJS Javascript DevOps ',
+    price: '65€',
+    currentRating: '4',
+    author: 'Mateo Tibaquirá',
+  },
+  {
+    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1kZS1kZW5v',
+    title: 'Curso de Deno',
+    resume:
+      'Aprende Deno, la nueva plataforma de ejecución de Javascript para el servidor, evolución de NodeJS',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/fXsK9aCzgdGgv5W8yrjEN5s9u0qoBTCy6KcW5XCF.jpeg',
+    level: 2,
+    url: 'https://escuela.it/cursos/curso-de-deno',
+    popularity: 9.6,
+    tags: '  NodeJS Javascript Backend backend  NodeJS Javascript Backend ',
+    price: '65€',
+    currentRating: '5',
+    author: 'César Alberca'
+  }
+]
 
-// AUTH STATE
-let logged = (() => {
-  let response = false;
-  response.OK === 1 ? true : false;
-  return response;
-})();
-
+// MAIN HTML-----------------------------------------------------------------------
 const mainHtml = () => {
   const body = fn.querySelection('body');
   const mainCont = fn.createElement('main', 'main__cont');
@@ -27,12 +167,12 @@ const btnLogsHtml = () => {
   const mainCont = fn.querySelection('.main__cont');
   const homeCont = fn.querySelection('.home__cont');
   const btnLogsBox = fn.createElement('div', 'btn__logs-box');
-  const btnLogs = fn.createElement('a', 'btn__logs');
+  const btnLogs = fn.createElement('button', 'btn__logs');
   fn.appendElement(homeCont, btnLogsBox);
 
   if (logged) {
-    const btnFavs = fn.createElement('a', 'btn__favs');
-    const btnProfile = fn.createElement('a', 'btn__profile');
+    const btnFavs = fn.createElement('button', 'btn__favs');
+    const btnProfile = fn.createElement('button', 'btn__profile');
 
     fn.appendElement(btnLogsBox, btnProfile);
     fn.appendElement(btnLogsBox, btnFavs);
@@ -48,12 +188,31 @@ const btnLogsHtml = () => {
       profileCompScreen();
     });
 
+    // Botón LogOut
+    btnLogs.addEventListener('click', () => {
+      let token = localStorage.getItem('Token');
+      globalCourses = [];
+      fetchToLogOut(token, mainCont);
+      logged = false;
+    });
+
     // Botón Favoritos
     btnFavs.addEventListener('click', () => {
-      favCompScreen(courses[0]);
+  
+      let token = localStorage.getItem('Token');
+      // favCompScreen(course);
+      let comp = document.querySelectorAll('.course__components');
+      homeCont.remove();
+      if (comp.length !== 0) {
+        comp.forEach((cur) => {
+          cur.remove();
+        });
+      }
+      headerCompFav();
+      fetchToGetFav(token, homeCont);
     });
   } else {
-    const btnSignUp = fn.createElement('a', 'btn__sign-up');
+    const btnSignUp = fn.createElement('button', 'btn__sign-up');
 
     fn.appendElement(btnLogsBox, btnSignUp);
     fn.appendElement(btnLogsBox, btnLogs);
@@ -65,12 +224,26 @@ const btnLogsHtml = () => {
     let homeCont = fn.querySelection('.home__cont');
     btnSignUp.addEventListener('click', () => {
       homeCont.remove();
+      let comp = document.querySelectorAll('.course__components');
+      if (comp.length !== 0) {
+        comp.forEach((cur) => {
+          cur.remove();
+        });
+      }
+
       signUpCompScreen();
     });
 
-    // SIGNIN BTN
+    // LOGIN BTN
     btnLogs.addEventListener('click', () => {
       homeCont.remove();
+      let comp = document.querySelectorAll('.course__components');
+      if (comp.length !== 0) {
+        comp.forEach((cur) => {
+          cur.remove();
+        });
+      }
+
       logInCompScreen();
     });
 
@@ -115,23 +288,88 @@ const inputBox = () => {
 
   btnSearch.textContent = 'Search';
 
+  // Botón de buscar cursos
   btnSearch.addEventListener('click', (e) => {
     e.preventDefault();
+
+    if(input.value === '') {
+      return null;
+    }
+
+    let comp = document.querySelectorAll('.course__components');
+    if (comp.length !== 0) {
+      comp.forEach((cur) => {
+        cur.remove();
+      });
+    }
+
     let appTitle = fn.querySelection('.main__title-box');
-    appTitle.remove();
+    const param = input.value.trim();
 
-    //   if (localStorage.getItem('courses')) {
-    //     localStorage.clear();
-    //  }
-
-    const searchValue = input.value;
-
-    fetchToAllCourses(searchValue);
+    fetchToAllCourses(param, appTitle);
+    input.value = '';
   });
 };
+const fetchToAuth = async (token) => {
+  const options = {
+    method: 'GET',
+    headers: {
+      authorization: `bearer ${token}`,
+    },
+  };
+  const response = await fetch(
+    `http://localhost:3000/authuser`,
+    options,
+  ).then((data) => data.json());
 
-const resultComp = (course) => {
-  let container = fn.querySelection('.home__cont');
+  if (response.OK === 1) {
+    return true;
+  } else {
+    return false;
+  }
+};
+const init = async () => {
+
+  if (localStorage.getItem('Token')) {
+    let token = localStorage.getItem('Token');
+    logged = await fetchToAuth(token);
+  };
+
+  if(window.location.pathname === '/newpass') {
+    const token = window.location.search.split('=')[1];
+    
+    history.pushState(null, '', '/');
+    mainHtml();
+    resetPassScreen(token);
+
+  } else {
+
+    if (globalCourses.length !== 0) {
+      mainHtml();
+      btnLogsHtml();
+      inputBox();
+  
+      globalCourses.map((cur, index) => {
+        resultComp(cur, index);
+      });
+  
+    } else {
+      mainHtml();
+      btnLogsHtml();
+      mainTitleApp();
+      inputBox();
+    };
+
+  }
+
+
+};
+init();
+// ----------------------------------------------------------------------- MAIN HTML
+
+// RESULTADOS DE LA BÚSQUEDA-------------------------------------------------------
+const resultComp = (course, index) => {
+  let container = fn.querySelection('.main__cont');
 
   const courseComponents = fn.createElement('div', 'course__components');
 
@@ -162,7 +400,37 @@ const resultComp = (course) => {
   if (logged) {
     const btnFav = fn.createElement('a', 'btnFav');
     fn.appendElement(titleBox, btnFav);
-    btnFav.textContent = 'FAVBTN';
+
+    if (course.favorito) {
+      btnFav.classList.add('fa-3x', 'fas', 'fa-thumbs-up');
+    } else {
+      btnFav.classList.add('fa-3x', 'far', 'fa-thumbs-up');
+    }
+    btnFav.addEventListener('click', () => {
+      if (course.favorito) {
+        if (fetchToDelFav(course)) {
+          // btnFav.classList.remove('fas');
+          fn.removeClass(btnFav, 'fas');
+          // btnFav.classList.add('far');
+          fn.addClass(btnFav, 'far');
+          course.favorito = false;
+          globalCourses[index].favorito = false;
+        } else {
+          console.error('No se ha podido borrar favorito ', course.url);
+        }
+      } else {
+        if (fetchToAddFav(course, index)) {
+          // btnFav.classList.remove('far');
+          fn.removeClass(btnFav, 'far');
+          // btnFav.classList.add('fas');
+          fn.addClass(btnFav, 'fas');
+          course.favorito = true;
+          globalCourses[index].favorito = true;
+        } else {
+          console.error('No se ha podido añadir favorito ', course.url);
+        }
+      }
+    });
   }
 
   title.addEventListener('click', (e) => {
@@ -194,74 +462,396 @@ const resultComp = (course) => {
   fn.appendElement(courseComponents, courseLevelBox);
   fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
 };
-const init = () => {
-  console.log('GLOBAL COURSES!', globalCourses);
-  console.log(globalCourses.length);
-  if (globalCourses.length !== 0) {
-    globalCourses.map((cur) => {
-      console.log(cur);
-      mainHtml();
-      btnLogsHtml();
-      inputBox();
-      resultComp(cur);
-    });
-  }
+// -----------------------------------------------------------RESULTADOS DE LA BÚSQUEDA
 
-  /*   if (localStorage.getItem('courses'))
-    JSON.parse(localStorage.getItem('courses')).map((cur) => {
-      mainHtml();
-      btnLogsHtml();
-      inputBox();
-      resultComp(cur);
-    }); */
+// BOTONES DE CONTENEDOR FAV
+const headerCompFav = () => {
 
-  mainHtml();
-  btnLogsHtml();
-  mainTitleApp();
-  inputBox();
+  let body = fn.querySelection('body');
+  let favMainCont = fn.querySelection('.main__cont');
+  const btnFavBox = fn.createElement('div', 'btn__fav-box');
+  const btnHomeFav = fn.createElement('button', 'btn__home-fav');
+  btnHomeFav.textContent = 'Home';
+  const btnHomeLogOut = fn.createElement('button', 'btn__home-fav');
+    btnHomeLogOut.textContent = 'Log out';
+    fn.appendElement(body, favMainCont);
+    fn.appendElement(favMainCont, btnFavBox);
+    fn.appendElement(btnFavBox, btnHomeFav);
+    fn.appendElement(btnFavBox, btnHomeLogOut);
+
+  // let btnCont = fn.querySelection('.btn__fav-box');
+
+  // Botón para volver al home
+  btnHomeFav.addEventListener('click', () => {
+    btnFavBox.remove();
+    let cont = fn.querySelection('.main__cont');
+    cont.remove();
+    init();
+  });
+
+  // Botón log out
+  btnHomeLogOut.addEventListener('click', () => {
+    let cont = fn.querySelection('.main__cont');
+    let token = localStorage.getItem('Token');
+    fetchToLogOut(token, btnFavBox);
+    cont.remove();
+  });
 };
-init();
+// RESULTADOS CONTENEDOR FAV
+const resultCompFav = (course, index) => {
+  let body = fn.querySelection('body');
+  let container = fn.querySelection('.main__cont');
+  fn.appendElement(body, container);
 
-// PANTALLA DE RESULTADOS
+  const courseComponents = fn.createElement('div', 'course__components');
 
-const fetchToAllCourses = async (searchValue) => {
-  const response = await fetch(
-    `http://localhost:3000/courses?search=${searchValue}`,
-  ).then((data) => data.json());
-  if (response.OK === 1) {
-    const courses = response.courses;
+  const imgBox = fn.createElement('div', 'img__box');
+  const img = fn.createElement('img');
+  img.src = `${course.image}`;
 
-    courses.map((cur) => {
-      resultComp(cur);
-    });
-    //llenamos la variable global con los cursos
-    globalCourses = courses;
-    //localStorage.setItem('courses', JSON.stringify(courses));
-  } else if (response.OK === 0) {
-    alert('Todo mal');
-  }
+  fn.appendElement(container, courseComponents);
+  fn.appendElement(courseComponents, imgBox);
+  fn.appendElement(imgBox, img);
+
+  img.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.open(`${course.url}`);
+  });
+
+  const priceBox = fn.createElement('div', 'price__box');
+  const price = fn.createElement('h2');
+  price.textContent = `${course.price}`;
+
+  fn.appendElement(imgBox, priceBox);
+  fn.appendElement(priceBox, price);
+
+  const titleBox = fn.createElement('h3', 'title__box');
+  const title = fn.createElement('h3');
+  title.textContent = `${course.title}`;
+
+  const btnFav = fn.createElement('a', 'btnFav');
+  fn.appendElement(titleBox, btnFav);
+
+  btnFav.classList.add('fa-3x', 'fas', 'fa-thumbs-up');
+
+  btnFav.addEventListener('click', () => {
+    console.log(course);
+    if (fetchToDelFav(course)) {
+      courseComponents.remove();
+    } else {
+      alert('No se ha podido borrar');
+    }
+  });
+
+  title.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.open(`${course.url}`);
+  });
+
+  fn.appendElement(courseComponents, titleBox);
+  fn.appendElement(titleBox, title);
+
+  const descriptionBox = fn.createElement('div', 'description__box');
+  const description = fn.createElement('p');
+  description.textContent = `${course.resume}`;
+
+  fn.appendElement(courseComponents, descriptionBox);
+  fn.appendElement(descriptionBox, description);
+
+  const ratingBox = fn.createElement('div', 'rating__box');
+  const rating = fn.createElement('p');
+  rating.textContent = `${course.currentRating}`;
+
+  fn.appendElement(courseComponents, ratingBox);
+  fn.appendElement(ratingBox, rating);
+
+  const courseLevelBox = fn.createElement('div', 'course__level-box');
+  const courseLevel = fn.createElement('p');
+  courseLevel.textContent = `${course.level}`;
+
+  fn.appendElement(courseComponents, courseLevelBox);
+  fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
 };
 
-const fetchToSignUp = async (email, pass) => {
+// OBTENER TODOS LOS RESULTADOS DE UNA BUSQUEDA-----------------------------FETCHING
+const fetchToAllCourses = async (param, contRemoved) => {
+  if (param.length === 0) {
+    return alert('Search field must be contain any parameter to search');
+
+    // Mirar de hacer esto con un poquito de gracia en la interfaz de usuario en vez de un alert. Eso es para el Chris del fururo.
+  } else {
+    let options;
+    if (logged) {
+      const token = localStorage.getItem('Token');
+      options = {
+        headers: { Authorization: `bearer ${token}` },
+      };
+    } else options = {};
+
+    const response = await fetch(
+      `http://localhost:3000/courses?search=${param}`,
+      options,
+    ).then((data) => data.json());
+    if (response.OK === 1) {
+      const courses = response.courses;
+      if (courses.length === 0) {
+        alert('Tu búsqueda no ha tenido ningún resultado');
+        // Arreglar esto con UI en vez de con este alert de mierda.
+      }
+
+      courses.map((cur, index) => {
+        resultComp(cur, index);
+      });
+
+      //llenamos la variable global con los cursos
+      globalCourses = courses;
+
+      if (contRemoved) {
+        fn.remover(contRemoved);
+      }
+    } else if (response.OK === 0) {
+      alert('Todo mal');
+    }
+  }
+};
+// REGISTRAR USUARIO
+const fetchToSignUp = async (email, pass, contRemoved) => {
   const data = { email, pass };
+
   const options = {
     method: 'POST',
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' },
   };
+
   const response = await fetch(
     `http://localhost:3000/signup`,
     options,
   ).then((data) => data.json());
-  console.log(response);
+
   if (response.OK === 1) {
-    return true; //devuelvo true para decir que todo ha ido bien
+    fn.remover(contRemoved);
+
+    setTimeout(() => {
+      logInCompScreen();
+    }, 1200);
   } else if (response.OK === 0) {
-    alert('Todo mal');
+    return alert(response.message);
   }
 };
+// LOGUEAR USUARIO
+const fetchToLogin = async (email, pass, contRemoved) => {
+  const data = { email, pass };
 
-// PANTALLAS DE SIGN UP Y SIGN IN
+  if (!email || !pass) {
+    return alert('LLena los campos subnormal');
+  }
+
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json' },
+  };
+
+  const response = await fetch(
+    `http://localhost:3000/login`,
+    options,
+  ).then((data) => data.json());
+
+  if (response.OK === 1) {
+    fn.remover(contRemoved);
+    localStorage.setItem('Token', response.token);
+
+    setTimeout(() => {
+      init();
+    }, 1500);
+  } else if (response.OK === 0) {
+    return alert('User not exist');
+  }
+};
+// LOGOUT USUARIO
+const fetchToLogOut = async (token, contRemoved) => {
+  const options = {
+    headers: { Authorization: `bearer ${token}` },
+  };
+
+  const response = await fetch(
+    `http://localhost:3000/logout`,
+    options,
+  ).then((data) => data.json());
+
+  if (response.OK === 1) {
+    // setTimeout(() => {
+    init();
+    // }, 500);
+    fn.remover(contRemoved);
+  } else if (response.OK === 0) {
+    return alert('Incorrect data');
+  }
+};
+// AÑADIR FAVORITO
+const fetchToAddFav = async (course, index) => {
+  // const courseFav{ author, currentRating, image, level, popularity, price, resume, title, url } = course;
+  const token = localStorage.getItem('Token');
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(course),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `bearer ${token}`,
+    },
+  };
+  const response = await fetch(
+    `http://localhost:3000/courses/fav`,
+    options,
+  ).then((data) => data.json());
+  globalCourses[index].favoritoID = response.insertId;
+  return response.OK;
+};
+// QUITAR FAVORITO
+const fetchToDelFav = async (course) => {
+  const token = localStorage.getItem('Token');
+  const options = {
+    method: 'DELETE',
+    body: JSON.stringify(course),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `bearer ${token}`,
+    },
+  };
+  const response = await fetch(
+    `http://localhost:3000/courses/delete/${course.favoritoID}`,
+    options,
+  ).then((data) => data.json());
+  return response.OK;
+};
+const fetchToGetFav = async (token, contRemoved) => {
+
+  const options = {
+    headers: { Authorization: `bearer ${token}` },
+  };
+  const response = await fetch(
+    `http://localhost:3000/courses/fav`,
+    options,
+  ).then((data) => data.json());
+
+  if (response.OK === 1) {
+    console.log(response);
+    let courses = response.fav;
+    console.log(courses);
+    courses.map((course, index) => {
+      // favCompScreen(course);
+      resultCompFav(course, index);
+    });
+    fn.remover(contRemoved);
+  } else {
+    alert('No tienes favoritos, mamarracho');
+  }
+
+}
+
+const fetchToResetPass = async (token, pass, contRemoved) => {
+  console.log(4123412341243, pass);
+
+  const options = {
+    method: 'POST',
+    headers: { 'Authorization': `bearer ${token}`, 'Content-type': 'application/json' },
+    body: JSON.stringify({pass})
+  };
+
+  const response = await fetch(
+    `http://localhost:3000/changepass`,
+    options,
+  ).then((data) => data.json());
+  console.log(response);
+
+  if(response.OK === 1) {
+    contRemoved.remove();
+    logInCompScreen();
+  };
+
+};
+const fetchToSendMail = async (email) => {
+
+  const options = {
+    method: 'POST',
+    headers: { 'Content-type': 'application/json' },
+    body: JSON.stringify({email})
+  };
+
+  const response = await fetch(
+    `http://localhost:3000/newpass`,
+    options,
+  ).then((data) => data.json());
+  console.log(response);
+
+  // if(response.OK === 1) {
+  //   contRemoved.remove();
+  //   init();
+  // };
+
+};
+
+// -------------------------------------------------------------------------FETCHING
+
+// FETCH PROFILE
+
+const fetchToProfile = async (
+  token,
+  imgProf,
+  userDataFirstName,
+  userDataLastName,
+  btnEdit,
+  profCont,
+) => {
+  console.log();
+  const options = {
+    headers: { Authorization: `bearer ${token}` },
+  };
+  const response = await fetch(
+    `http://localhost:3000/user`,
+    options,
+  ).then((data) => data.json());
+  console.log(response);
+  imgProf.src = response.foto ? response.foto : '/media/user-img.png';
+  userDataFirstName.value = response.nombre;
+  userDataLastName.value = response.apellidos;
+
+  //evento botón edición
+  btnEdit.addEventListener('click', async () => {
+    const foto = imgProf.src;
+    const nombre = userDataFirstName.value;
+    const apellidos = userDataLastName.value;
+
+    const options = {
+      method: 'POST',
+      body: JSON.stringify({ foto, nombre, apellidos }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `bearer ${token}`,
+      },
+    };
+
+    const response = await fetch(
+      `http://localhost:3000/user`,
+      options,
+    ).then((data) => data.json());
+
+    if (response.OK) {
+      profCont.remove();
+      init();
+    } else {
+      console.error('Error al actualizar los datos de usuario');
+    }
+  });
+};
+
+// -------------------------------------------------------------------------FETCHING
+
+
+
+// PANTALLAS-----------------------------------------------------------------------
+//  SIGN UP
 const signUpCompScreen = () => {
   const mainCont = fn.querySelection('.main__cont');
   // fn.remover(container);
@@ -272,7 +862,7 @@ const signUpCompScreen = () => {
   const btnHomeBoxSignUp = fn.createElement('div', 'btn__home-box-signup');
   fn.appendElement(signUpCont, btnHomeBoxSignUp);
 
-  const btnHome = fn.createElement('a', 'btn__home-signup');
+  const btnHome = fn.createElement('button', 'btn__home-signup');
   btnHome.textContent = 'Home';
   fn.appendElement(btnHomeBoxSignUp, btnHome);
 
@@ -283,53 +873,50 @@ const signUpCompScreen = () => {
   const inputPass = fn.createElement('input', 'input__pass-signup');
   fn.appendElement(signUpInputsBox, inputPass);
 
-  const btnSend = fn.createElement('a', 'btn__send');
+  const btnSend = fn.createElement('button', 'btn__send');
   fn.appendElement(signUpInputsBox, btnSend);
   btnSend.textContent = 'Send';
 
   const textAuxBox = fn.createElement('div', 'text__aux-box');
   const textAux = fn.createElement('p', 'text__aux');
   textAux.textContent = 'You´re one of us?';
-  const btnLoginAux = fn.createElement('a', 'btn__login-aux');
+  const btnLoginAux = fn.createElement('button', 'btn__login-aux');
   btnLoginAux.textContent = 'Log in';
   fn.appendElement(signUpCont, textAuxBox);
   fn.appendElement(textAuxBox, textAux);
   fn.appendElement(textAuxBox, btnLoginAux);
 
   const googleSignUpBox = fn.createElement('div', 'google__signup-box');
-  const googleSignUp = fn.createElement('a', 'google__signup');
+  const googleSignUp = fn.createElement('button', 'google__signup');
   googleSignUp.textContent = 'GOOGLE';
   fn.appendElement(signUpCont, googleSignUpBox);
   fn.appendElement(googleSignUpBox, googleSignUp);
 
-  const body = fn.querySelection('body');
-  console.log(body);
-
   // BACK TO HOME
-  btnHome.addEventListener('click', () => {
+  btnHome.addEventListener('click', (e) => {
+    e.preventDefault();
     fn.remover(mainCont);
     init();
   });
 
   // REDIRECT TO LOGIN
-  btnLoginAux.addEventListener('click', () => {
+  btnLoginAux.addEventListener('click', (e) => {
+    e.preventDefault();
     fn.remover(signUpCont);
     setTimeout(() => {
       logInCompScreen();
     }, 1200);
   });
+
   //SIGNUP FETCH
-  btnSend.addEventListener('click', () => {
-    const result = fetchToSignUp(inputMail.value, inputPass.value);
-    if (result) {
-      fn.remover(signUpCont);
-      setTimeout(() => {
-        logInCompScreen();
-      }, 1200);
-    }
+  btnSend.addEventListener('click', (e) => {
+    e.preventDefault();
+    fetchToSignUp(inputMail.value, inputPass.value, signUpCont);
+    inputMail.value = '';
+    inputPass.value = '';
   });
 };
-
+//  LOG IN
 const logInCompScreen = () => {
   const mainCont = fn.querySelection('.main__cont');
   // fn.remover(container);
@@ -340,7 +927,7 @@ const logInCompScreen = () => {
   const btnHomeBoxSignUp = fn.createElement('div', 'btn__home-box-signup');
   fn.appendElement(loginCont, btnHomeBoxSignUp);
 
-  const btnHome = fn.createElement('a', 'btn__home-signup');
+  const btnHome = fn.createElement('button', 'btn__home-signup');
   btnHome.textContent = 'Home';
   fn.appendElement(btnHomeBoxSignUp, btnHome);
 
@@ -353,10 +940,10 @@ const logInCompScreen = () => {
 
   const sendAndVerifyBox = fn.createElement('div', 'btn__verify-box');
   fn.appendElement(loginCont, sendAndVerifyBox);
-  const btnSend = fn.createElement('a', 'btn__send');
-  fn.appendElement(sendAndVerifyBox, btnSend);
-  btnSend.textContent = 'Send';
-  const btnVerify = fn.createElement('a', 'btn__verify');
+  const btnSendLogin = fn.createElement('button', 'btn__send-login');
+  fn.appendElement(sendAndVerifyBox, btnSendLogin);
+  btnSendLogin.textContent = 'Send';
+  const btnVerify = fn.createElement('button', 'btn__verify');
   fn.appendElement(sendAndVerifyBox, btnVerify);
   btnVerify.textContent = 'Reset password';
 
@@ -365,12 +952,12 @@ const logInCompScreen = () => {
   const textAux = fn.createElement('p', 'text__aux');
   fn.appendElement(textAuxBox, textAux);
   textAux.textContent = 'Not already one of us?';
-  const btnSignUpOut = fn.createElement('a', 'btn__login-aux');
+  const btnSignUpOut = fn.createElement('button', 'btn__login-aux');
   fn.appendElement(textAuxBox, btnSignUpOut);
   btnSignUpOut.textContent = 'Sign up';
 
   const googleSignUpBox = fn.createElement('div', 'google__signup-box');
-  const googleSignUp = fn.createElement('a', 'google__signup');
+  const googleSignUp = fn.createElement('button', 'google__signup');
   googleSignUp.textContent = 'GOOGLE';
   fn.appendElement(loginCont, googleSignUpBox);
   fn.appendElement(googleSignUpBox, googleSignUp);
@@ -389,13 +976,22 @@ const logInCompScreen = () => {
     }, 1200);
   });
 
+  // RESET PASSWORD
   btnVerify.addEventListener('click', () => {
     fn.remover(loginCont);
-    resetPassScreen();
+    resetPassMailScreen();
+  });
+
+  // GO TO HOME AFTER LOGIN
+  btnSendLogin.addEventListener('click', (e) => {
+    e.preventDefault();
+    fetchToLogin(inputMail.value, inputPass.value, mainCont);
+    inputMail.value = '';
+    inputPass.value = '';
   });
 };
 
-// PANTALLA DE PROFILE
+//  PROFILE
 const profileCompScreen = () => {
   const body = fn.querySelection('body');
 
@@ -403,10 +999,10 @@ const profileCompScreen = () => {
   fn.addClass(profCont, 'wrapper');
   const btnProfBox = fn.createElement('div', 'btn__prof-box');
   fn.appendElement(profCont, btnProfBox);
-  const btnProfHome = fn.createElement('a', 'btn__home');
+  const btnProfHome = fn.createElement('button', 'btn__home');
   fn.appendElement(btnProfBox, btnProfHome);
   btnProfHome.textContent = 'Home';
-  const btnProfLogOut = fn.createElement('a', 'btn__prof-logout');
+  const btnProfLogOut = fn.createElement('button', 'btn__prof-logout');
   fn.appendElement(btnProfBox, btnProfLogOut);
   btnProfLogOut.textContent = 'Log out';
 
@@ -416,9 +1012,6 @@ const profileCompScreen = () => {
   const imgProf = fn.createElement('img', 'imgProf');
   imgProf.src = './media/user-img.png';
   fn.appendElement(imgProfBox, imgProf);
-  const btnImg = fn.createElement('a', 'btnImg');
-  btnImg.textContent = 'Edit';
-  fn.appendElement(imgProfBox, btnImg);
 
   // Caja de input FirstName
   const userDataBox = fn.createElement('div', 'user__Data-Box');
@@ -445,20 +1038,20 @@ const profileCompScreen = () => {
   const userDataLastName = fn.createElement('input', 'input__data-firstName');
   fn.appendElement(lastNameBox, userDataLastName);
 
-  const lastNameTextTwo = fn.createElement('h4', 'firstName__text');
-  fn.appendElement(lastNameBox, lastNameTextTwo);
-  lastNameTextTwo.textContent = 'Last Name';
-
-  const userDataLastNameTwo = fn.createElement(
-    'input',
-    'input__data-firstName',
-  );
-  fn.appendElement(lastNameBox, userDataLastNameTwo);
   const btnEditBox = fn.createElement('div', 'btn__edit-box');
-  const btnEdit = fn.createElement('a', 'btn__edit');
+  const btnEdit = fn.createElement('button', 'btn__edit');
   fn.appendElement(userDataBox, btnEditBox);
   fn.appendElement(btnEditBox, btnEdit);
   btnEdit.textContent = 'Edit';
+  const token = localStorage.getItem('Token');
+  fetchToProfile(
+    token,
+    imgProf,
+    userDataFirstName,
+    userDataLastName,
+    btnEdit,
+    profCont,
+  );
 
   // Botón Home
   btnProfHome.addEventListener('click', () => {
@@ -468,123 +1061,126 @@ const profileCompScreen = () => {
 
   // Botón Log out
   btnProfLogOut.addEventListener('click', () => {
-    profCont.remove();
-    init();
+    let token = localStorage.getItem('Token');
+    fetchToLogOut(token, profCont);
   });
 
   // Botón de google
   const googleSyncBox = fn.createElement('div', 'google__sync-box');
-  const googleSync = fn.createElement('a', 'google__sync');
+  const googleSync = fn.createElement('button', 'google__sync');
   googleSync.textContent = 'GOOGLE';
   fn.appendElement(profCont, googleSyncBox);
   fn.appendElement(googleSyncBox, googleSync);
 };
 
-// PANTALLA DE FAVORITOS
-const favCompScreen = (course) => {
-  let removeCont = fn.querySelection('.main__cont');
-  removeCont.remove();
+//  FAVORITOS
+// const favCompScreen = (course) => {
 
-  let body = fn.querySelection('body');
+//   let body = fn.querySelection('body');
+//   let favMainCont = fn.querySelection('.main__cont');
+//     fn.appendElement(body, favMainCont);
+//   const compCont = fn.createElement('div', 'fav__main-cont');
 
-  const favCont = fn.createElement('div', 'fav__cont');
-  fn.addClass(favCont, 'wrapper');
-  fn.appendElement(body, favCont);
-  const btnFavBox = fn.createElement('div', 'btn__prof-box');
-  fn.appendElement(favCont, btnFavBox);
-  const btnFavHome = fn.createElement('a', 'btn__home');
-  fn.appendElement(btnFavBox, btnFavHome);
-  btnFavHome.textContent = 'Home';
-  const btnFavLogOut = fn.createElement('a', 'btn__prof-logout');
-  fn.appendElement(btnFavBox, btnFavLogOut);
-  btnFavLogOut.textContent = 'Log out';
+//   const btnFavBox = fn.createElement('div', 'btn__prof-box');
 
-  const favInputBox = fn.createElement('div', 'favinput__search-box');
-  fn.appendElement(favCont, favInputBox);
-  const favInput = fn.createElement('input', 'favinput__search');
-  fn.appendElement(favInputBox, favInput);
+//   fn.appendElement(favMainCont, btnFavBox);
+//   const btnFavHome = fn.createElement('button', 'btn__home');
+//   fn.appendElement(btnFavBox, btnFavHome);
+//   btnFavHome.textContent = 'Home';
+//   const btnFavLogOut = fn.createElement('button', 'btn__prof-logout');
+//   fn.appendElement(btnFavBox, btnFavLogOut);
+//   btnFavLogOut.textContent = 'Log out';
 
-  const favBtnSearchBox = fn.createElement('div', 'favBtn__search-box');
-  fn.appendElement(favInputBox, favBtnSearchBox);
-  const favBtnSearch = fn.createElement('a', 'favBtn__search');
-  fn.appendElement(favBtnSearchBox, favBtnSearch);
-  favBtnSearch.textContent = 'Search';
+//   const favInputBox = fn.createElement('div', 'favinput__search-box');
+//   fn.appendElement(favMainCont, favInputBox);
+//   const favInput = fn.createElement('input', 'favinput__search');
+//   fn.appendElement(favInputBox, favInput);
 
-  const courseComponents = fn.createElement('div', 'course__components');
-  fn.appendElement(favCont, courseComponents);
+//   const favBtnSearchBox = fn.createElement('div', 'favBtn__search-box');
+//   fn.appendElement(favInputBox, favBtnSearchBox);
+//   const favBtnSearch = fn.createElement('button', 'favBtn__search');
+//   fn.appendElement(favBtnSearchBox, favBtnSearch);
+//   favBtnSearch.textContent = 'Search';
 
-  const imgBox = fn.createElement('div', 'img__box');
-  fn.appendElement(courseComponents, imgBox);
-  const img = fn.createElement('img');
-  img.src = `${course.image}`;
-  fn.appendElement(imgBox, img);
+//   const favCont = fn.createElement('div', 'fav__cont');
+//     fn.appendElement(compCont, favCont);
+//     fn.addClass(favCont, 'wrapper');
+//   const courseComponents = fn.createElement('div', 'course__components');
+//     fn.appendElement(favCont, courseComponents);
 
-  // Click a la imagen para ir a vista detalle
-  img.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.open(`${course.url}`);
-  });
+//   const imgBox = fn.createElement('div', 'img__box');
+//   fn.appendElement(courseComponents, imgBox);
+//   const img = fn.createElement('img');
+//   img.src = `${course.image}`;
+//     fn.appendElement(imgBox, img);
 
-  const priceBox = fn.createElement('div', 'price__box');
-  const price = fn.createElement('h2');
-  price.textContent = `${course.price}`;
-  fn.appendElement(imgBox, priceBox);
-  fn.appendElement(priceBox, price);
+//   // Click a la imagen para ir a vista detalle
+//   img.addEventListener('click', (e) => {
+//     e.preventDefault();
+//     window.open(`${course.url}`);
+//   });
 
-  const titleBox = fn.createElement('h3', 'title__box');
-  const title = fn.createElement('h3');
-  title.textContent = `${course.title}`;
-  fn.appendElement(courseComponents, titleBox);
-  fn.appendElement(titleBox, title);
+//   const priceBox = fn.createElement('div', 'price__box');
+//   const price = fn.createElement('h2');
+//   price.textContent = `${course.price}`;
+//   fn.appendElement(imgBox, priceBox);
+//   fn.appendElement(priceBox, price);
 
-  if (logged) {
-    const btnFav = fn.createElement('a', 'btnFav');
-    fn.appendElement(titleBox, btnFav);
-    btnFav.textContent = 'FAVBTN';
-  }
+//   const titleBox = fn.createElement('h3', 'title__box');
+//   const title = fn.createElement('h3');
+//   title.textContent = `${course.title}`;
+//   fn.appendElement(courseComponents, titleBox);
+//   fn.appendElement(titleBox, title);
 
-  // Click al título para ir a vista detalle
-  title.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.open(`${course.url}`);
-  });
+//   if (logged) {
+//     const btnFav = fn.createElement('button', 'btnFav');
+//     fn.appendElement(titleBox, btnFav);
+//     btnFav.textContent = 'FAVBTN';
+//   }
 
-  const descriptionBox = fn.createElement('div', 'description__box');
-  const description = fn.createElement('p');
-  description.textContent = `${course.resume}`;
+//   // Click al título para ir a vista detalle
+//   title.addEventListener('click', (e) => {
+//     e.preventDefault();
+//     window.open(`${course.url}`);
+//   });
 
-  fn.appendElement(courseComponents, descriptionBox);
-  fn.appendElement(descriptionBox, description);
+//   const descriptionBox = fn.createElement('div', 'description__box');
+//   const description = fn.createElement('p');
+//   description.textContent = `${course.resume}`;
 
-  const ratingBox = fn.createElement('div', 'rating__box');
-  const rating = fn.createElement('p');
-  rating.textContent = `${course.currentRating}`;
+//   fn.appendElement(courseComponents, descriptionBox);
+//   fn.appendElement(descriptionBox, description);
 
-  fn.appendElement(courseComponents, ratingBox);
-  fn.appendElement(ratingBox, rating);
+//   const ratingBox = fn.createElement('div', 'rating__box');
+//   const rating = fn.createElement('p');
+//   rating.textContent = `${course.currentRating}`;
 
-  const courseLevelBox = fn.createElement('div', 'course__level-box');
-  const courseLevel = fn.createElement('p');
-  courseLevel.textContent = `${course.level}`;
+//   fn.appendElement(courseComponents, ratingBox);
+//   fn.appendElement(ratingBox, rating);
 
-  fn.appendElement(courseComponents, courseLevelBox);
-  fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
+//   const courseLevelBox = fn.createElement('div', 'course__level-box');
+//   const courseLevel = fn.createElement('p');
+//   courseLevel.textContent = `${course.level}`;
 
-  // Botón Home
-  btnFavHome.addEventListener('click', () => {
-    favCont.remove();
-    init();
-  });
+//   fn.appendElement(courseComponents, courseLevelBox);
+//   fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
 
-  // Botón Log out
-  btnFavLogOut.addEventListener('click', () => {
-    favCont.remove();
-    init();
-  });
-};
+//   // Botón Home
+//   btnFavHome.addEventListener('click', () => {
+//     favMainCont.remove();
+//     console.log(5555);
 
-// PANTALLA DE RESET PASSWORD
-const resetPassScreen = () => {
+//   });
+
+//   // Botón Log out
+//   btnFavLogOut.addEventListener('click', () => {
+//     favCont.remove();
+//     init();
+//   });
+// };
+
+//  RESET PASSWORD
+const resetPassScreen = (token) => {
   const mainCont = fn.querySelection('.main__cont');
   // fn.remover(container);
   const resetCont = fn.createElement('div', 'reset__cont');
@@ -594,25 +1190,65 @@ const resetPassScreen = () => {
   const btnResetHomeBox = fn.createElement('div', 'btn__home-box-reset');
   fn.appendElement(resetCont, btnResetHomeBox);
 
-  const btnResetHome = fn.createElement('a', 'btn__home-reset');
+  const btnResetHome = fn.createElement('button', 'btn__home-reset');
   btnResetHome.textContent = 'Home';
   fn.appendElement(btnResetHomeBox, btnResetHome);
 
   const resetInputsBox = fn.createElement('div', 'input__box-reset');
   fn.appendElement(resetCont, resetInputsBox);
-  const inputResetMail = fn.createElement('input', 'input__mail-reset');
-  fn.appendElement(resetInputsBox, inputResetMail);
   const inputResetPass = fn.createElement('input', 'input__pass-reset');
   fn.appendElement(resetInputsBox, inputResetPass);
 
   const btnResetSendBox = fn.createElement('div', 'btn__reset-box');
   fn.appendElement(resetCont, btnResetSendBox);
-  const btnResetSend = fn.createElement('a', 'btn__send');
+  const btnResetSend = fn.createElement('button', 'btn__send');
   fn.appendElement(btnResetSendBox, btnResetSend);
   btnResetSend.textContent = 'Send';
 
   btnResetHome.addEventListener('click', () => {
-    resetCont.remove();
+    mainCont.remove();
     init();
   });
+
+  btnResetSend.addEventListener('click', () => {
+    let pass = inputResetPass.value;
+    let homeCont = fn.querySelection('.home__cont');
+
+    fetchToResetPass(token, pass, resetCont);
+    
+  });
+
+
 };
+
+
+const resetPassMailScreen = () => {
+  const mainCont = fn.querySelection('.main__cont');
+  const resetMailCont = fn.createElement('div', 'reset__mail-cont');
+  fn.addClass(resetMailCont, 'wrapper');
+  fn.appendElement(mainCont, resetMailCont);
+
+  const btnResetMailBox = fn.createElement('div', 'btn__reset-mailBox');
+  const btnResetMailHome = fn.createElement('button', 'btn__reset-mailHome');
+  btnResetMailHome.textContent = 'Home';
+  fn.appendElement(resetMailCont, btnResetMailBox); 
+  fn.appendElement(btnResetMailBox, btnResetMailHome); 
+
+  const inputMailResetBox = fn.createElement('div', 'input__mail-resetBox');
+  const inputResetMail = fn.createElement('input', 'input__mail-reset');
+  const btnResetMailSend = fn.createElement('button', 'btn__mail-reset');
+  btnResetMailSend.textContent = 'Send';
+  fn.appendElement(resetMailCont, inputMailResetBox);
+  fn.appendElement(inputMailResetBox, inputResetMail);
+  fn.appendElement(inputMailResetBox, btnResetMailSend);
+
+  btnResetMailSend.addEventListener('click', () => {
+    let email = inputResetMail.value;
+    fetchToSendMail(email);
+    console.log(email);
+    mainCont.remove();
+    init();
+  });
+
+};
+//-----------------------------------------------------------------------PANTALLAS
