@@ -5,129 +5,152 @@ let globalCourses = [];
 let logged = false;
 const courses = [
   {
-    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9iYWNrLWVkZ2UtZGVzYXJyb2xsby13ZWItYWwtbGltaXRlLW5vZGVqcy1lczYtbnBtLW1vbmdvZGI',
+    id:
+      'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9iYWNrLWVkZ2UtZGVzYXJyb2xsby13ZWItYWwtbGltaXRlLW5vZGVqcy1lczYtbnBtLW1vbmdvZGI',
     title: 'Back Edge, desarrollo web al límite, NodeJS, ES6, npm, MongoDB',
-    resume: 'Desarrollo de aplicaciones web con las últimas tecnologías alrededor de NodeJS y del mundo backend',
-    image: 'https://escuela.it//storage/course_images_thumbnail/thumbnail-imagen-curso-backedge-49.jpg',
+    resume:
+      'Desarrollo de aplicaciones web con las últimas tecnologías alrededor de NodeJS y del mundo backend',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/thumbnail-imagen-curso-backedge-49.jpg',
     level: 2,
-    url: 'https://escuela.it/cursos/back-edge-desarrollo-web-al-limite-nodejs-es6-npm-mongodb',
+    url:
+      'https://escuela.it/cursos/back-edge-desarrollo-web-al-limite-nodejs-es6-npm-mongodb',
     popularity: 4.857142857142857,
-    tags: '  Express NodeJS Javascript Backend backend  Express NodeJS Javascript Backend ',
+    tags:
+      '  Express NodeJS Javascript Backend backend  Express NodeJS Javascript Backend ',
     price: '89€',
     currentRating: '5',
-    author: 'Alberto Basalo'
+    author: 'Alberto Basalo',
   },
   {
-    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1kZS1kZXNhcnJvbGxvLWF2YW56YWRvLWNvbi1hbmd1bGFyanMtMTUteS10ZWNub2xvZ2lhcy1qYXZhc2NyaXB0',
-    title: 'Curso de Desarrollo avanzado con AngularJS 1.5 y tecnologías JavaScript',
-    resume: 'Un curso completo donde aprenderás a crear paso a paso aplicaciones Front-end',
-    image: 'https://escuela.it//storage/course_images_thumbnail/thumbnail-imagen-curso-angularjs-31.jpg',
+    id:
+      'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1kZS1kZXNhcnJvbGxvLWF2YW56YWRvLWNvbi1hbmd1bGFyanMtMTUteS10ZWNub2xvZ2lhcy1qYXZhc2NyaXB0',
+    title:
+      'Curso de Desarrollo avanzado con AngularJS 1.5 y tecnologías JavaScript',
+    resume:
+      'Un curso completo donde aprenderás a crear paso a paso aplicaciones Front-end',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/thumbnail-imagen-curso-angularjs-31.jpg',
     level: 2,
-    url: 'https://escuela.it/cursos/curso-de-desarrollo-avanzado-con-angularjs-15-y-tecnologias-javascript',
+    url:
+      'https://escuela.it/cursos/curso-de-desarrollo-avanzado-con-angularjs-15-y-tecnologias-javascript',
     popularity: 0.16666666666666666,
     tags: '  NodeJS AngularJS frontend backend  NodeJS AngularJS ',
     price: '60€',
     currentRating: '4',
-    author: 'Alberto Basalo'
+    author: 'Alberto Basalo',
   },
   {
     id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1kZS1ub2RlanM',
     title: 'Curso de NodeJS',
     resume: 'Curso de básico a avanzado para el desarrollo en NodeJS',
-    image: 'https://escuela.it//storage/course_images_thumbnail/thumbnail-imagen-curso-nodejs-16.jpg',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/thumbnail-imagen-curso-nodejs-16.jpg',
     level: 2,
     url: 'https://escuela.it/cursos/curso-de-nodejs',
     popularity: 3.55,
     tags: '  NodeJS frontend backend  NodeJS ',
     price: '99€',
     currentRating: '5',
-    author: 'Jonathan MirCha'
+    author: 'Jonathan MirCha',
   },
   {
-    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9maXJlYmFzZS1kZXNkZS1ub2RlanMtc2RrLWZpcmViYXNlLWFkbWlu',
+    id:
+      'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9maXJlYmFzZS1kZXNkZS1ub2RlanMtc2RrLWZpcmViYXNlLWFkbWlu',
     title: 'Firebase desde NodeJS: SDK firebase-admin',
-    resume: 'Estudio con carácter práctico del SDK de administración de Firebase 3, desde el lado del servidor con NodeJS',
-    image: 'https://escuela.it//storage/course_images_thumbnail/thumbnail-firebase-48.jpg',
+    resume:
+      'Estudio con carácter práctico del SDK de administración de Firebase 3, desde el lado del servidor con NodeJS',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/thumbnail-firebase-48.jpg',
     level: 2,
     url: 'https://escuela.it/cursos/firebase-desde-nodejs-sdk-firebase-admin',
     popularity: 2.25,
     tags: '  Backend Firebase frontend backend apps  Backend Firebase ',
     price: '49€',
     currentRating: '5',
-    author: 'Miguel Angel Alvarez'
+    author: 'Miguel Angel Alvarez',
   },
   {
-    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9kZXBsb3ktYXBsaWNhY2lvbmVzLW5vZGVqcw',
+    id:
+      'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9kZXBsb3ktYXBsaWNhY2lvbmVzLW5vZGVqcw',
     title: 'Curso de Deploy de Aplicaciones NodeJS',
-    resume: 'Aprende a llevar a producción aplicaciones NodeJS, mediante varias alternativas y las mejores prácticas',
-    image: 'https://escuela.it//storage/course_images_thumbnail/thumbnail-deploy-apps-nodejs-32.jpg',
+    resume:
+      'Aprende a llevar a producción aplicaciones NodeJS, mediante varias alternativas y las mejores prácticas',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/thumbnail-deploy-apps-nodejs-32.jpg',
     level: 2,
     url: 'https://escuela.it/cursos/deploy-aplicaciones-nodejs',
     popularity: 3.391304347826087,
     tags: '  NodeJS DevOps backend  NodeJS DevOps ',
     price: '75€',
     currentRating: '5',
-    author: 'Miguel Angel AlvarezAlberto BasaloAndres CenciJavier Riera Peiro'
+    author: 'Miguel Angel AlvarezAlberto BasaloAndres CenciJavier Riera Peiro',
   },
   {
     id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1kZS1ncmFwaHFsLXktbm9kZUpT',
     title: 'Curso de GraphQL y NodeJS',
-    resume: 'Aprende a implementar GraphQL con Node para construir APIs potentes y rápidas',
-    image: 'https://escuela.it//storage/course_images_thumbnail/thumbnail-curso-graphql-31.jpg',
+    resume:
+      'Aprende a implementar GraphQL con Node para construir APIs potentes y rápidas',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/thumbnail-curso-graphql-31.jpg',
     level: 2,
     url: 'https://escuela.it/cursos/curso-de-graphql-y-nodeJS',
     popularity: 7.888888888888889,
     tags: '  NodeJS Backend backend  NodeJS Backend ',
     price: '65€',
     currentRating: '4',
-    author: 'Nicolas Molina'
+    author: 'Nicolas Molina',
   },
   {
-    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1ub2RlLWRlc2Fycm9sbGFkb3Jlcy1qYXZhc2NyaXB0',
+    id:
+      'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1ub2RlLWRlc2Fycm9sbGFkb3Jlcy1qYXZhc2NyaXB0',
     title: 'Curso de Node para desarrolladores Javascript',
-    resume: 'Aprende NodeJS, Express, MongoDB y otras tecnologías del lado del servidor con Javascript',
-    image: 'https://escuela.it//storage/course_images_thumbnail/curso-express-nodejs-mini-65.jpg',
+    resume:
+      'Aprende NodeJS, Express, MongoDB y otras tecnologías del lado del servidor con Javascript',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/curso-express-nodejs-mini-65.jpg',
     level: 2,
     url: 'https://escuela.it/cursos/curso-node-desarrolladores-javascript',
     popularity: 17.833333333333332,
     tags: '  NodeJS backend  NodeJS ',
     price: '69€',
     currentRating: '5',
-    author: 'Mario Romero'
+    author: 'Mario Romero',
   },
   {
     id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1ucG0',
     title: 'Curso de npm',
     resume: 'Aprovecha las funciones más útiles y desconocidas de npm',
-    image: 'https://escuela.it//storage/course_images_thumbnail/imagen-curso-npm-mini-97.jpg',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/imagen-curso-npm-mini-97.jpg',
     level: 2,
     url: 'https://escuela.it/cursos/curso-npm',
     popularity: 7.166666666666667,
-    tags: '  NodeJS Javascript DevOps frontend backend  NodeJS Javascript DevOps ',
+    tags:
+      '  NodeJS Javascript DevOps frontend backend  NodeJS Javascript DevOps ',
     price: '65€',
     currentRating: '4',
-    author: 'Mateo Tibaquirá'
+    author: 'Mateo Tibaquirá',
   },
   {
     id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1kZS1kZW5v',
     title: 'Curso de Deno',
-    resume: 'Aprende Deno, la nueva plataforma de ejecución de Javascript para el servidor, evolución de NodeJS',
-    image: 'https://escuela.it//storage/course_images_thumbnail/fXsK9aCzgdGgv5W8yrjEN5s9u0qoBTCy6KcW5XCF.jpeg',
+    resume:
+      'Aprende Deno, la nueva plataforma de ejecución de Javascript para el servidor, evolución de NodeJS',
+    image:
+      'https://escuela.it//storage/course_images_thumbnail/fXsK9aCzgdGgv5W8yrjEN5s9u0qoBTCy6KcW5XCF.jpeg',
     level: 2,
     url: 'https://escuela.it/cursos/curso-de-deno',
     popularity: 9.6,
     tags: '  NodeJS Javascript Backend backend  NodeJS Javascript Backend ',
     price: '65€',
     currentRating: '5',
-    author: 'César Alberca'
-  }
-]
-
-
+    author: 'César Alberca',
+  },
+];
 
 // MAIN HTML-----------------------------------------------------------------------
 const mainHtml = () => {
-
   const body = fn.querySelection('body');
   const mainCont = fn.createElement('main', 'main__cont');
   const container = fn.createElement('div', 'home__cont');
@@ -185,9 +208,7 @@ const btnLogsHtml = () => {
       }
       headerCompFav();
       fetchToGetFav(token, homeCont);
-
     });
-
   } else {
     const btnSignUp = fn.createElement('button', 'btn__sign-up');
 
@@ -206,10 +227,9 @@ const btnLogsHtml = () => {
         comp.forEach((cur) => {
           cur.remove();
         });
-      };
+      }
 
       signUpCompScreen();
-
     });
 
     // LOGIN BTN
@@ -220,10 +240,9 @@ const btnLogsHtml = () => {
         comp.forEach((cur) => {
           cur.remove();
         });
-      };
+      }
 
       logInCompScreen();
-
     });
 
     // Botón de log in-------
@@ -284,7 +303,6 @@ const inputBox = () => {
 
     fetchToAllCourses(param, appTitle);
     input.value = '';
-
   });
 };
 const fetchToAuth = async (token) => {
@@ -388,7 +406,6 @@ const resultComp = (course, index) => {
           fn.addClass(btnFav, 'fas');
           course.favorito = true;
           globalCourses[index].favorito = true;
-          
         } else {
           console.error('No se ha podido añadir favorito ', course.url);
         }
@@ -432,39 +449,36 @@ const headerCompFav = () => {
   let body = fn.querySelection('body');
   const btnFavBox = fn.createElement('div', 'btn__fav-box');
   const btnHomeFav = fn.createElement('button', 'btn__home-fav');
-    btnHomeFav.textContent = 'Home';
+  btnHomeFav.textContent = 'Home';
   const btnHomeLogOut = fn.createElement('button', 'btn__home-fav');
-    btnHomeLogOut.textContent = 'Log out';
-    fn.appendElement(body, btnFavBox);
-    fn.appendElement(btnFavBox, btnHomeFav);
-    fn.appendElement(btnFavBox, btnHomeLogOut);
+  btnHomeLogOut.textContent = 'Log out';
+  fn.appendElement(body, btnFavBox);
+  fn.appendElement(btnFavBox, btnHomeFav);
+  fn.appendElement(btnFavBox, btnHomeLogOut);
 
-    // let btnCont = fn.querySelection('.btn__fav-box');
-    
+  // let btnCont = fn.querySelection('.btn__fav-box');
 
   // Botón para volver al home
-    btnHomeFav.addEventListener('click', () => {
-      
-      btnFavBox.remove();
-      let cont = fn.querySelection('.main__cont');
-      cont.remove();
-      init();
-    });
+  btnHomeFav.addEventListener('click', () => {
+    btnFavBox.remove();
+    let cont = fn.querySelection('.main__cont');
+    cont.remove();
+    init();
+  });
 
-    // Botón log out
-    btnHomeLogOut.addEventListener('click', () => {
-      let cont = fn.querySelection('.main__cont');
-      let token = localStorage.getItem('Token');
-      fetchToLogOut(token, btnFavBox);
-      cont.remove();
-    });
+  // Botón log out
+  btnHomeLogOut.addEventListener('click', () => {
+    let cont = fn.querySelection('.main__cont');
+    let token = localStorage.getItem('Token');
+    fetchToLogOut(token, btnFavBox);
+    cont.remove();
+  });
 };
 // RESULTADOS CONTENEDOR FAV
 const resultCompFav = (course, index) => {
-
   let body = fn.querySelection('body');
   let container = fn.querySelection('.main__cont');
-    fn.appendElement(body, container);
+  fn.appendElement(body, container);
 
   const courseComponents = fn.createElement('div', 'course__components');
 
@@ -492,24 +506,19 @@ const resultCompFav = (course, index) => {
   const title = fn.createElement('h3');
   title.textContent = `${course.title}`;
 
-
   const btnFav = fn.createElement('a', 'btnFav');
   fn.appendElement(titleBox, btnFav);
 
-
   btnFav.classList.add('fa-3x', 'fas', 'fa-thumbs-up');
-  
-  btnFav.addEventListener('click', () => {
 
+  btnFav.addEventListener('click', () => {
     console.log(course);
     if (fetchToDelFav(course)) {
       courseComponents.remove();
     } else {
       alert('No se ha podido borrar');
     }
-    
   });
-  
 
   title.addEventListener('click', (e) => {
     e.preventDefault();
@@ -540,10 +549,6 @@ const resultCompFav = (course, index) => {
   fn.appendElement(courseComponents, courseLevelBox);
   fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
 };
-
-
-
-
 
 // OBTENER TODOS LOS RESULTADOS DE UNA BUSQUEDA-----------------------------FETCHING
 const fetchToAllCourses = async (param, contRemoved) => {
@@ -698,34 +703,84 @@ const fetchToDelFav = async (course) => {
   return response.OK;
 };
 const fetchToGetFav = async (token, contRemoved) => {
-
   const options = {
-    headers: { 'Authorization': `bearer ${token}` }
+    headers: { Authorization: `bearer ${token}` },
+  };
+  const response = await fetch(
+    `http://localhost:3000/courses/fav`,
+    options,
+  ).then((data) => data.json());
+
+  if (response.OK === 1) {
+    console.log(response);
+    let courses = response.fav;
+    console.log(courses);
+    courses.map((course, index) => {
+      // favCompScreen(course);
+      resultCompFav(course, index);
+    });
+    fn.remover(contRemoved);
+  } else {
+    alert('No tienes favoritos, mamarracho');
   }
-  const response = await fetch(`http://localhost:3000/courses/fav`, options)
-    .then( (data) => data.json());
+};
 
-    if(response.OK === 1) {
-      console.log(response);
-      let courses = response.fav;
-      console.log(courses);
-      courses.map( (course, index) => {
-        // favCompScreen(course);
-        resultCompFav(course, index);
-      });
-      fn.remover(contRemoved);
+// FETCH PROFILE
 
-    }else {
-      alert('No tienes favoritos, mamarracho');
+const fetchToProfile = async (
+  token,
+  imgProf,
+  userDataFirstName,
+  userDataLastName,
+  btnEdit,
+  profCont,
+) => {
+  console.log();
+  const options = {
+    headers: { Authorization: `bearer ${token}` },
+  };
+  const response = await fetch(
+    `http://localhost:3000/user`,
+    options,
+  ).then((data) => data.json());
+  console.log(response);
+  imgProf.src = response.foto ? response.foto : '/media/user-img.png';
+  userDataFirstName.value = response.nombre;
+  userDataLastName.value = response.apellidos;
+
+  //evento botón edición
+  btnEdit.addEventListener('click', async () => {
+    const foto = imgProf.src;
+    const nombre = userDataFirstName.value;
+    const apellidos = userDataLastName.value;
+
+    const options = {
+      method: 'POST',
+      body: JSON.stringify({ foto, nombre, apellidos }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `bearer ${token}`,
+      },
     };
 
+    const response = await fetch(
+      `http://localhost:3000/user`,
+      options,
+    ).then((data) => data.json());
+
+    if (response.OK) {
+      profCont.remove();
+      init();
+    } else {
+      console.error('Error al actualizar los datos de usuario');
+    }
+  });
 };
+
 // -------------------------------------------------------------------------FETCHING
 
-
-
 // PANTALLAS-----------------------------------------------------------------------
-//  SIGN UP 
+//  SIGN UP
 const signUpCompScreen = () => {
   const mainCont = fn.querySelection('.main__cont');
   // fn.remover(container);
@@ -792,7 +847,6 @@ const signUpCompScreen = () => {
 };
 //  LOG IN
 const logInCompScreen = () => {
-
   const mainCont = fn.querySelection('.main__cont');
   // fn.remover(container);
   const loginCont = fn.createElement('div', 'login__cont');
@@ -887,9 +941,6 @@ const profileCompScreen = () => {
   const imgProf = fn.createElement('img', 'imgProf');
   imgProf.src = './media/user-img.png';
   fn.appendElement(imgProfBox, imgProf);
-  const btnImg = fn.createElement('button', 'btnImg');
-  btnImg.textContent = 'Edit';
-  fn.appendElement(imgProfBox, btnImg);
 
   // Caja de input FirstName
   const userDataBox = fn.createElement('div', 'user__Data-Box');
@@ -916,20 +967,20 @@ const profileCompScreen = () => {
   const userDataLastName = fn.createElement('input', 'input__data-firstName');
   fn.appendElement(lastNameBox, userDataLastName);
 
-  const lastNameTextTwo = fn.createElement('h4', 'firstName__text');
-  fn.appendElement(lastNameBox, lastNameTextTwo);
-  lastNameTextTwo.textContent = 'Last Name';
-
-  const userDataLastNameTwo = fn.createElement(
-    'input',
-    'input__data-firstName',
-  );
-  fn.appendElement(lastNameBox, userDataLastNameTwo);
   const btnEditBox = fn.createElement('div', 'btn__edit-box');
   const btnEdit = fn.createElement('button', 'btn__edit');
   fn.appendElement(userDataBox, btnEditBox);
   fn.appendElement(btnEditBox, btnEdit);
   btnEdit.textContent = 'Edit';
+  const token = localStorage.getItem('Token');
+  fetchToProfile(
+    token,
+    imgProf,
+    userDataFirstName,
+    userDataLastName,
+    btnEdit,
+    profCont,
+  );
 
   // Botón Home
   btnProfHome.addEventListener('click', () => {
@@ -940,7 +991,7 @@ const profileCompScreen = () => {
   // Botón Log out
   btnProfLogOut.addEventListener('click', () => {
     let token = localStorage.getItem('Token');
-    fetchToLogOut(token, profCont)
+    fetchToLogOut(token, profCont);
   });
 
   // Botón de google
@@ -950,8 +1001,6 @@ const profileCompScreen = () => {
   fn.appendElement(profCont, googleSyncBox);
   fn.appendElement(googleSyncBox, googleSync);
 };
-
-
 
 //  FAVORITOS
 // const favCompScreen = (course) => {
@@ -970,7 +1019,6 @@ const profileCompScreen = () => {
 //   const btnFavLogOut = fn.createElement('button', 'btn__prof-logout');
 //   fn.appendElement(btnFavBox, btnFavLogOut);
 //   btnFavLogOut.textContent = 'Log out';
-
 
 //   const favInputBox = fn.createElement('div', 'favinput__search-box');
 //   fn.appendElement(favMainCont, favInputBox);
@@ -1050,7 +1098,7 @@ const profileCompScreen = () => {
 //   btnFavHome.addEventListener('click', () => {
 //     favMainCont.remove();
 //     console.log(5555);
-    
+
 //   });
 
 //   // Botón Log out
@@ -1059,7 +1107,6 @@ const profileCompScreen = () => {
 //     init();
 //   });
 // };
-
 
 //  RESET PASSWORD
 const resetPassScreen = () => {
