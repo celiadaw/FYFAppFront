@@ -145,9 +145,9 @@ const courses = [
     tags: '  NodeJS Javascript Backend backend  NodeJS Javascript Backend ',
     price: '65€',
     currentRating: '5',
-    author: 'César Alberca'
-  }
-]
+    author: 'César Alberca',
+  },
+];
 
 // MAIN HTML-----------------------------------------------------------------------
 const mainHtml = () => {
@@ -198,7 +198,6 @@ const btnLogsHtml = () => {
 
     // Botón Favoritos
     btnFavs.addEventListener('click', () => {
-  
       let token = localStorage.getItem('Token');
       // favCompScreen(course);
       let comp = document.querySelectorAll('.course__components');
@@ -292,7 +291,7 @@ const inputBox = () => {
   btnSearch.addEventListener('click', (e) => {
     e.preventDefault();
 
-    if(input.value === '') {
+    if (input.value === '') {
       return null;
     }
 
@@ -329,40 +328,33 @@ const fetchToAuth = async (token) => {
   }
 };
 const init = async () => {
-
   if (localStorage.getItem('Token')) {
     let token = localStorage.getItem('Token');
     logged = await fetchToAuth(token);
-  };
+  }
 
-  if(window.location.pathname === '/newpass') {
+  if (window.location.pathname === '/newpass') {
     const token = window.location.search.split('=')[1];
-    
+
     history.pushState(null, '', '/');
     mainHtml();
     resetPassScreen(token);
-
   } else {
-
     if (globalCourses.length !== 0) {
       mainHtml();
       btnLogsHtml();
       inputBox();
-  
+
       globalCourses.map((cur, index) => {
         resultComp(cur, index);
       });
-  
     } else {
       mainHtml();
       btnLogsHtml();
       mainTitleApp();
       inputBox();
-    };
-
+    }
   }
-
-
 };
 init();
 // ----------------------------------------------------------------------- MAIN HTML
@@ -466,18 +458,17 @@ const resultComp = (course, index) => {
 
 // BOTONES DE CONTENEDOR FAV
 const headerCompFav = () => {
-
   let body = fn.querySelection('body');
   let favMainCont = fn.querySelection('.main__cont');
   const btnFavBox = fn.createElement('div', 'btn__fav-box');
   const btnHomeFav = fn.createElement('button', 'btn__home-fav');
   btnHomeFav.textContent = 'Home';
   const btnHomeLogOut = fn.createElement('button', 'btn__home-fav');
-    btnHomeLogOut.textContent = 'Log out';
-    fn.appendElement(body, favMainCont);
-    fn.appendElement(favMainCont, btnFavBox);
-    fn.appendElement(btnFavBox, btnHomeFav);
-    fn.appendElement(btnFavBox, btnHomeLogOut);
+  btnHomeLogOut.textContent = 'Log out';
+  fn.appendElement(body, favMainCont);
+  fn.appendElement(favMainCont, btnFavBox);
+  fn.appendElement(btnFavBox, btnHomeFav);
+  fn.appendElement(btnFavBox, btnHomeLogOut);
 
   // let btnCont = fn.querySelection('.btn__fav-box');
 
@@ -535,7 +526,6 @@ const resultCompFav = (course, index) => {
   btnFav.classList.add('fa-3x', 'fas', 'fa-thumbs-up');
 
   btnFav.addEventListener('click', () => {
-    console.log(course);
     if (fetchToDelFav(course)) {
       courseComponents.remove();
     } else {
@@ -692,21 +682,26 @@ const fetchToLogOut = async (token, contRemoved) => {
 // AÑADIR FAVORITO
 const fetchToAddFav = async (course, index) => {
   // const courseFav{ author, currentRating, image, level, popularity, price, resume, title, url } = course;
-  const token = localStorage.getItem('Token');
-  const options = {
-    method: 'POST',
-    body: JSON.stringify(course),
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `bearer ${token}`,
-    },
-  };
-  const response = await fetch(
-    `http://localhost:3000/courses/fav`,
-    options,
-  ).then((data) => data.json());
-  globalCourses[index].favoritoID = response.insertId;
-  return response.OK;
+  try {
+    const token = localStorage.getItem('Token');
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(course),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `bearer ${token}`,
+      },
+    };
+    const response = await fetch(
+      `http://localhost:3000/courses/fav`,
+      options,
+    ).then((data) => data.json());
+
+    globalCourses[index].favoritoID = response.insertId;
+    return response;
+  } catch (error) {
+
+  }
 };
 // QUITAR FAVORITO
 const fetchToDelFav = async (course) => {
@@ -726,7 +721,6 @@ const fetchToDelFav = async (course) => {
   return response.OK;
 };
 const fetchToGetFav = async (token, contRemoved) => {
-
   const options = {
     headers: { Authorization: `bearer ${token}` },
   };
@@ -736,9 +730,7 @@ const fetchToGetFav = async (token, contRemoved) => {
   ).then((data) => data.json());
 
   if (response.OK === 1) {
-    console.log(response);
     let courses = response.fav;
-    console.log(courses);
     courses.map((course, index) => {
       // favCompScreen(course);
       resultCompFav(course, index);
@@ -747,49 +739,45 @@ const fetchToGetFav = async (token, contRemoved) => {
   } else {
     alert('No tienes favoritos, mamarracho');
   }
-
-}
+};
 
 const fetchToResetPass = async (token, pass, contRemoved) => {
-  console.log(4123412341243, pass);
 
   const options = {
     method: 'POST',
-    headers: { 'Authorization': `bearer ${token}`, 'Content-type': 'application/json' },
-    body: JSON.stringify({pass})
+    headers: {
+      Authorization: `bearer ${token}`,
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify({ pass }),
   };
 
   const response = await fetch(
     `http://localhost:3000/changepass`,
     options,
   ).then((data) => data.json());
-  console.log(response);
 
-  if(response.OK === 1) {
+  if (response.OK === 1) {
     contRemoved.remove();
     logInCompScreen();
-  };
-
+  }
 };
 const fetchToSendMail = async (email) => {
-
   const options = {
     method: 'POST',
     headers: { 'Content-type': 'application/json' },
-    body: JSON.stringify({email})
+    body: JSON.stringify({ email }),
   };
 
   const response = await fetch(
     `http://localhost:3000/newpass`,
     options,
   ).then((data) => data.json());
-  console.log(response);
 
   // if(response.OK === 1) {
   //   contRemoved.remove();
   //   init();
   // };
-
 };
 
 // -------------------------------------------------------------------------FETCHING
@@ -804,7 +792,6 @@ const fetchToProfile = async (
   btnEdit,
   profCont,
 ) => {
-  console.log();
   const options = {
     headers: { Authorization: `bearer ${token}` },
   };
@@ -812,7 +799,6 @@ const fetchToProfile = async (
     `http://localhost:3000/user`,
     options,
   ).then((data) => data.json());
-  console.log(response);
   imgProf.src = response.foto ? response.foto : '/media/user-img.png';
   userDataFirstName.value = response.nombre;
   userDataLastName.value = response.apellidos;
@@ -847,8 +833,6 @@ const fetchToProfile = async (
 };
 
 // -------------------------------------------------------------------------FETCHING
-
-
 
 // PANTALLAS-----------------------------------------------------------------------
 //  SIGN UP
@@ -1215,12 +1199,8 @@ const resetPassScreen = (token) => {
     let homeCont = fn.querySelection('.home__cont');
 
     fetchToResetPass(token, pass, resetCont);
-    
   });
-
-
 };
-
 
 const resetPassMailScreen = () => {
   const mainCont = fn.querySelection('.main__cont');
@@ -1231,8 +1211,8 @@ const resetPassMailScreen = () => {
   const btnResetMailBox = fn.createElement('div', 'btn__reset-mailBox');
   const btnResetMailHome = fn.createElement('button', 'btn__reset-mailHome');
   btnResetMailHome.textContent = 'Home';
-  fn.appendElement(resetMailCont, btnResetMailBox); 
-  fn.appendElement(btnResetMailBox, btnResetMailHome); 
+  fn.appendElement(resetMailCont, btnResetMailBox);
+  fn.appendElement(btnResetMailBox, btnResetMailHome);
 
   const inputMailResetBox = fn.createElement('div', 'input__mail-resetBox');
   const inputResetMail = fn.createElement('input', 'input__mail-reset');
@@ -1245,10 +1225,8 @@ const resetPassMailScreen = () => {
   btnResetMailSend.addEventListener('click', () => {
     let email = inputResetMail.value;
     fetchToSendMail(email);
-    console.log(email);
     mainCont.remove();
     init();
   });
-
 };
 //-----------------------------------------------------------------------PANTALLAS
