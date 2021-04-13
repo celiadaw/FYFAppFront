@@ -48,6 +48,10 @@ html {
     flex-direction: column;
     width: 60%;
 }
+.input__mail-resetBox {
+    display: flex;
+    flex-direction: column;
+}
 
 /* body {
     font-family: 'Nunito Sans', sans-serif;

@@ -123,8 +123,6 @@ const courses = [
   }
 ]
 
-
-
 // MAIN HTML-----------------------------------------------------------------------
 const mainHtml = () => {
 
@@ -175,9 +173,11 @@ const btnLogsHtml = () => {
 
     // Botón Favoritos
     btnFavs.addEventListener('click', () => {
+  
       let token = localStorage.getItem('Token');
       // favCompScreen(course);
       let comp = document.querySelectorAll('.course__components');
+      homeCont.remove();
       if (comp.length !== 0) {
         comp.forEach((cur) => {
           cur.remove();
@@ -263,7 +263,6 @@ const inputBox = () => {
   fn.appendElement(homeCont, inputBox);
   fn.appendElement(inputBox, input);
   fn.appendElement(inputBox, btnBox);
-  401;
   fn.appendElement(btnBox, btnSearch);
 
   btnSearch.textContent = 'Search';
@@ -271,6 +270,10 @@ const inputBox = () => {
   // Botón de buscar cursos
   btnSearch.addEventListener('click', (e) => {
     e.preventDefault();
+
+    if(input.value === '') {
+      return null;
+    }
 
     let comp = document.querySelectorAll('.course__components');
     if (comp.length !== 0) {
@@ -306,25 +309,40 @@ const fetchToAuth = async (token) => {
   }
 };
 const init = async () => {
+
   if (localStorage.getItem('Token')) {
     let token = localStorage.getItem('Token');
     logged = await fetchToAuth(token);
-  }
+  };
 
-  if (globalCourses.length !== 0) {
+  if(window.location.pathname === '/newpass') {
+    const token = window.location.search.split('=')[1];
+    
+    history.pushState(null, '', '/');
     mainHtml();
-    btnLogsHtml();
-    inputBox();
+    resetPassScreen(token);
 
-    globalCourses.map((cur, index) => {
-      resultComp(cur, index);
-    });
   } else {
-    mainHtml();
-    btnLogsHtml();
-    mainTitleApp();
-    inputBox();
+
+    if (globalCourses.length !== 0) {
+      mainHtml();
+      btnLogsHtml();
+      inputBox();
+  
+      globalCourses.map((cur, index) => {
+        resultComp(cur, index);
+      });
+  
+    } else {
+      mainHtml();
+      btnLogsHtml();
+      mainTitleApp();
+      inputBox();
+    };
+
   }
+
+
 };
 init();
 // ----------------------------------------------------------------------- MAIN HTML
@@ -429,13 +447,16 @@ const resultComp = (course, index) => {
 
 // BOTONES DE CONTENEDOR FAV
 const headerCompFav = () => {
+
   let body = fn.querySelection('body');
+  let favMainCont = fn.querySelection('.main__cont');
   const btnFavBox = fn.createElement('div', 'btn__fav-box');
   const btnHomeFav = fn.createElement('button', 'btn__home-fav');
     btnHomeFav.textContent = 'Home';
   const btnHomeLogOut = fn.createElement('button', 'btn__home-fav');
     btnHomeLogOut.textContent = 'Log out';
-    fn.appendElement(body, btnFavBox);
+    fn.appendElement(body, favMainCont);
+    fn.appendElement(favMainCont, btnFavBox);
     fn.appendElement(btnFavBox, btnHomeFav);
     fn.appendElement(btnFavBox, btnHomeLogOut);
 
@@ -706,21 +727,63 @@ const fetchToGetFav = async (token, contRemoved) => {
     .then( (data) => data.json());
 
     if(response.OK === 1) {
-      console.log(response);
+
       let courses = response.fav;
-      console.log(courses);
+
       courses.map( (course, index) => {
         // favCompScreen(course);
         resultCompFav(course, index);
       });
       fn.remover(contRemoved);
 
-    }else {
-      alert('No tienes favoritos, mamarracho');
     };
 
 };
+const fetchToResetPass = async (token, pass, contRemoved) => {
+  console.log(4123412341243, pass);
+
+  const options = {
+    method: 'POST',
+    headers: { 'Authorization': `bearer ${token}`, 'Content-type': 'application/json' },
+    body: JSON.stringify({pass})
+  };
+
+  const response = await fetch(
+    `http://localhost:3000/changepass`,
+    options,
+  ).then((data) => data.json());
+  console.log(response);
+
+  if(response.OK === 1) {
+    contRemoved.remove();
+    logInCompScreen();
+  };
+
+};
+const fetchToSendMail = async (email) => {
+
+  const options = {
+    method: 'POST',
+    headers: { 'Content-type': 'application/json' },
+    body: JSON.stringify({email})
+  };
+
+  const response = await fetch(
+    `http://localhost:3000/newpass`,
+    options,
+  ).then((data) => data.json());
+  console.log(response);
+
+  // if(response.OK === 1) {
+  //   contRemoved.remove();
+  //   init();
+  // };
+
+};
+
 // -------------------------------------------------------------------------FETCHING
+
+
 
 
 
@@ -854,7 +917,7 @@ const logInCompScreen = () => {
   // RESET PASSWORD
   btnVerify.addEventListener('click', () => {
     fn.remover(loginCont);
-    resetPassScreen();
+    resetPassMailScreen();
   });
 
   // GO TO HOME AFTER LOGIN
@@ -951,118 +1014,8 @@ const profileCompScreen = () => {
   fn.appendElement(googleSyncBox, googleSync);
 };
 
-
-
-//  FAVORITOS
-// const favCompScreen = (course) => {
-
-//   let body = fn.querySelection('body');
-//   let favMainCont = fn.querySelection('.main__cont');
-//     fn.appendElement(body, favMainCont);
-//   const compCont = fn.createElement('div', 'fav__main-cont');
-
-//   const btnFavBox = fn.createElement('div', 'btn__prof-box');
-
-//   fn.appendElement(favMainCont, btnFavBox);
-//   const btnFavHome = fn.createElement('button', 'btn__home');
-//   fn.appendElement(btnFavBox, btnFavHome);
-//   btnFavHome.textContent = 'Home';
-//   const btnFavLogOut = fn.createElement('button', 'btn__prof-logout');
-//   fn.appendElement(btnFavBox, btnFavLogOut);
-//   btnFavLogOut.textContent = 'Log out';
-
-
-//   const favInputBox = fn.createElement('div', 'favinput__search-box');
-//   fn.appendElement(favMainCont, favInputBox);
-//   const favInput = fn.createElement('input', 'favinput__search');
-//   fn.appendElement(favInputBox, favInput);
-
-//   const favBtnSearchBox = fn.createElement('div', 'favBtn__search-box');
-//   fn.appendElement(favInputBox, favBtnSearchBox);
-//   const favBtnSearch = fn.createElement('button', 'favBtn__search');
-//   fn.appendElement(favBtnSearchBox, favBtnSearch);
-//   favBtnSearch.textContent = 'Search';
-
-//   const favCont = fn.createElement('div', 'fav__cont');
-//     fn.appendElement(compCont, favCont);
-//     fn.addClass(favCont, 'wrapper');
-//   const courseComponents = fn.createElement('div', 'course__components');
-//     fn.appendElement(favCont, courseComponents);
-
-//   const imgBox = fn.createElement('div', 'img__box');
-//   fn.appendElement(courseComponents, imgBox);
-//   const img = fn.createElement('img');
-//   img.src = `${course.image}`;
-//     fn.appendElement(imgBox, img);
-
-//   // Click a la imagen para ir a vista detalle
-//   img.addEventListener('click', (e) => {
-//     e.preventDefault();
-//     window.open(`${course.url}`);
-//   });
-
-//   const priceBox = fn.createElement('div', 'price__box');
-//   const price = fn.createElement('h2');
-//   price.textContent = `${course.price}`;
-//   fn.appendElement(imgBox, priceBox);
-//   fn.appendElement(priceBox, price);
-
-//   const titleBox = fn.createElement('h3', 'title__box');
-//   const title = fn.createElement('h3');
-//   title.textContent = `${course.title}`;
-//   fn.appendElement(courseComponents, titleBox);
-//   fn.appendElement(titleBox, title);
-
-//   if (logged) {
-//     const btnFav = fn.createElement('button', 'btnFav');
-//     fn.appendElement(titleBox, btnFav);
-//     btnFav.textContent = 'FAVBTN';
-//   }
-
-//   // Click al título para ir a vista detalle
-//   title.addEventListener('click', (e) => {
-//     e.preventDefault();
-//     window.open(`${course.url}`);
-//   });
-
-//   const descriptionBox = fn.createElement('div', 'description__box');
-//   const description = fn.createElement('p');
-//   description.textContent = `${course.resume}`;
-
-//   fn.appendElement(courseComponents, descriptionBox);
-//   fn.appendElement(descriptionBox, description);
-
-//   const ratingBox = fn.createElement('div', 'rating__box');
-//   const rating = fn.createElement('p');
-//   rating.textContent = `${course.currentRating}`;
-
-//   fn.appendElement(courseComponents, ratingBox);
-//   fn.appendElement(ratingBox, rating);
-
-//   const courseLevelBox = fn.createElement('div', 'course__level-box');
-//   const courseLevel = fn.createElement('p');
-//   courseLevel.textContent = `${course.level}`;
-
-//   fn.appendElement(courseComponents, courseLevelBox);
-//   fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
-
-//   // Botón Home
-//   btnFavHome.addEventListener('click', () => {
-//     favMainCont.remove();
-//     console.log(5555);
-    
-//   });
-
-//   // Botón Log out
-//   btnFavLogOut.addEventListener('click', () => {
-//     favCont.remove();
-//     init();
-//   });
-// };
-
-
 //  RESET PASSWORD
-const resetPassScreen = () => {
+const resetPassScreen = (token) => {
   const mainCont = fn.querySelection('.main__cont');
   // fn.remover(container);
   const resetCont = fn.createElement('div', 'reset__cont');
@@ -1078,8 +1031,6 @@ const resetPassScreen = () => {
 
   const resetInputsBox = fn.createElement('div', 'input__box-reset');
   fn.appendElement(resetCont, resetInputsBox);
-  const inputResetMail = fn.createElement('input', 'input__mail-reset');
-  fn.appendElement(resetInputsBox, inputResetMail);
   const inputResetPass = fn.createElement('input', 'input__pass-reset');
   fn.appendElement(resetInputsBox, inputResetPass);
 
@@ -1090,8 +1041,49 @@ const resetPassScreen = () => {
   btnResetSend.textContent = 'Send';
 
   btnResetHome.addEventListener('click', () => {
-    resetCont.remove();
+    mainCont.remove();
     init();
   });
+
+  btnResetSend.addEventListener('click', () => {
+    let pass = inputResetPass.value;
+    let homeCont = fn.querySelection('.home__cont');
+
+    fetchToResetPass(token, pass, resetCont);
+    
+  });
+
+
+};
+
+
+const resetPassMailScreen = () => {
+  const mainCont = fn.querySelection('.main__cont');
+  const resetMailCont = fn.createElement('div', 'reset__mail-cont');
+  fn.addClass(resetMailCont, 'wrapper');
+  fn.appendElement(mainCont, resetMailCont);
+
+  const btnResetMailBox = fn.createElement('div', 'btn__reset-mailBox');
+  const btnResetMailHome = fn.createElement('button', 'btn__reset-mailHome');
+  btnResetMailHome.textContent = 'Home';
+  fn.appendElement(resetMailCont, btnResetMailBox); 
+  fn.appendElement(btnResetMailBox, btnResetMailHome); 
+
+  const inputMailResetBox = fn.createElement('div', 'input__mail-resetBox');
+  const inputResetMail = fn.createElement('input', 'input__mail-reset');
+  const btnResetMailSend = fn.createElement('button', 'btn__mail-reset');
+  btnResetMailSend.textContent = 'Send';
+  fn.appendElement(resetMailCont, inputMailResetBox);
+  fn.appendElement(inputMailResetBox, inputResetMail);
+  fn.appendElement(inputMailResetBox, btnResetMailSend);
+
+  btnResetMailSend.addEventListener('click', () => {
+    let email = inputResetMail.value;
+    fetchToSendMail(email);
+    console.log(email);
+    mainCont.remove();
+    init();
+  });
+
 };
 //-----------------------------------------------------------------------PANTALLAS
