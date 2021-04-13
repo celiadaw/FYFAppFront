@@ -3,7 +3,129 @@ import * as fn from './js/fn.js';
 //variable global que guardará los cursos para no tener que pedir la búsqueda de nuevo a back si no es necesario
 let globalCourses = [];
 let logged = false;
+const courses = [
+  {
+    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9iYWNrLWVkZ2UtZGVzYXJyb2xsby13ZWItYWwtbGltaXRlLW5vZGVqcy1lczYtbnBtLW1vbmdvZGI',
+    title: 'Back Edge, desarrollo web al límite, NodeJS, ES6, npm, MongoDB',
+    resume: 'Desarrollo de aplicaciones web con las últimas tecnologías alrededor de NodeJS y del mundo backend',
+    image: 'https://escuela.it//storage/course_images_thumbnail/thumbnail-imagen-curso-backedge-49.jpg',
+    level: 2,
+    url: 'https://escuela.it/cursos/back-edge-desarrollo-web-al-limite-nodejs-es6-npm-mongodb',
+    popularity: 4.857142857142857,
+    tags: '  Express NodeJS Javascript Backend backend  Express NodeJS Javascript Backend ',
+    price: '89€',
+    currentRating: '5',
+    author: 'Alberto Basalo'
+  },
+  {
+    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1kZS1kZXNhcnJvbGxvLWF2YW56YWRvLWNvbi1hbmd1bGFyanMtMTUteS10ZWNub2xvZ2lhcy1qYXZhc2NyaXB0',
+    title: 'Curso de Desarrollo avanzado con AngularJS 1.5 y tecnologías JavaScript',
+    resume: 'Un curso completo donde aprenderás a crear paso a paso aplicaciones Front-end',
+    image: 'https://escuela.it//storage/course_images_thumbnail/thumbnail-imagen-curso-angularjs-31.jpg',
+    level: 2,
+    url: 'https://escuela.it/cursos/curso-de-desarrollo-avanzado-con-angularjs-15-y-tecnologias-javascript',
+    popularity: 0.16666666666666666,
+    tags: '  NodeJS AngularJS frontend backend  NodeJS AngularJS ',
+    price: '60€',
+    currentRating: '4',
+    author: 'Alberto Basalo'
+  },
+  {
+    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1kZS1ub2RlanM',
+    title: 'Curso de NodeJS',
+    resume: 'Curso de básico a avanzado para el desarrollo en NodeJS',
+    image: 'https://escuela.it//storage/course_images_thumbnail/thumbnail-imagen-curso-nodejs-16.jpg',
+    level: 2,
+    url: 'https://escuela.it/cursos/curso-de-nodejs',
+    popularity: 3.55,
+    tags: '  NodeJS frontend backend  NodeJS ',
+    price: '99€',
+    currentRating: '5',
+    author: 'Jonathan MirCha'
+  },
+  {
+    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9maXJlYmFzZS1kZXNkZS1ub2RlanMtc2RrLWZpcmViYXNlLWFkbWlu',
+    title: 'Firebase desde NodeJS: SDK firebase-admin',
+    resume: 'Estudio con carácter práctico del SDK de administración de Firebase 3, desde el lado del servidor con NodeJS',
+    image: 'https://escuela.it//storage/course_images_thumbnail/thumbnail-firebase-48.jpg',
+    level: 2,
+    url: 'https://escuela.it/cursos/firebase-desde-nodejs-sdk-firebase-admin',
+    popularity: 2.25,
+    tags: '  Backend Firebase frontend backend apps  Backend Firebase ',
+    price: '49€',
+    currentRating: '5',
+    author: 'Miguel Angel Alvarez'
+  },
+  {
+    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9kZXBsb3ktYXBsaWNhY2lvbmVzLW5vZGVqcw',
+    title: 'Curso de Deploy de Aplicaciones NodeJS',
+    resume: 'Aprende a llevar a producción aplicaciones NodeJS, mediante varias alternativas y las mejores prácticas',
+    image: 'https://escuela.it//storage/course_images_thumbnail/thumbnail-deploy-apps-nodejs-32.jpg',
+    level: 2,
+    url: 'https://escuela.it/cursos/deploy-aplicaciones-nodejs',
+    popularity: 3.391304347826087,
+    tags: '  NodeJS DevOps backend  NodeJS DevOps ',
+    price: '75€',
+    currentRating: '5',
+    author: 'Miguel Angel AlvarezAlberto BasaloAndres CenciJavier Riera Peiro'
+  },
+  {
+    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1kZS1ncmFwaHFsLXktbm9kZUpT',
+    title: 'Curso de GraphQL y NodeJS',
+    resume: 'Aprende a implementar GraphQL con Node para construir APIs potentes y rápidas',
+    image: 'https://escuela.it//storage/course_images_thumbnail/thumbnail-curso-graphql-31.jpg',
+    level: 2,
+    url: 'https://escuela.it/cursos/curso-de-graphql-y-nodeJS',
+    popularity: 7.888888888888889,
+    tags: '  NodeJS Backend backend  NodeJS Backend ',
+    price: '65€',
+    currentRating: '4',
+    author: 'Nicolas Molina'
+  },
+  {
+    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1ub2RlLWRlc2Fycm9sbGFkb3Jlcy1qYXZhc2NyaXB0',
+    title: 'Curso de Node para desarrolladores Javascript',
+    resume: 'Aprende NodeJS, Express, MongoDB y otras tecnologías del lado del servidor con Javascript',
+    image: 'https://escuela.it//storage/course_images_thumbnail/curso-express-nodejs-mini-65.jpg',
+    level: 2,
+    url: 'https://escuela.it/cursos/curso-node-desarrolladores-javascript',
+    popularity: 17.833333333333332,
+    tags: '  NodeJS backend  NodeJS ',
+    price: '69€',
+    currentRating: '5',
+    author: 'Mario Romero'
+  },
+  {
+    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1ucG0',
+    title: 'Curso de npm',
+    resume: 'Aprovecha las funciones más útiles y desconocidas de npm',
+    image: 'https://escuela.it//storage/course_images_thumbnail/imagen-curso-npm-mini-97.jpg',
+    level: 2,
+    url: 'https://escuela.it/cursos/curso-npm',
+    popularity: 7.166666666666667,
+    tags: '  NodeJS Javascript DevOps frontend backend  NodeJS Javascript DevOps ',
+    price: '65€',
+    currentRating: '4',
+    author: 'Mateo Tibaquirá'
+  },
+  {
+    id: 'aHR0cHM6Ly9lc2N1ZWxhLml0L2N1cnNvcy9jdXJzby1kZS1kZW5v',
+    title: 'Curso de Deno',
+    resume: 'Aprende Deno, la nueva plataforma de ejecución de Javascript para el servidor, evolución de NodeJS',
+    image: 'https://escuela.it//storage/course_images_thumbnail/fXsK9aCzgdGgv5W8yrjEN5s9u0qoBTCy6KcW5XCF.jpeg',
+    level: 2,
+    url: 'https://escuela.it/cursos/curso-de-deno',
+    popularity: 9.6,
+    tags: '  NodeJS Javascript Backend backend  NodeJS Javascript Backend ',
+    price: '65€',
+    currentRating: '5',
+    author: 'César Alberca'
+  }
+]
 
+
+
+// MAIN HTML-----------------------------------------------------------------------
 const mainHtml = () => {
 
   const body = fn.querySelection('body');
@@ -22,12 +144,12 @@ const btnLogsHtml = () => {
   const mainCont = fn.querySelection('.main__cont');
   const homeCont = fn.querySelection('.home__cont');
   const btnLogsBox = fn.createElement('div', 'btn__logs-box');
-  const btnLogs = fn.createElement('a', 'btn__logs');
+  const btnLogs = fn.createElement('button', 'btn__logs');
   fn.appendElement(homeCont, btnLogsBox);
 
   if (logged) {
-    const btnFavs = fn.createElement('a', 'btn__favs');
-    const btnProfile = fn.createElement('a', 'btn__profile');
+    const btnFavs = fn.createElement('button', 'btn__favs');
+    const btnProfile = fn.createElement('button', 'btn__profile');
 
     fn.appendElement(btnLogsBox, btnProfile);
     fn.appendElement(btnLogsBox, btnFavs);
@@ -53,10 +175,21 @@ const btnLogsHtml = () => {
 
     // Botón Favoritos
     btnFavs.addEventListener('click', () => {
-      favCompScreen(course);
+      let token = localStorage.getItem('Token');
+      // favCompScreen(course);
+      let comp = document.querySelectorAll('.course__components');
+      if (comp.length !== 0) {
+        comp.forEach((cur) => {
+          cur.remove();
+        });
+      }
+      headerCompFav();
+      fetchToGetFav(token, homeCont);
+
     });
+
   } else {
-    const btnSignUp = fn.createElement('a', 'btn__sign-up');
+    const btnSignUp = fn.createElement('button', 'btn__sign-up');
 
     fn.appendElement(btnLogsBox, btnSignUp);
     fn.appendElement(btnLogsBox, btnLogs);
@@ -68,13 +201,29 @@ const btnLogsHtml = () => {
     let homeCont = fn.querySelection('.home__cont');
     btnSignUp.addEventListener('click', () => {
       homeCont.remove();
+      let comp = document.querySelectorAll('.course__components');
+      if (comp.length !== 0) {
+        comp.forEach((cur) => {
+          cur.remove();
+        });
+      };
+
       signUpCompScreen();
+
     });
 
     // LOGIN BTN
     btnLogs.addEventListener('click', () => {
       homeCont.remove();
+      let comp = document.querySelectorAll('.course__components');
+      if (comp.length !== 0) {
+        comp.forEach((cur) => {
+          cur.remove();
+        });
+      };
+
       logInCompScreen();
+
     });
 
     // Botón de log in-------
@@ -131,13 +280,13 @@ const inputBox = () => {
     }
 
     let appTitle = fn.querySelection('.main__title-box');
-    const param = input.value;
+    const param = input.value.trim();
 
     fetchToAllCourses(param, appTitle);
     input.value = '';
+
   });
 };
-
 const fetchToAuth = async (token) => {
   const options = {
     method: 'GET',
@@ -156,7 +305,6 @@ const fetchToAuth = async (token) => {
     return false;
   }
 };
-
 const init = async () => {
   if (localStorage.getItem('Token')) {
     let token = localStorage.getItem('Token');
@@ -179,9 +327,11 @@ const init = async () => {
   }
 };
 init();
+// ----------------------------------------------------------------------- MAIN HTML
 
+// RESULTADOS DE LA BÚSQUEDA-------------------------------------------------------
 const resultComp = (course, index) => {
-  let container = fn.querySelection('.home__cont');
+  let container = fn.querySelection('.main__cont');
 
   const courseComponents = fn.createElement('div', 'course__components');
 
@@ -221,8 +371,10 @@ const resultComp = (course, index) => {
     btnFav.addEventListener('click', () => {
       if (course.favorito) {
         if (fetchToDelFav(course)) {
-          btnFav.classList.remove('fas');
-          btnFav.classList.add('far');
+          // btnFav.classList.remove('fas');
+          fn.removeClass(btnFav, 'fas');
+          // btnFav.classList.add('far');
+          fn.addClass(btnFav, 'far');
           course.favorito = false;
           globalCourses[index].favorito = false;
         } else {
@@ -230,10 +382,13 @@ const resultComp = (course, index) => {
         }
       } else {
         if (fetchToAddFav(course, index)) {
-          btnFav.classList.remove('far');
-          btnFav.classList.add('fas');
+          // btnFav.classList.remove('far');
+          fn.removeClass(btnFav, 'far');
+          // btnFav.classList.add('fas');
+          fn.addClass(btnFav, 'fas');
           course.favorito = true;
           globalCourses[index].favorito = true;
+          
         } else {
           console.error('No se ha podido añadir favorito ', course.url);
         }
@@ -270,8 +425,127 @@ const resultComp = (course, index) => {
   fn.appendElement(courseComponents, courseLevelBox);
   fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
 };
+// -----------------------------------------------------------RESULTADOS DE LA BÚSQUEDA
 
-// OBTENER TODOS LOS RESULTADOS DE UNA BUSQUEDA
+// BOTONES DE CONTENEDOR FAV
+const headerCompFav = () => {
+  let body = fn.querySelection('body');
+  const btnFavBox = fn.createElement('div', 'btn__fav-box');
+  const btnHomeFav = fn.createElement('button', 'btn__home-fav');
+    btnHomeFav.textContent = 'Home';
+  const btnHomeLogOut = fn.createElement('button', 'btn__home-fav');
+    btnHomeLogOut.textContent = 'Log out';
+    fn.appendElement(body, btnFavBox);
+    fn.appendElement(btnFavBox, btnHomeFav);
+    fn.appendElement(btnFavBox, btnHomeLogOut);
+
+    // let btnCont = fn.querySelection('.btn__fav-box');
+    
+
+  // Botón para volver al home
+    btnHomeFav.addEventListener('click', () => {
+      
+      btnFavBox.remove();
+      let cont = fn.querySelection('.main__cont');
+      cont.remove();
+      init();
+    });
+
+    // Botón log out
+    btnHomeLogOut.addEventListener('click', () => {
+      let cont = fn.querySelection('.main__cont');
+      let token = localStorage.getItem('Token');
+      fetchToLogOut(token, btnFavBox);
+      cont.remove();
+    });
+};
+// RESULTADOS CONTENEDOR FAV
+const resultCompFav = (course, index) => {
+
+  let body = fn.querySelection('body');
+  let container = fn.querySelection('.main__cont');
+    fn.appendElement(body, container);
+
+  const courseComponents = fn.createElement('div', 'course__components');
+
+  const imgBox = fn.createElement('div', 'img__box');
+  const img = fn.createElement('img');
+  img.src = `${course.image}`;
+
+  fn.appendElement(container, courseComponents);
+  fn.appendElement(courseComponents, imgBox);
+  fn.appendElement(imgBox, img);
+
+  img.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.open(`${course.url}`);
+  });
+
+  const priceBox = fn.createElement('div', 'price__box');
+  const price = fn.createElement('h2');
+  price.textContent = `${course.price}`;
+
+  fn.appendElement(imgBox, priceBox);
+  fn.appendElement(priceBox, price);
+
+  const titleBox = fn.createElement('h3', 'title__box');
+  const title = fn.createElement('h3');
+  title.textContent = `${course.title}`;
+
+
+  const btnFav = fn.createElement('a', 'btnFav');
+  fn.appendElement(titleBox, btnFav);
+
+
+  btnFav.classList.add('fa-3x', 'fas', 'fa-thumbs-up');
+  
+  btnFav.addEventListener('click', () => {
+
+    console.log(course);
+    if (fetchToDelFav(course)) {
+      courseComponents.remove();
+    } else {
+      alert('No se ha podido borrar');
+    }
+    
+  });
+  
+
+  title.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.open(`${course.url}`);
+  });
+
+  fn.appendElement(courseComponents, titleBox);
+  fn.appendElement(titleBox, title);
+
+  const descriptionBox = fn.createElement('div', 'description__box');
+  const description = fn.createElement('p');
+  description.textContent = `${course.resume}`;
+
+  fn.appendElement(courseComponents, descriptionBox);
+  fn.appendElement(descriptionBox, description);
+
+  const ratingBox = fn.createElement('div', 'rating__box');
+  const rating = fn.createElement('p');
+  rating.textContent = `${course.currentRating}`;
+
+  fn.appendElement(courseComponents, ratingBox);
+  fn.appendElement(ratingBox, rating);
+
+  const courseLevelBox = fn.createElement('div', 'course__level-box');
+  const courseLevel = fn.createElement('p');
+  courseLevel.textContent = `${course.level}`;
+
+  fn.appendElement(courseComponents, courseLevelBox);
+  fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
+};
+
+
+
+
+
+// OBTENER TODOS LOS RESULTADOS DE UNA BUSQUEDA-----------------------------FETCHING
 const fetchToAllCourses = async (param, contRemoved) => {
   if (param.length === 0) {
     return alert('Search field must be contain any parameter to search');
@@ -387,7 +661,6 @@ const fetchToLogOut = async (token, contRemoved) => {
     return alert('Incorrect data');
   }
 };
-
 // AÑADIR FAVORITO
 const fetchToAddFav = async (course, index) => {
   // const courseFav{ author, currentRating, image, level, popularity, price, resume, title, url } = course;
@@ -407,7 +680,7 @@ const fetchToAddFav = async (course, index) => {
   globalCourses[index].favoritoID = response.insertId;
   return response.OK;
 };
-
+// QUITAR FAVORITO
 const fetchToDelFav = async (course) => {
   const token = localStorage.getItem('Token');
   const options = {
@@ -424,11 +697,35 @@ const fetchToDelFav = async (course) => {
   ).then((data) => data.json());
   return response.OK;
 };
+const fetchToGetFav = async (token, contRemoved) => {
 
-// QUITAR FAVORITO
-const fetchToRemoveFav = async () => {};
+  const options = {
+    headers: { 'Authorization': `bearer ${token}` }
+  }
+  const response = await fetch(`http://localhost:3000/courses/fav`, options)
+    .then( (data) => data.json());
 
-// PANTALLAS DE SIGN UP Y SIGN IN
+    if(response.OK === 1) {
+      console.log(response);
+      let courses = response.fav;
+      console.log(courses);
+      courses.map( (course, index) => {
+        // favCompScreen(course);
+        resultCompFav(course, index);
+      });
+      fn.remover(contRemoved);
+
+    }else {
+      alert('No tienes favoritos, mamarracho');
+    };
+
+};
+// -------------------------------------------------------------------------FETCHING
+
+
+
+// PANTALLAS-----------------------------------------------------------------------
+//  SIGN UP 
 const signUpCompScreen = () => {
   const mainCont = fn.querySelection('.main__cont');
   // fn.remover(container);
@@ -493,8 +790,9 @@ const signUpCompScreen = () => {
     inputPass.value = '';
   });
 };
-
+//  LOG IN
 const logInCompScreen = () => {
+
   const mainCont = fn.querySelection('.main__cont');
   // fn.remover(container);
   const loginCont = fn.createElement('div', 'login__cont');
@@ -504,7 +802,7 @@ const logInCompScreen = () => {
   const btnHomeBoxSignUp = fn.createElement('div', 'btn__home-box-signup');
   fn.appendElement(loginCont, btnHomeBoxSignUp);
 
-  const btnHome = fn.createElement('a', 'btn__home-signup');
+  const btnHome = fn.createElement('button', 'btn__home-signup');
   btnHome.textContent = 'Home';
   fn.appendElement(btnHomeBoxSignUp, btnHome);
 
@@ -568,7 +866,7 @@ const logInCompScreen = () => {
   });
 };
 
-// PANTALLA DE PROFILE
+//  PROFILE
 const profileCompScreen = () => {
   const body = fn.querySelection('body');
 
@@ -641,8 +939,8 @@ const profileCompScreen = () => {
 
   // Botón Log out
   btnProfLogOut.addEventListener('click', () => {
-    profCont.remove();
-    init();
+    let token = localStorage.getItem('Token');
+    fetchToLogOut(token, profCont)
   });
 
   // Botón de google
@@ -653,110 +951,117 @@ const profileCompScreen = () => {
   fn.appendElement(googleSyncBox, googleSync);
 };
 
-// PANTALLA DE FAVORITOS
-const favCompScreen = (course) => {
-  let removeCont = fn.querySelection('.main__cont');
-  removeCont.remove();
 
-  let body = fn.querySelection('body');
 
-  const favCont = fn.createElement('div', 'fav__cont');
-  fn.addClass(favCont, 'wrapper');
-  fn.appendElement(body, favCont);
-  const btnFavBox = fn.createElement('div', 'btn__prof-box');
-  fn.appendElement(favCont, btnFavBox);
-  const btnFavHome = fn.createElement('button', 'btn__home');
-  fn.appendElement(btnFavBox, btnFavHome);
-  btnFavHome.textContent = 'Home';
-  const btnFavLogOut = fn.createElement('button', 'btn__prof-logout');
-  fn.appendElement(btnFavBox, btnFavLogOut);
-  btnFavLogOut.textContent = 'Log out';
+//  FAVORITOS
+// const favCompScreen = (course) => {
 
-  const favInputBox = fn.createElement('div', 'favinput__search-box');
-  fn.appendElement(favCont, favInputBox);
-  const favInput = fn.createElement('input', 'favinput__search');
-  fn.appendElement(favInputBox, favInput);
+//   let body = fn.querySelection('body');
+//   let favMainCont = fn.querySelection('.main__cont');
+//     fn.appendElement(body, favMainCont);
+//   const compCont = fn.createElement('div', 'fav__main-cont');
 
-  const favBtnSearchBox = fn.createElement('div', 'favBtn__search-box');
-  fn.appendElement(favInputBox, favBtnSearchBox);
-  const favBtnSearch = fn.createElement('button', 'favBtn__search');
-  fn.appendElement(favBtnSearchBox, favBtnSearch);
-  favBtnSearch.textContent = 'Search';
+//   const btnFavBox = fn.createElement('div', 'btn__prof-box');
 
-  const courseComponents = fn.createElement('div', 'course__components');
-  fn.appendElement(favCont, courseComponents);
+//   fn.appendElement(favMainCont, btnFavBox);
+//   const btnFavHome = fn.createElement('button', 'btn__home');
+//   fn.appendElement(btnFavBox, btnFavHome);
+//   btnFavHome.textContent = 'Home';
+//   const btnFavLogOut = fn.createElement('button', 'btn__prof-logout');
+//   fn.appendElement(btnFavBox, btnFavLogOut);
+//   btnFavLogOut.textContent = 'Log out';
 
-  const imgBox = fn.createElement('div', 'img__box');
-  fn.appendElement(courseComponents, imgBox);
-  const img = fn.createElement('img');
-  img.src = `${course.image}`;
-  fn.appendElement(imgBox, img);
 
-  // Click a la imagen para ir a vista detalle
-  img.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.open(`${course.url}`);
-  });
+//   const favInputBox = fn.createElement('div', 'favinput__search-box');
+//   fn.appendElement(favMainCont, favInputBox);
+//   const favInput = fn.createElement('input', 'favinput__search');
+//   fn.appendElement(favInputBox, favInput);
 
-  const priceBox = fn.createElement('div', 'price__box');
-  const price = fn.createElement('h2');
-  price.textContent = `${course.price}`;
-  fn.appendElement(imgBox, priceBox);
-  fn.appendElement(priceBox, price);
+//   const favBtnSearchBox = fn.createElement('div', 'favBtn__search-box');
+//   fn.appendElement(favInputBox, favBtnSearchBox);
+//   const favBtnSearch = fn.createElement('button', 'favBtn__search');
+//   fn.appendElement(favBtnSearchBox, favBtnSearch);
+//   favBtnSearch.textContent = 'Search';
 
-  const titleBox = fn.createElement('h3', 'title__box');
-  const title = fn.createElement('h3');
-  title.textContent = `${course.title}`;
-  fn.appendElement(courseComponents, titleBox);
-  fn.appendElement(titleBox, title);
+//   const favCont = fn.createElement('div', 'fav__cont');
+//     fn.appendElement(compCont, favCont);
+//     fn.addClass(favCont, 'wrapper');
+//   const courseComponents = fn.createElement('div', 'course__components');
+//     fn.appendElement(favCont, courseComponents);
 
-  if (logged) {
-    const btnFav = fn.createElement('button', 'btnFav');
-    fn.appendElement(titleBox, btnFav);
-    btnFav.textContent = 'FAVBTN';
-  }
+//   const imgBox = fn.createElement('div', 'img__box');
+//   fn.appendElement(courseComponents, imgBox);
+//   const img = fn.createElement('img');
+//   img.src = `${course.image}`;
+//     fn.appendElement(imgBox, img);
 
-  // Click al título para ir a vista detalle
-  title.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.open(`${course.url}`);
-  });
+//   // Click a la imagen para ir a vista detalle
+//   img.addEventListener('click', (e) => {
+//     e.preventDefault();
+//     window.open(`${course.url}`);
+//   });
 
-  const descriptionBox = fn.createElement('div', 'description__box');
-  const description = fn.createElement('p');
-  description.textContent = `${course.resume}`;
+//   const priceBox = fn.createElement('div', 'price__box');
+//   const price = fn.createElement('h2');
+//   price.textContent = `${course.price}`;
+//   fn.appendElement(imgBox, priceBox);
+//   fn.appendElement(priceBox, price);
 
-  fn.appendElement(courseComponents, descriptionBox);
-  fn.appendElement(descriptionBox, description);
+//   const titleBox = fn.createElement('h3', 'title__box');
+//   const title = fn.createElement('h3');
+//   title.textContent = `${course.title}`;
+//   fn.appendElement(courseComponents, titleBox);
+//   fn.appendElement(titleBox, title);
 
-  const ratingBox = fn.createElement('div', 'rating__box');
-  const rating = fn.createElement('p');
-  rating.textContent = `${course.currentRating}`;
+//   if (logged) {
+//     const btnFav = fn.createElement('button', 'btnFav');
+//     fn.appendElement(titleBox, btnFav);
+//     btnFav.textContent = 'FAVBTN';
+//   }
 
-  fn.appendElement(courseComponents, ratingBox);
-  fn.appendElement(ratingBox, rating);
+//   // Click al título para ir a vista detalle
+//   title.addEventListener('click', (e) => {
+//     e.preventDefault();
+//     window.open(`${course.url}`);
+//   });
 
-  const courseLevelBox = fn.createElement('div', 'course__level-box');
-  const courseLevel = fn.createElement('p');
-  courseLevel.textContent = `${course.level}`;
+//   const descriptionBox = fn.createElement('div', 'description__box');
+//   const description = fn.createElement('p');
+//   description.textContent = `${course.resume}`;
 
-  fn.appendElement(courseComponents, courseLevelBox);
-  fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
+//   fn.appendElement(courseComponents, descriptionBox);
+//   fn.appendElement(descriptionBox, description);
 
-  // Botón Home
-  btnFavHome.addEventListener('click', () => {
-    favCont.remove();
-    init();
-  });
+//   const ratingBox = fn.createElement('div', 'rating__box');
+//   const rating = fn.createElement('p');
+//   rating.textContent = `${course.currentRating}`;
 
-  // Botón Log out
-  btnFavLogOut.addEventListener('click', () => {
-    favCont.remove();
-    init();
-  });
-};
+//   fn.appendElement(courseComponents, ratingBox);
+//   fn.appendElement(ratingBox, rating);
 
-// PANTALLA DE RESET PASSWORD
+//   const courseLevelBox = fn.createElement('div', 'course__level-box');
+//   const courseLevel = fn.createElement('p');
+//   courseLevel.textContent = `${course.level}`;
+
+//   fn.appendElement(courseComponents, courseLevelBox);
+//   fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
+
+//   // Botón Home
+//   btnFavHome.addEventListener('click', () => {
+//     favMainCont.remove();
+//     console.log(5555);
+    
+//   });
+
+//   // Botón Log out
+//   btnFavLogOut.addEventListener('click', () => {
+//     favCont.remove();
+//     init();
+//   });
+// };
+
+
+//  RESET PASSWORD
 const resetPassScreen = () => {
   const mainCont = fn.querySelection('.main__cont');
   // fn.remover(container);
@@ -789,3 +1094,4 @@ const resetPassScreen = () => {
     init();
   });
 };
+//-----------------------------------------------------------------------PANTALLAS
