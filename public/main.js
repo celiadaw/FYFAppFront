@@ -148,6 +148,72 @@ const courses = [
     author: 'César Alberca',
   },
 ];
+//  RESET PASSWORD
+const resetPassScreen = (token) => {
+  const mainCont = fn.querySelection('.main__cont');
+  // fn.remover(container);
+  const resetCont = fn.createElement('div', 'reset__cont');
+  fn.addClass(resetCont, 'wrapper');
+  fn.appendElement(mainCont, resetCont);
+
+  const btnResetHomeBox = fn.createElement('div', 'btn__home-box-reset');
+  fn.appendElement(resetCont, btnResetHomeBox);
+
+  const btnResetHome = fn.createElement('button', 'btn__home-reset');
+  btnResetHome.textContent = 'Home';
+  fn.appendElement(btnResetHomeBox, btnResetHome);
+
+  const resetInputsBox = fn.createElement('div', 'input__box-reset');
+  fn.appendElement(resetCont, resetInputsBox);
+  const inputResetPass = fn.createElement('input', 'input__pass-reset');
+  fn.appendElement(resetInputsBox, inputResetPass);
+
+  const btnResetSendBox = fn.createElement('div', 'btn__reset-box');
+  fn.appendElement(resetCont, btnResetSendBox);
+  const btnResetSend = fn.createElement('button', 'btn__send');
+  fn.appendElement(btnResetSendBox, btnResetSend);
+  btnResetSend.textContent = 'Send';
+
+  btnResetHome.addEventListener('click', () => {
+    mainCont.remove();
+    init();
+  });
+
+  btnResetSend.addEventListener('click', () => {
+    let pass = inputResetPass.value;
+    let homeCont = fn.querySelection('.home__cont');
+
+    fetchToResetPass(token, pass, resetCont);
+  });
+};
+
+const resetPassMailScreen = () => {
+  const mainCont = fn.querySelection('.main__cont');
+  const resetMailCont = fn.createElement('div', 'reset__mail-cont');
+  fn.addClass(resetMailCont, 'wrapper');
+  fn.appendElement(mainCont, resetMailCont);
+
+  const btnResetMailBox = fn.createElement('div', 'btn__reset-mailBox');
+  const btnResetMailHome = fn.createElement('button', 'btn__reset-mailHome');
+  btnResetMailHome.textContent = 'Home';
+  fn.appendElement(resetMailCont, btnResetMailBox);
+  fn.appendElement(btnResetMailBox, btnResetMailHome);
+
+  const inputMailResetBox = fn.createElement('div', 'input__mail-resetBox');
+  const inputResetMail = fn.createElement('input', 'input__mail-reset');
+  const btnResetMailSend = fn.createElement('button', 'btn__mail-reset');
+  btnResetMailSend.textContent = 'Send';
+  fn.appendElement(resetMailCont, inputMailResetBox);
+  fn.appendElement(inputMailResetBox, inputResetMail);
+  fn.appendElement(inputMailResetBox, btnResetMailSend);
+
+  btnResetMailSend.addEventListener('click', () => {
+    let email = inputResetMail.value;
+    fetchToSendMail(email);
+    mainCont.remove();
+    init();
+  });
+};
 
 // MAIN HTML-----------------------------------------------------------------------
 const mainHtml = () => {
@@ -358,6 +424,8 @@ const init = async () => {
 };
 init();
 // ----------------------------------------------------------------------- MAIN HTML
+
+//-----------------------------------------------------------------------PANTALLAS
 
 // RESULTADOS DE LA BÚSQUEDA-------------------------------------------------------
 const resultComp = (course, index) => {
@@ -751,7 +819,6 @@ const fetchToResetPass = async (token, pass, contRemoved) => {
     },
     body: JSON.stringify({ pass }),
   };
-
   const response = await fetch(
     `http://localhost:3000/changepass`,
     options,
@@ -1163,70 +1230,3 @@ const profileCompScreen = () => {
 //   });
 // };
 
-//  RESET PASSWORD
-const resetPassScreen = (token) => {
-  const mainCont = fn.querySelection('.main__cont');
-  // fn.remover(container);
-  const resetCont = fn.createElement('div', 'reset__cont');
-  fn.addClass(resetCont, 'wrapper');
-  fn.appendElement(mainCont, resetCont);
-
-  const btnResetHomeBox = fn.createElement('div', 'btn__home-box-reset');
-  fn.appendElement(resetCont, btnResetHomeBox);
-
-  const btnResetHome = fn.createElement('button', 'btn__home-reset');
-  btnResetHome.textContent = 'Home';
-  fn.appendElement(btnResetHomeBox, btnResetHome);
-
-  const resetInputsBox = fn.createElement('div', 'input__box-reset');
-  fn.appendElement(resetCont, resetInputsBox);
-  const inputResetPass = fn.createElement('input', 'input__pass-reset');
-  fn.appendElement(resetInputsBox, inputResetPass);
-
-  const btnResetSendBox = fn.createElement('div', 'btn__reset-box');
-  fn.appendElement(resetCont, btnResetSendBox);
-  const btnResetSend = fn.createElement('button', 'btn__send');
-  fn.appendElement(btnResetSendBox, btnResetSend);
-  btnResetSend.textContent = 'Send';
-
-  btnResetHome.addEventListener('click', () => {
-    mainCont.remove();
-    init();
-  });
-
-  btnResetSend.addEventListener('click', () => {
-    let pass = inputResetPass.value;
-    let homeCont = fn.querySelection('.home__cont');
-
-    fetchToResetPass(token, pass, resetCont);
-  });
-};
-
-const resetPassMailScreen = () => {
-  const mainCont = fn.querySelection('.main__cont');
-  const resetMailCont = fn.createElement('div', 'reset__mail-cont');
-  fn.addClass(resetMailCont, 'wrapper');
-  fn.appendElement(mainCont, resetMailCont);
-
-  const btnResetMailBox = fn.createElement('div', 'btn__reset-mailBox');
-  const btnResetMailHome = fn.createElement('button', 'btn__reset-mailHome');
-  btnResetMailHome.textContent = 'Home';
-  fn.appendElement(resetMailCont, btnResetMailBox);
-  fn.appendElement(btnResetMailBox, btnResetMailHome);
-
-  const inputMailResetBox = fn.createElement('div', 'input__mail-resetBox');
-  const inputResetMail = fn.createElement('input', 'input__mail-reset');
-  const btnResetMailSend = fn.createElement('button', 'btn__mail-reset');
-  btnResetMailSend.textContent = 'Send';
-  fn.appendElement(resetMailCont, inputMailResetBox);
-  fn.appendElement(inputMailResetBox, inputResetMail);
-  fn.appendElement(inputMailResetBox, btnResetMailSend);
-
-  btnResetMailSend.addEventListener('click', () => {
-    let email = inputResetMail.value;
-    fetchToSendMail(email);
-    mainCont.remove();
-    init();
-  });
-};
-//-----------------------------------------------------------------------PANTALLAS
