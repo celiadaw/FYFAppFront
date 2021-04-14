@@ -387,7 +387,7 @@ const fetchToAuth = async (token) => {
     options,
   ).then((data) => data.json());
 
-  if (response.OK === 1) {
+  if (response.OK === 1) {  
     return true;
   } else {
     return false;
@@ -404,9 +404,10 @@ const fetchGetCodeOauth = async (code, token) => {
     },
   };
   const response = await fetch(
-    `http://localhost:3000/google-vincular/${code}`,
+    `http://localhost:3000/google-vincular/code=${code}`,
     options,
   ).then((data) => data.json());
+  console.log("FETCH OK", response)
   return response.OK;
 };
 const init = async () => {
@@ -428,15 +429,14 @@ const init = async () => {
     history.pushState(null, '', '/');
     init();
   
-  } else if(window.location.pathname === '/vincular'){
+  } else if(window.location.pathname === '/vincular2'){
 
     let token = localStorage.getItem('Token');
     if (token){
       const code = window.location.search.split('=')[1];
       fetchGetCodeOauth(code, token);
-      }    
-    history.pushState(null, '', '/');
-    init();
+      history.pushState(null, '', '/');
+      } else init();
     
   }  
   else {
