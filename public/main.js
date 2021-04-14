@@ -219,11 +219,29 @@ const resetPassMailScreen = () => {
 const mainHtml = () => {
   const body = fn.querySelection('body');
   const mainCont = fn.createElement('main', 'main__cont');
+  fn.addClass(mainCont, 'bg');
+  const logoBox = fn.createElement('div', 'logo__box');
+  const jsLogo = fn.createElement('img', 'logo');
+  const nodeLogo = fn.createElement('img', 'logo');
+  const reactLogo = fn.createElement('img', 'logo');
+  const angularLogo = fn.createElement('img', 'logo');
+  jsLogo.src = './media/js.png';
+  nodeLogo.src = './media/node.png';
+  reactLogo.src = './media/react.png';
+  angularLogo.src = './media/angular.png';
     
 
   const container = fn.createElement('div', 'home__cont');
   fn.addClass(container, 'wrapper');
   fn.appendElement(body, mainCont);
+  fn.appendElement(mainCont, logoBox);
+
+  fn.appendElement(logoBox, jsLogo);
+  fn.appendElement(logoBox, nodeLogo);
+  fn.appendElement(logoBox, reactLogo);
+  fn.appendElement(logoBox, angularLogo);
+
+
   fn.appendElement(mainCont, container);
 
   return {
@@ -266,6 +284,8 @@ const btnLogsHtml = () => {
 
     // Botón Favoritos
     btnFavs.addEventListener('click', () => {
+      let bgCont = fn.querySelection('.main__cont');
+      fn.removeClass(bgCont, 'bg');
       let token = localStorage.getItem('Token');
       // favCompScreen(course);
       let comp = document.querySelectorAll('.course__components');
@@ -368,12 +388,17 @@ const inputBox = () => {
       comp.forEach((cur) => {
         cur.remove();
       });
-    }
+    };
 
     let appTitle = fn.querySelection('.main__title-box');
     const param = input.value.trim();
 
-    fetchToAllCourses(param, appTitle);
+    fetchToAllCourses(param);
+    let logoBoxAnimate = fn.querySelection('.logo__box');
+    if(logoBoxAnimate) {
+      logoBoxAnimate.remove();
+    }
+
     input.value = '';
   });
 };
@@ -417,9 +442,14 @@ const init = async () => {
   } else {
 
     if (globalCourses.length !== 0) {
+      
       mainHtml();
       btnLogsHtml();
       inputBox();
+      let logoBoxAnimate = fn.querySelection('.logo__box');
+      if(logoBoxAnimate) {
+        logoBoxAnimate.remove();
+      };
 
       globalCourses.map((cur, index) => {
         resultComp(cur, index);

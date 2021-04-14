@@ -1,3 +1,12 @@
+
+ :root {
+    --white: #fff;
+    --white-o: rgb(255, 255, 255);
+    --black: #000;
+    --primary-color: #008da0;
+    --primary-color-o: #008da0ab;
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -26,7 +35,36 @@ html {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    padding: .5rem;
+    position: relative;
+
+    transition: all 2s ease-in-out;
 }
+/* .input__box-search {
+    margin-bottom: 20rem;
+} */
+
+/* CLASES DINÁMICAS */
+.bg {
+    background-image: linear-gradient(to bottom, var(--primary-color-o), var(--white-o)), url('./media/bg-home.jpg');
+    background-size: cover;
+}
+
+
+.logo {
+    width: 6rem;
+}
+.logo__box {
+    position: absolute;
+    bottom: 2rem;
+    right: 2.5rem;
+
+}
+
+    
+    
+
+
 .home__cont, .signup__cont {
     height: 100%;
     display: flex;
@@ -34,9 +72,9 @@ html {
     align-items: center;
     margin-bottom: 2rem;
 }
-.btn__logs-box {
-    flex: 0 0 40%;
-}
+/* .btn__logs-box {
+    flex: 0 0 20%;
+} */
 .btn__home-box-signup {
     flex: 0 0 30%;
 }
@@ -186,7 +224,7 @@ html {
     width: 90%;
     margin: 0 auto;
     margin-bottom: 4rem;
-
+    background-color: var(--white-o);
     
 }
 .title__box {
