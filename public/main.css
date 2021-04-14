@@ -1,0 +1,72 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html {
+    font-size: .75em;
+}
+.wrapper {
+    width: 90%;
+    margin: 0 auto;
+}
+.img__box {
+    width: 100%;
+}
+.img__box img {
+    width: 100%;
+}
+.input__box-signup {
+    display: flex;
+    flex-direction: column;
+}
+.input__mail-signup, .input__pass-signup {
+    width: 60%;
+}
+.text__aux-box {
+    display: flex;
+}
+
+.imgProf {
+    width: 10rem;
+}
+.user__Data-Box {
+    display: flex;
+    flex-direction: column;
+}
+.input__data-firstName, .input__data-lastName {
+    width: 60%;
+}
+.google__sync, .google__signup {
+    border: 2px solid black;
+}
+.btn__prof-box {
+    display: flex;
+}
+.input__box-reset {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+.input__mail-resetBox {
+    display: flex;
+    flex-direction: column;
+}
+
+/* body {
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+.wrapper {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.main__login {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 4rem;
+} */
