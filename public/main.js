@@ -219,6 +219,8 @@ const resetPassMailScreen = () => {
 const mainHtml = () => {
   const body = fn.querySelection('body');
   const mainCont = fn.createElement('main', 'main__cont');
+    
+
   const container = fn.createElement('div', 'home__cont');
   fn.addClass(container, 'wrapper');
   fn.appendElement(body, mainCont);
@@ -440,7 +442,7 @@ const resultComp = (course, index) => {
   let container = fn.querySelection('.main__cont');
 
   const courseComponents = fn.createElement('div', 'course__components');
-
+  
   const imgBox = fn.createElement('div', 'img__box');
   const img = fn.createElement('img');
   img.src = `${course.image}`;
@@ -456,7 +458,12 @@ const resultComp = (course, index) => {
 
   const priceBox = fn.createElement('div', 'price__box');
   const price = fn.createElement('h2');
-  price.textContent = `${course.price}`;
+  if(course.price === 0) {
+    price.textContent = 'Gratis';
+  } else {
+    price.textContent = `${course.price} €`;
+  }
+
 
   fn.appendElement(imgBox, priceBox);
   fn.appendElement(priceBox, price);
@@ -471,11 +478,15 @@ const resultComp = (course, index) => {
 
     if (course.favorito) {
       btnFav.classList.add('fa-3x', 'fas', 'fa-thumbs-up');
+      fn.addClass(courseComponents, 'fav');
     } else {
       btnFav.classList.add('fa-3x', 'far', 'fa-thumbs-up');
+      fn.addClass(courseComponents, 'nofav');
     }
+
     btnFav.addEventListener('click', () => {
       if (course.favorito) {
+        
         if (fetchToDelFav(course)) {
           // btnFav.classList.remove('fas');
           fn.removeClass(btnFav, 'fas');
@@ -499,6 +510,8 @@ const resultComp = (course, index) => {
         }
       }
     });
+  } else {
+    fn.addClass(courseComponents, 'nofav');
   }
 
   title.addEventListener('click', (e) => {
@@ -523,12 +536,6 @@ const resultComp = (course, index) => {
   fn.appendElement(courseComponents, ratingBox);
   fn.appendElement(ratingBox, rating);
 
-  const courseLevelBox = fn.createElement('div', 'course__level-box');
-  const courseLevel = fn.createElement('p');
-  courseLevel.textContent = `${course.level}`;
-
-  fn.appendElement(courseComponents, courseLevelBox);
-  fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
 };
 // -----------------------------------------------------------RESULTADOS DE LA BÚSQUEDA
 
@@ -568,9 +575,12 @@ const headerCompFav = () => {
 const resultCompFav = (course, index) => {
   let body = fn.querySelection('body');
   let container = fn.querySelection('.main__cont');
+  fn.addClass(container, 'main__cont-fav');
   fn.appendElement(body, container);
 
   const courseComponents = fn.createElement('div', 'course__components');
+  fn.addClass(courseComponents, 'fav')
+
 
   const imgBox = fn.createElement('div', 'img__box');
   const img = fn.createElement('img');
@@ -587,7 +597,12 @@ const resultCompFav = (course, index) => {
 
   const priceBox = fn.createElement('div', 'price__box');
   const price = fn.createElement('h2');
-  price.textContent = `${course.price}`;
+  if(course.price === '0') {
+    price.textContent = 'Gratis';
+  } else {
+    price.textContent = `${course.price} €`;
+  };
+
 
   fn.appendElement(imgBox, priceBox);
   fn.appendElement(priceBox, price);
@@ -630,13 +645,6 @@ const resultCompFav = (course, index) => {
 
   fn.appendElement(courseComponents, ratingBox);
   fn.appendElement(ratingBox, rating);
-
-  const courseLevelBox = fn.createElement('div', 'course__level-box');
-  const courseLevel = fn.createElement('p');
-  courseLevel.textContent = `${course.level}`;
-
-  fn.appendElement(courseComponents, courseLevelBox);
-  fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
 };
 
 // OBTENER TODOS LOS RESULTADOS DE UNA BUSQUEDA-----------------------------FETCHING
@@ -1051,6 +1059,7 @@ const logInCompScreen = () => {
   btnSendLogin.addEventListener('click', (e) => {
     e.preventDefault();
     fetchToLogin(inputMail.value, inputPass.value, mainCont);
+    globalCourses = [];
     inputMail.value = '';
     inputPass.value = '';
   });
