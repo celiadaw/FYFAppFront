@@ -405,7 +405,15 @@ const init = async () => {
     history.pushState(null, '', '/');
     mainHtml();
     resetPassScreen(token);
+  } else if (window.location.pathname === '/google-oauth') {
+
+    const token = window.location.search.split('=')[1];
+    localStorage.setItem('Token', token);
+    history.pushState(null, '', '/');
+    init();
+  
   } else {
+
     if (globalCourses.length !== 0) {
       mainHtml();
       btnLogsHtml();
@@ -767,9 +775,7 @@ const fetchToAddFav = async (course, index) => {
 
     globalCourses[index].favoritoID = response.insertId;
     return response;
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };
 // QUITAR FAVORITO
 const fetchToDelFav = async (course) => {
@@ -810,7 +816,6 @@ const fetchToGetFav = async (token, contRemoved) => {
 };
 
 const fetchToResetPass = async (token, pass, contRemoved) => {
-
   const options = {
     method: 'POST',
     headers: {
@@ -897,6 +902,15 @@ const fetchToProfile = async (
       console.error('Error al actualizar los datos de usuario');
     }
   });
+};
+
+//FETCH GOOGLE LINK
+const fetchToGoogle = async () => {
+  const response = await fetch(
+    `http://localhost:3000/google-link`,
+  ).then((data) => data.json());
+  console.log(response);
+  window.location.href = response.link;
 };
 
 // -------------------------------------------------------------------------FETCHING
@@ -1040,6 +1054,9 @@ const logInCompScreen = () => {
     inputMail.value = '';
     inputPass.value = '';
   });
+
+  // GOOGLE OAUTH
+  googleSignUp.addEventListener('click', fetchToGoogle);
 };
 
 //  PROFILE
@@ -1229,4 +1246,3 @@ const profileCompScreen = () => {
 //     init();
 //   });
 // };
-
