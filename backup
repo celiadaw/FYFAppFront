@@ -1,0 +1,279 @@
+
+import * as fn from './js/fn.js';
+const courses = 
+//    /authuser GET
+//    req.header[authoritation] = bearer (token)
+// ok 1 true
+// ok 0 false
+
+// AUTH STATE
+const logged = ( () => {
+
+    let response = false;
+    response.OK === 1 ? true  :  false;
+    return response;
+
+})  ();
+
+
+const body = fn.querySelection('body');
+// let logged = true;
+
+// RAMA GIT vistaMaestro
+// VISTA MAESTRO ------------------------------------------>
+
+const mainHtml = (body) => {
+    const mainCont = fn.createElement('main', 'main__cont');
+    const container = fn.createElement('div', 'home__cont');
+        fn.addClass(container, 'wrapper');
+    fn.appendElement(body, mainCont);
+    fn.appendElement(mainCont, container)
+
+    return {
+        mainCont,
+        container
+    };
+};
+const main = mainHtml(body);
+
+
+const btnLogsHtml = () => {
+    
+    const container = fn.querySelection('.main__cont');
+
+    const btnLogsBox = fn.createElement('div', 'btn__logs-box');
+    const btnLogs = fn.createElement('a', 'btn__logs');
+    fn.appendElement(container, btnLogsBox);
+  
+    if(logged) {
+        const btnFavs = fn.createElement('a', 'btn__favs');
+        const btnProfile = fn.createElement('a', 'btn__profile');
+
+        fn.appendElement(btnLogsBox, btnProfile);
+        fn.appendElement(btnLogsBox, btnFavs);
+        fn.appendElement(btnLogsBox, btnLogs);
+
+        btnFavs.textContent = 'Favourites';
+        btnProfile.textContent = 'Profile';
+        btnLogs.textContent = 'Log out';
+
+        
+    } else {
+        const btnSignUp = fn.createElement('a', 'btn__sign-up');
+
+        fn.appendElement(btnLogsBox, btnSignUp);
+        fn.appendElement(btnLogsBox, btnLogs);
+
+        btnSignUp.textContent = 'Sign up';
+        btnLogs.textContent = 'Log in';
+
+        return {
+            btnLogsBox,
+            btnSignUp,
+            btnLogs
+        }
+
+    };
+    
+};
+const btns = btnLogsHtml();
+
+
+    
+
+// VISTA PANTALLA SIGNUP
+const signUpCompScreen = (container, mainCont, courses) => {
+    
+    // fn.remover(container);
+    console.log(fn.querySelection('.main__title-box'));
+    const signUpCont = fn.createElement('div', 'signup__cont');
+        fn.addClass(signUpCont, 'wrapper');
+        fn.appendElement(mainCont, signUpCont);
+    
+    const btnHomeBoxSignUp = fn.createElement('div', 'btn__home-box-signup');
+        fn.appendElement(signUpCont, btnHomeBoxSignUp);
+
+    const btnHome = fn.createElement('a', 'btn__home-signup');
+        btnHome.textContent = 'Home';
+        fn.appendElement(btnHomeBoxSignUp, btnHome);
+
+    const signUpInputsBox = fn.createElement('div', 'input__box-signup'); 
+        fn.appendElement(signUpCont, signUpInputsBox);
+    const inputMail = fn.createElement('input', 'input__mail-signup');
+        fn.appendElement(signUpInputsBox, inputMail);
+    const inputPass = fn.createElement('input', 'input__pass-signup');
+        fn.appendElement(signUpInputsBox, inputPass);
+    
+    const btnSend = fn.createElement('a', 'btn__send');
+        fn.appendElement(signUpInputsBox, btnSend);
+        btnSend.textContent = 'Send';
+
+    const textAuxBox = fn.createElement('div', 'text__aux-box');
+    const textAux = fn.createElement('p', 'text__aux');
+        textAux.textContent = '¿Ya estás registrado?';
+    const btnLoginAux = fn.createElement('a', 'btn__login-aux');
+        btnLoginAux.textContent = 'Log in';
+        fn.appendElement(signUpCont, textAuxBox);
+        fn.appendElement(textAuxBox, textAux);
+        fn.appendElement(textAuxBox, btnLoginAux);
+
+    const googleSignUpBox = fn.createElement('div', 'google__signup-box');
+    const googleSignUp = fn.createElement('a', 'google__signup');
+        googleSignUp.textContent = 'GOOGLE';
+        fn.appendElement(signUpCont, googleSignUpBox);
+        fn.appendElement(googleSignUpBox, googleSignUp);
+    
+    const body = fn.querySelection('body');
+    console.log(body);
+
+
+    // BACK TO HOME
+    btnHome.addEventListener('click', () => {
+        fn.remover(mainCont);
+        let main = mainHtml(body);
+        let btns = btnLogsHtml(main.container);
+        let title = mainTitleApp(main.container, main.mainCont);
+        let input = inputBox(main.container, courses);
+    });
+
+};
+
+const mainTitleApp = (container, mainCont) => {
+    
+
+    const mainTitleBox = fn.createElement('div', 'main__title-box');
+    const mainTitle = fn.createElement('h1', 'main__title');
+
+    fn.appendElement(container, mainTitleBox);
+    fn.appendElement(mainTitleBox, mainTitle);
+
+    mainTitle.textContent = 'FYFApp';
+
+    if(!logged) {
+        btns.btnSignUp.addEventListener('click', () => {
+            signUpCompScreen(container, mainCont);
+        });
+    };
+
+    console.log(btns.btnSignUp);
+
+    return {
+        mainTitleBox,
+        mainTitle
+    };
+
+};
+const title = mainTitleApp(main.container, main.mainCont);
+
+const inputBox = (mainCont) => {
+
+    const inputBox = fn.createElement('div', 'input__box-search');
+    const input = fn.createElement('input', 'input__search');
+    const btnBox = fn.createElement('div', 'btn__search-box');
+    const btnSearch = fn.createElement('a', 'btn__search');
+
+    fn.appendElement(mainCont, inputBox);
+    fn.appendElement(inputBox, input);
+    fn.appendElement(inputBox, btnBox);
+    fn.appendElement(btnBox, btnSearch);
+
+    btnSearch.textContent = 'Search';
+
+    btnSearch.addEventListener('click', () => {
+        let appTitle = fn.querySelection('.main__title-box');
+        fn.remover(appTitle);
+        console.log(courses);
+        
+        courses.map( (course) => {
+            resultComp(course)
+        });
+    
+    });
+
+    return {
+        btnSearch
+    }
+
+};
+const input = inputBox(main.container);
+
+const resultComp = (course) => {
+    
+    let container = fn.querySelection('.home__cont');
+    
+
+    const courseComponents = fn.createElement('div', 'course__components');
+    
+    const imgBox = fn.createElement('div', 'img__box');
+    const img = fn.createElement('img');
+        // img.src = `${course.image}`;
+        img.src = `${course.image}`;
+
+    fn.appendElement(container, courseComponents);
+    fn.appendElement(courseComponents, imgBox);
+    fn.appendElement(imgBox, img);
+
+        img.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open(`${course.url}`);
+        });
+            
+
+    const priceBox = fn.createElement('div', 'price__box');
+    const price = fn.createElement('h2');
+        price.textContent = `${course.price}`;
+    
+    fn.appendElement(imgBox, priceBox);
+    fn.appendElement(priceBox, price);
+
+
+    const titleBox = fn.createElement('h3', 'title__box');
+    const title = fn.createElement('h3');
+    title.textContent = `${course.title}`;
+    
+    if(logged) {
+        const btnFav = fn.createElement('a', 'btnFav');
+        fn.appendElement(titleBox, btnFav);
+        btnFav.textContent = 'FAVBTN';
+    }
+        
+        title.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open(`${course.url}`);
+        });
+
+    fn.appendElement(courseComponents, titleBox);
+    fn.appendElement(titleBox, title);
+   
+
+    const descriptionBox = fn.createElement( 'div', 'description__box');
+    const description = fn.createElement('p');
+        description.textContent = `${course.resume}`;
+
+    fn.appendElement(courseComponents, descriptionBox);
+    fn.appendElement(descriptionBox, description);
+
+    const ratingBox = fn.createElement('div', 'rating__box');
+    const rating = fn.createElement('p');
+        rating.textContent = `${course.currentRating}`;
+
+    fn.appendElement(courseComponents, ratingBox);
+    fn.appendElement(ratingBox, rating);
+
+    const courseLevelBox = fn.createElement('div', 'course__level-box');
+    const courseLevel = fn.createElement('p');
+        courseLevel.textContent = `${course.level}`;
+
+    fn.appendElement(courseComponents, courseLevelBox);
+    fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
+
+
+};
+
+// <-------------------------------------------VISTA MAESTRO
+
+    
+
+
+
+

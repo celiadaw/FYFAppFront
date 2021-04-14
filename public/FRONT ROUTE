@@ -1,0 +1,134 @@
+
+COMPONENTES VISTA SIGN UP-------------------------
+
+    - SignUp --------------------------
+
+    Propios y compartidos(
+        * input-mail
+        * input-pass
+        * button-send
+    );
+
+    Propios(
+        * text-already-register
+        * Enter-to-login
+    );
+
+    Propios(
+        * Text-resgister-to-google
+        * Button-register-google
+    )
+
+
+COMPONENTES VISTA SIGN IN-------------------------
+
+    - SignIn --------------------------
+
+    Propios y compartidos(
+        * input-mail
+        * input-pass
+        * button-send
+    );
+
+    Propios(
+        * text-enter-google
+        * button-enter-google
+    );
+
+
+COMPONENTES VISTA MAESTRO------------------------
+
+
+- Login --------------------------
+
+    Propios y compartidos(
+        * button-logout
+    );
+
+    Propios y compartidos(
+        * input
+        * button-search
+    );
+
+
+- No login ------------------------
+
+    Propios y compartidos(
+        * button-login
+    );
+    Propios(
+        * titulo-app
+    )
+
+    Propios y compartidos(
+        * input
+        * button-search
+    );
+
+
+    
+
+COMPONENTES VISTA DETALLE------------------------
+
+- Login --------------------------
+
+    Propios y compartidos(
+        * input
+        * button-search
+    );
+
+    Propios(
+        * button-favoritos
+    );
+
+    Compartidos(
+        * result-curso
+            - foto-curso
+            - precio-curso
+            - Título-curso
+            - Descripción-curso
+            - valoración-curso
+            - nivel-curso
+    );
+
+
+- No Login --------------------------
+
+    Propios y compartidos(
+        * input
+        * button-search
+    );
+
+    Compartidos(
+        * result-curso
+            - foto-curso
+            - precio-curso
+            - Título-curso
+            - Descripción-curso
+            - valoración-curso
+            - nivel-curso
+    );
+
+
+
+COMPONENTES VISTA PROFILE
+
+    * Cabecera(
+        - foto
+        - button-editar
+    );
+
+    * Cuerpo datos(
+        - Nombre
+        - Apellidos
+        - sdfasdfadf
+        - asdfadfasdf
+        - adfasdfasf
+
+        -button-edit
+    );
+
+    * (
+        - button-google
+        - button-link-google
+    )
