@@ -393,6 +393,22 @@ const fetchToAuth = async (token) => {
     return false;
   }
 };
+//Fetch para recoger code de google oauth
+const fetchGetCodeOauth = async (code, token) => {
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({code}),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `bearer ${token}`,
+    },
+  };
+  const response = await fetch(
+    `http://localhost:3000/google-vincular/${code}`,
+    options,
+  ).then((data) => data.json());
+  return response.OK;
+};
 const init = async () => {
   if (localStorage.getItem('Token')) {
     let token = localStorage.getItem('Token');
@@ -412,7 +428,18 @@ const init = async () => {
     history.pushState(null, '', '/');
     init();
   
-  } else {
+  } else if(window.location.pathname === '/vincular'){
+
+    let token = localStorage.getItem('Token');
+    if (token){
+      const code = window.location.search.split('=')[1];
+      fetchGetCodeOauth(code, token);
+      }    
+    history.pushState(null, '', '/');
+    init();
+    
+  }  
+  else {
 
     if (globalCourses.length !== 0) {
       mainHtml();

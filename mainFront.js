@@ -34,6 +34,10 @@ server.get('/google-oauth', (req, res) => {
   res.sendFile('/', sendFileOptions);
 });
 
+server.get('/vincular', (req, res) => {
+  res.sendFile('/', sendFileOptions);
+});
+
 server.use('/', express.static('./public'));
 
 server.listen(HTTP.port, HTTP.host, () => {
