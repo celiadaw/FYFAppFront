@@ -219,9 +219,29 @@ const resetPassMailScreen = () => {
 const mainHtml = () => {
   const body = fn.querySelection('body');
   const mainCont = fn.createElement('main', 'main__cont');
+  fn.addClass(mainCont, 'bg');
+  const logoBox = fn.createElement('div', 'logo__box');
+  const jsLogo = fn.createElement('img', 'logo');
+  const nodeLogo = fn.createElement('img', 'logo');
+  const reactLogo = fn.createElement('img', 'logo');
+  const angularLogo = fn.createElement('img', 'logo');
+  jsLogo.src = './media/js.png';
+  nodeLogo.src = './media/node.png';
+  reactLogo.src = './media/react.png';
+  angularLogo.src = './media/angular.png';
+    
+
   const container = fn.createElement('div', 'home__cont');
   fn.addClass(container, 'wrapper');
   fn.appendElement(body, mainCont);
+  fn.appendElement(mainCont, logoBox);
+
+  fn.appendElement(logoBox, jsLogo);
+  fn.appendElement(logoBox, nodeLogo);
+  fn.appendElement(logoBox, reactLogo);
+  fn.appendElement(logoBox, angularLogo);
+
+
   fn.appendElement(mainCont, container);
 
   return {
@@ -264,6 +284,8 @@ const btnLogsHtml = () => {
 
     // Botón Favoritos
     btnFavs.addEventListener('click', () => {
+      let bgCont = fn.querySelection('.main__cont');
+      fn.removeClass(bgCont, 'bg');
       let token = localStorage.getItem('Token');
       // favCompScreen(course);
       let comp = document.querySelectorAll('.course__components');
@@ -366,12 +388,17 @@ const inputBox = () => {
       comp.forEach((cur) => {
         cur.remove();
       });
-    }
+    };
 
     let appTitle = fn.querySelection('.main__title-box');
     const param = input.value.trim();
 
-    fetchToAllCourses(param, appTitle);
+    fetchToAllCourses(param);
+    let logoBoxAnimate = fn.querySelection('.logo__box');
+    if(logoBoxAnimate) {
+      logoBoxAnimate.remove();
+    }
+
     input.value = '';
   });
 };
@@ -393,6 +420,22 @@ const fetchToAuth = async (token) => {
     return false;
   }
 };
+//Fetch para recoger code de google oauth
+const fetchGetCodeOauth = async (code, token) => {
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({code}),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `bearer ${token}`,
+    },
+  };
+  const response = await fetch(
+    `http://localhost:3000/google-vincular/${code}`,
+    options,
+  ).then((data) => data.json());
+  return response.OK;
+};
 const init = async () => {
   if (localStorage.getItem('Token')) {
     let token = localStorage.getItem('Token');
@@ -412,12 +455,28 @@ const init = async () => {
     history.pushState(null, '', '/');
     init();
   
-  } else {
+  } else if(window.location.pathname === '/vincular'){
+
+    let token = localStorage.getItem('Token');
+    if (token){
+      const code = window.location.search.split('=')[1];
+      fetchGetCodeOauth(code, token);
+      }    
+    history.pushState(null, '', '/');
+    init();
+    
+  }  
+  else {
 
     if (globalCourses.length !== 0) {
+      
       mainHtml();
       btnLogsHtml();
       inputBox();
+      let logoBoxAnimate = fn.querySelection('.logo__box');
+      if(logoBoxAnimate) {
+        logoBoxAnimate.remove();
+      };
 
       globalCourses.map((cur, index) => {
         resultComp(cur, index);
@@ -440,7 +499,7 @@ const resultComp = (course, index) => {
   let container = fn.querySelection('.main__cont');
 
   const courseComponents = fn.createElement('div', 'course__components');
-
+  
   const imgBox = fn.createElement('div', 'img__box');
   const img = fn.createElement('img');
   img.src = `${course.image}`;
@@ -456,7 +515,12 @@ const resultComp = (course, index) => {
 
   const priceBox = fn.createElement('div', 'price__box');
   const price = fn.createElement('h2');
-  price.textContent = `${course.price}`;
+  if(course.price === 0) {
+    price.textContent = 'Gratis';
+  } else {
+    price.textContent = `${course.price} €`;
+  }
+
 
   fn.appendElement(imgBox, priceBox);
   fn.appendElement(priceBox, price);
@@ -471,11 +535,15 @@ const resultComp = (course, index) => {
 
     if (course.favorito) {
       btnFav.classList.add('fa-3x', 'fas', 'fa-thumbs-up');
+      fn.addClass(courseComponents, 'fav');
     } else {
       btnFav.classList.add('fa-3x', 'far', 'fa-thumbs-up');
+      fn.addClass(courseComponents, 'nofav');
     }
+
     btnFav.addEventListener('click', () => {
       if (course.favorito) {
+        
         if (fetchToDelFav(course)) {
           // btnFav.classList.remove('fas');
           fn.removeClass(btnFav, 'fas');
@@ -499,6 +567,8 @@ const resultComp = (course, index) => {
         }
       }
     });
+  } else {
+    fn.addClass(courseComponents, 'nofav');
   }
 
   title.addEventListener('click', (e) => {
@@ -523,12 +593,6 @@ const resultComp = (course, index) => {
   fn.appendElement(courseComponents, ratingBox);
   fn.appendElement(ratingBox, rating);
 
-  const courseLevelBox = fn.createElement('div', 'course__level-box');
-  const courseLevel = fn.createElement('p');
-  courseLevel.textContent = `${course.level}`;
-
-  fn.appendElement(courseComponents, courseLevelBox);
-  fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
 };
 // -----------------------------------------------------------RESULTADOS DE LA BÚSQUEDA
 
@@ -568,9 +632,12 @@ const headerCompFav = () => {
 const resultCompFav = (course, index) => {
   let body = fn.querySelection('body');
   let container = fn.querySelection('.main__cont');
+  fn.addClass(container, 'main__cont-fav');
   fn.appendElement(body, container);
 
   const courseComponents = fn.createElement('div', 'course__components');
+  fn.addClass(courseComponents, 'fav')
+
 
   const imgBox = fn.createElement('div', 'img__box');
   const img = fn.createElement('img');
@@ -587,7 +654,12 @@ const resultCompFav = (course, index) => {
 
   const priceBox = fn.createElement('div', 'price__box');
   const price = fn.createElement('h2');
-  price.textContent = `${course.price}`;
+  if(course.price === '0') {
+    price.textContent = 'Gratis';
+  } else {
+    price.textContent = `${course.price} €`;
+  };
+
 
   fn.appendElement(imgBox, priceBox);
   fn.appendElement(priceBox, price);
@@ -630,13 +702,6 @@ const resultCompFav = (course, index) => {
 
   fn.appendElement(courseComponents, ratingBox);
   fn.appendElement(ratingBox, rating);
-
-  const courseLevelBox = fn.createElement('div', 'course__level-box');
-  const courseLevel = fn.createElement('p');
-  courseLevel.textContent = `${course.level}`;
-
-  fn.appendElement(courseComponents, courseLevelBox);
-  fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
 };
 
 // OBTENER TODOS LOS RESULTADOS DE UNA BUSQUEDA-----------------------------FETCHING
@@ -1051,6 +1116,7 @@ const logInCompScreen = () => {
   btnSendLogin.addEventListener('click', (e) => {
     e.preventDefault();
     fetchToLogin(inputMail.value, inputPass.value, mainCont);
+    globalCourses = [];
     inputMail.value = '';
     inputPass.value = '';
   });

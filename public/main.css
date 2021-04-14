@@ -1,3 +1,12 @@
+
+ :root {
+    --white: #fff;
+    --white-o: rgb(255, 255, 255);
+    --black: #000;
+    --primary-color: #008da0;
+    --primary-color-o: #008da0ab;
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -6,67 +15,242 @@
 html {
     font-size: .75em;
 }
+/* BÚSQUEDA GENERAL */
+
+
+/* FAVORITOS BÚSQUEDA */
+.fav {
+    box-shadow: 0 0 8px green;
+}
+.nofav {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 5);
+}
+
 .wrapper {
     width: 90%;
     margin: 0 auto;
 }
-.img__box {
-    width: 100%;
+/* NO LOGIN VISTA MAESTRO */
+.main__cont {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: .5rem;
+    position: relative;
+
+    transition: all 2s ease-in-out;
 }
-.img__box img {
-    width: 100%;
+/* .input__box-search {
+    margin-bottom: 20rem;
+} */
+
+/* CLASES DINÁMICAS */
+.bg {
+    background-image: linear-gradient(to bottom, var(--primary-color-o), var(--white-o)), url('./media/bg-home.jpg');
+    background-size: cover;
+}
+
+
+.logo {
+    width: 6rem;
+}
+.logo__box {
+    position: absolute;
+    bottom: 2rem;
+    right: 2.5rem;
+
+}
+
+    
+    
+
+
+.home__cont, .signup__cont {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+/* .btn__logs-box {
+    flex: 0 0 20%;
+} */
+.btn__home-box-signup {
+    flex: 0 0 30%;
+}
+.btn__logs-box, .btn__home-box-signup {
+    align-self: flex-end;
+    padding: 1.2rem;
+}
+/* .btn__sign-up {
+    margin-right: 1.2rem;
+} */
+.btn__sign-up, .btn__logs, .btn__home-signup, .btn__send, .btn__send-login {
+    border: none;
+    background: none;
+    margin-right: 1.2rem;
+}
+.main__title-box {
+    margin-bottom: 1.2rem;
+}
+.input__search {
+    margin-bottom: 1.2rem;
+}
+.btn__search-box {
+    text-align: center;
+}
+
+/* NO LOGIN SIGNUP VIEW */
+
+
+.input__mail-signup, .input__pass-signup {
+    outline: 0;
+    margin-bottom: 1.2rem;
 }
 .input__box-signup {
     display: flex;
     flex-direction: column;
+    align-content: center;
 }
-.input__mail-signup, .input__pass-signup {
-    width: 60%;
+.btn__send, .text__aux-box {
+    margin-bottom: 1.2rem;
+}
+.btn__send {
+    width: 4rem;
+    align-self: center;  
 }
 .text__aux-box {
     display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.text__aux {
+    margin-right: 1.2rem;
 }
 
-.imgProf {
-    width: 10rem;
-}
-.user__Data-Box {
-    display: flex;
-    flex-direction: column;
-}
-.input__data-firstName, .input__data-lastName {
-    width: 60%;
-}
-.google__sync, .google__signup {
-    border: 2px solid black;
-}
-.btn__prof-box {
-    display: flex;
-}
-.input__box-reset {
-    display: flex;
-    flex-direction: column;
-    width: 60%;
-}
-.input__mail-resetBox {
-    display: flex;
-    flex-direction: column;
-}
-
-/* body {
-    font-family: 'Nunito Sans', sans-serif;
-}
-
-.wrapper {
-    width: 95%;
-    margin: 0 auto;
-}
-
-.main__login {
+/* NO LOGIN LOGIN VIEW */
+.login__cont {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    
+}
+.btn__verify-box {
+    margin-bottom: 1.2rem;
+    text-align: center;
+}
+.btn__verify, .btn__login-aux {
+    border: none;
+    background: none;
+}
+
+
+
+/* USUARIO LOGUEADO --------------------------------*/
+/* VISTA MAESTRO */
+.btn__profile, .btn__favs {
+    border: none;
+    background: none;
+    margin-right: 1.2rem;
+}
+
+/* VISTA PROFILE */
+.prof__cont {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.btn__home {
+    margin-right: 1.2rem;
+}
+.imgProfBox {
+    margin-bottom: 2rem;
+}
+.imgProf {
+    width: 10rem;
+}
+.btn__prof-box {
+    flex: 0 0 20%;
+    padding: 1.2rem;
+    align-self: flex-end;
+}
+.btn__home, .btn__prof-logout, .btn__edit {
+    border: none;
+    background: none;
+}
+.user__Data-box {
+    display: flex;
+}
+.btn__edit-box {
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+    text-align: center;
+}
+.firstName__box h4 {
+    margin-bottom: .2rem;
+}
+.input__data-firstName {
+    margin-bottom: .6rem;
+}
+
+
+/* VISTA FAVORITOS */
+.main__cont-fav {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
+}
+.btn__fav-box {
+    padding: 1.2rem;
+    align-self: flex-end;
+    margin-bottom: 10rem;
+}
+.btn__home-fav {
+    border: none;
+    background: none;
+}
+.btn__home-fav:not(:last-child) {
+    margin-right: 1.2rem;
+}
+.course__components {
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
     margin-bottom: 4rem;
-} */
+    background-color: var(--white-o);
+    
+}
+.title__box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+.description__box {
+    margin-bottom: 2rem;
+}
+.rating__box {
+    margin-bottom: 2rem;
+}
+.title__box h3 {
+    width: 70%;
+    text-align: left;
+    font-size: 1.2rem;
+}
+.title__box a {
+    justify-content: flex-start;
+}
+.img__box {
+    object-fit: cover;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
