@@ -23,8 +23,18 @@ server.use(express.json());
 //servidor de ficheros estáticos
 
 const sendFileOptions = {
-  root: `${__dirname}/public/`,};
-  server.get('/newpass', (req, res) => {
+  root: `${__dirname}/public/`,
+};
+
+server.get('/newpass', (req, res) => {
+  res.sendFile('/', sendFileOptions);
+});
+
+server.get('/google-oauth', (req, res) => {
+  res.sendFile('/', sendFileOptions);
+});
+
+server.get('/vincular', (req, res) => {
   res.sendFile('/', sendFileOptions);
 });
 
