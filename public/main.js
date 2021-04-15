@@ -410,7 +410,7 @@ const fetchToAuth = async (token) => {
     },
   };
   const response = await fetch(
-    `http://localhost:3000/authuser`,
+    `https://shrouded-reaches-80608.herokuapp.com/authuser`, 
     options,
   ).then((data) => data.json());
 
@@ -431,7 +431,7 @@ const fetchGetCodeOauth = async (code, token) => {
     },
   };
   const response = await fetch(
-    `http://localhost:3000/google-vincular/${code}`,
+    `https://shrouded-reaches-80608.herokuapp.com/google-vincular/${code}`,
     options,
   ).then((data) => data.json());
   return response.OK;
@@ -720,7 +720,7 @@ const fetchToAllCourses = async (param, contRemoved) => {
     } else options = {};
 
     const response = await fetch(
-      `http://localhost:3000/courses?search=${param}`,
+      `https://shrouded-reaches-80608.herokuapp.com/courses?search=${param}`,
       options,
     ).then((data) => data.json());
     if (response.OK === 1) {
@@ -756,7 +756,7 @@ const fetchToSignUp = async (email, pass, contRemoved) => {
   };
 
   const response = await fetch(
-    `http://localhost:3000/signup`,
+    `https://shrouded-reaches-80608.herokuapp.com/signup`,
     options,
   ).then((data) => data.json());
 
@@ -785,7 +785,7 @@ const fetchToLogin = async (email, pass, contRemoved) => {
   };
 
   const response = await fetch(
-    `http://localhost:3000/login`,
+    `https://shrouded-reaches-80608.herokuapp.com/login`,
     options,
   ).then((data) => data.json());
 
@@ -807,7 +807,7 @@ const fetchToLogOut = async (token, contRemoved) => {
   };
 
   const response = await fetch(
-    `http://localhost:3000/logout`,
+    `https://shrouded-reaches-80608.herokuapp.com/logout`,
     options,
   ).then((data) => data.json());
 
@@ -834,7 +834,7 @@ const fetchToAddFav = async (course, index) => {
       },
     };
     const response = await fetch(
-      `http://localhost:3000/courses/fav`,
+      `https://shrouded-reaches-80608.herokuapp.com/courses/fav`,
       options,
     ).then((data) => data.json());
 
@@ -854,7 +854,7 @@ const fetchToDelFav = async (course) => {
     },
   };
   const response = await fetch(
-    `http://localhost:3000/courses/delete/${course.favoritoID}`,
+    `https://shrouded-reaches-80608.herokuapp.com/courses/delete/${course.favoritoID}`,
     options,
   ).then((data) => data.json());
   return response.OK;
@@ -864,7 +864,7 @@ const fetchToGetFav = async (token, contRemoved) => {
     headers: { Authorization: `bearer ${token}` },
   };
   const response = await fetch(
-    `http://localhost:3000/courses/fav`,
+    `https://shrouded-reaches-80608.herokuapp.com/courses/fav`,
     options,
   ).then((data) => data.json());
 
@@ -890,7 +890,7 @@ const fetchToResetPass = async (token, pass, contRemoved) => {
     body: JSON.stringify({ pass }),
   };
   const response = await fetch(
-    `http://localhost:3000/changepass`,
+    `https://shrouded-reaches-80608.herokuapp.com/changepass`,
     options,
   ).then((data) => data.json());
 
@@ -907,7 +907,7 @@ const fetchToSendMail = async (email) => {
   };
 
   const response = await fetch(
-    `http://localhost:3000/newpass`,
+    `https://shrouded-reaches-80608.herokuapp.com/newpass`,
     options,
   ).then((data) => data.json());
 
@@ -933,7 +933,7 @@ const fetchToProfile = async (
     headers: { Authorization: `bearer ${token}` },
   };
   const response = await fetch(
-    `http://localhost:3000/user`,
+    `https://shrouded-reaches-80608.herokuapp.com/user`,
     options,
   ).then((data) => data.json());
   imgProf.src = response.foto ? response.foto : '/media/user-img.png';
@@ -956,7 +956,7 @@ const fetchToProfile = async (
     };
 
     const response = await fetch(
-      `http://localhost:3000/user`,
+      `https://shrouded-reaches-80608.herokuapp.com/user`,
       options,
     ).then((data) => data.json());
 
@@ -972,7 +972,7 @@ const fetchToProfile = async (
 //FETCH GOOGLE LINK
 const fetchToGoogle = async () => {
   const response = await fetch(
-    `http://localhost:3000/google-link`,
+    `https://shrouded-reaches-80608.herokuapp.com/google-link`,
   ).then((data) => data.json());
   console.log(response);
   window.location.href = response.link;

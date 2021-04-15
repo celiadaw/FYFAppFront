@@ -9,7 +9,7 @@ const load = () => {
 window.addEventListener('load', load);
 
 const googleLink = async () => {
-  const result = await fetch('http://localhost:3000/google-link').then((data) =>
+  const result = await fetch('https://shrouded-reaches-80608.herokuapp.com/google-link').then((data) =>
     data.json(),
   );
   console.log(result);
