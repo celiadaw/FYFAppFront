@@ -3,8 +3,8 @@ import * as fn from './js/fn.js';
 //variable global que guardará los cursos para no tener que pedir la búsqueda de nuevo a back si no es necesario
 let globalCourses = [];
 let logged = false;
-//const BACK_URL = 'https://shrouded-reaches-80608.herokuapp.com';
-const BACK_URL = 'http://localhost:3000';
+const BACK_URL = 'https://shrouded-reaches-80608.herokuapp.com';
+//const BACK_URL = 'http://localhost:3000';
 const courses = [
   {
     id:
