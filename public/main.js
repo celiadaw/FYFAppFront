@@ -3,7 +3,8 @@ import * as fn from './js/fn.js';
 //variable global que guardará los cursos para no tener que pedir la búsqueda de nuevo a back si no es necesario
 let globalCourses = [];
 let logged = false;
-const BACK_URL="https://shrouded-reaches-80608.herokuapp.com"
+//const BACK_URL = 'https://shrouded-reaches-80608.herokuapp.com';
+const BACK_URL = 'http://localhost:3000';
 const courses = [
   {
     id:
@@ -410,10 +411,9 @@ const fetchToAuth = async (token) => {
       authorization: `bearer ${token}`,
     },
   };
-  const response = await fetch(
-    `${BACK_URL}/authuser`,
-    options,
-  ).then((data) => data.json());
+  const response = await fetch(`${BACK_URL}/authuser`, options).then((data) =>
+    data.json(),
+  );
 
   if (response.OK === 1) {
     return true;
@@ -443,21 +443,24 @@ const init = async () => {
     logged = await fetchToAuth(token);
   }
 
-  if (window.location.pathname === '/newpass') {
-    const token = window.location.search.split('=')[1];
+  const urlParams = new URLSearchParams(window.location.search);
+  console.log('PARAMETRO', urlParams.get('action'));
+  const action = urlParams.get('action');
 
+  if (action === 'newpass') {
+    const token = urlParams.get('token');
     history.pushState(null, '', '/');
     mainHtml();
     resetPassScreen(token);
-  } else if (window.location.pathname === '/google-oauth') {
-    const token = window.location.search.split('=')[1];
+  } else if (action === 'google-oauth') {
+    const token = urlParams.get('token');
     localStorage.setItem('Token', token);
     history.pushState(null, '', '/');
     init();
-  } else if (window.location.pathname === '/vincular') {
+  } else if (action === 'vincular') {
     let token = localStorage.getItem('Token');
     if (token) {
-      const code = window.location.search.split('=')[1];
+      const code = urlParams.get('code');
       fetchGetCodeOauth(code, token);
     }
     history.pushState(null, '', '/');
@@ -744,10 +747,9 @@ const fetchToSignUp = async (email, pass, contRemoved) => {
     headers: { 'Content-Type': 'application/json' },
   };
 
-  const response = await fetch(
-    `${BACK_URL}/signup`,
-    options,
-  ).then((data) => data.json());
+  const response = await fetch(`${BACK_URL}/signup`, options).then((data) =>
+    data.json(),
+  );
 
   if (response.OK === 1) {
     fn.remover(contRemoved);
@@ -773,10 +775,9 @@ const fetchToLogin = async (email, pass, contRemoved) => {
     headers: { 'Content-Type': 'application/json' },
   };
 
-  const response = await fetch(
-    `${BACK_URL}/login`,
-    options,
-  ).then((data) => data.json());
+  const response = await fetch(`${BACK_URL}/login`, options).then((data) =>
+    data.json(),
+  );
 
   if (response.OK === 1) {
     fn.remover(contRemoved);
@@ -795,10 +796,9 @@ const fetchToLogOut = async (token, contRemoved) => {
     headers: { Authorization: `bearer ${token}` },
   };
 
-  const response = await fetch(
-    `${BACK_URL}/logout`,
-    options,
-  ).then((data) => data.json());
+  const response = await fetch(`${BACK_URL}/logout`, options).then((data) =>
+    data.json(),
+  );
 
   if (response.OK === 1) {
     // setTimeout(() => {
@@ -878,10 +878,9 @@ const fetchToResetPass = async (token, pass, contRemoved) => {
     },
     body: JSON.stringify({ pass }),
   };
-  const response = await fetch(
-    `${BACK_URL}/changepass`,
-    options,
-  ).then((data) => data.json());
+  const response = await fetch(`${BACK_URL}/changepass`, options).then((data) =>
+    data.json(),
+  );
 
   if (response.OK === 1) {
     contRemoved.remove();
@@ -895,10 +894,9 @@ const fetchToSendMail = async (email) => {
     body: JSON.stringify({ email }),
   };
 
-  const response = await fetch(
-    `${BACK_URL}/newpass`,
-    options,
-  ).then((data) => data.json());
+  const response = await fetch(`${BACK_URL}/newpass`, options).then((data) =>
+    data.json(),
+  );
 
   // if(response.OK === 1) {
   //   contRemoved.remove();
@@ -921,10 +919,9 @@ const fetchToProfile = async (
   const options = {
     headers: { Authorization: `bearer ${token}` },
   };
-  const response = await fetch(
-    `${BACK_URL}/user`,
-    options,
-  ).then((data) => data.json());
+  const response = await fetch(`${BACK_URL}/user`, options).then((data) =>
+    data.json(),
+  );
   imgProf.src = response.foto ? response.foto : '/media/user-img.png';
   userDataFirstName.value = response.nombre;
   userDataLastName.value = response.apellidos;
@@ -944,10 +941,9 @@ const fetchToProfile = async (
       },
     };
 
-    const response = await fetch(
-      `${BACK_URL}/user`,
-      options,
-    ).then((data) => data.json());
+    const response = await fetch(`${BACK_URL}/user`, options).then((data) =>
+      data.json(),
+    );
 
     if (response.OK) {
       profCont.remove();
@@ -960,9 +956,9 @@ const fetchToProfile = async (
 
 //FETCH GOOGLE LINK
 const fetchToGoogle = async () => {
-  const response = await fetch(
-    `${BACK_URL}/google-link`,
-  ).then((data) => data.json());
+  const response = await fetch(`${BACK_URL}/google-link`).then((data) =>
+    data.json(),
+  );
   console.log(response);
   window.location.href = response.link;
 };
