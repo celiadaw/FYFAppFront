@@ -3,8 +3,8 @@ import * as fn from './js/fn.js';
 //variable global que guardará los cursos para no tener que pedir la búsqueda de nuevo a back si no es necesario
 let globalCourses = [];
 let logged = false;
-const BACK_URL = 'https://shrouded-reaches-80608.herokuapp.com';
-//const BACK_URL = 'http://localhost:3000';
+//const BACK_URL = 'https://shrouded-reaches-80608.herokuapp.com';
+const BACK_URL = 'http://localhost:3000';
 const courses = [
   {
     id:
@@ -955,12 +955,14 @@ const fetchToProfile = async (
 };
 
 //FETCH GOOGLE LINK
-const fetchToGoogle = async () => {
-  const response = await fetch(`${BACK_URL}/google-link`).then((data) =>
+const fetchToGoogle = async (action) => {
+  const response = await fetch(`${BACK_URL}/google-link/${action}`).then((data) =>
     data.json(),
   );
   console.log(response);
-  window.location.href = response.link;
+  if (response.OK === 1) {
+    window.location.href = response.link;
+  }
 };
 
 // -------------------------------------------------------------------------FETCHING
@@ -1107,7 +1109,7 @@ const logInCompScreen = () => {
   });
 
   // GOOGLE OAUTH
-  googleSignUp.addEventListener('click', fetchToGoogle);
+  googleSignUp.addEventListener('click', ()=> fetchToGoogle("auth"));
 };
 
 //  PROFILE
@@ -1190,6 +1192,7 @@ const profileCompScreen = () => {
   googleSync.textContent = 'GOOGLE';
   fn.appendElement(profCont, googleSyncBox);
   fn.appendElement(googleSyncBox, googleSync);
+  googleSync.addEventListener("click",()=> fetchToGoogle("link"));
 };
 
 //  FAVORITOS
