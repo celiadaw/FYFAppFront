@@ -169,6 +169,7 @@ const resetPassScreen = (token) => {
   fn.appendElement(resetCont, resetInputsBox);
   const inputResetPass = fn.createElement('input', 'input__pass-reset');
   fn.appendElement(resetInputsBox, inputResetPass);
+  inputResetPass.placeholder = "new password";
 
   const btnResetSendBox = fn.createElement('div', 'btn__reset-box');
   fn.appendElement(resetCont, btnResetSendBox);
@@ -205,6 +206,7 @@ const resetPassMailScreen = () => {
   const inputResetMail = fn.createElement('input', 'input__mail-reset');
   const btnResetMailSend = fn.createElement('button', 'btn__mail-reset');
   btnResetMailSend.textContent = 'Send';
+  inputResetMail.placeholder = 'email';
   fn.appendElement(resetMailCont, inputMailResetBox);
   fn.appendElement(inputMailResetBox, inputResetMail);
   fn.appendElement(inputMailResetBox, btnResetMailSend);
@@ -956,9 +958,9 @@ const fetchToProfile = async (
 
 //FETCH GOOGLE LINK
 const fetchToGoogle = async (action) => {
-  const response = await fetch(`${BACK_URL}/google-link/${action}`).then((data) =>
-    data.json(),
-  );
+  const response = await fetch(
+    `${BACK_URL}/google-link/${action}`,
+  ).then((data) => data.json());
   console.log(response);
   if (response.OK === 1) {
     window.location.href = response.link;
@@ -989,6 +991,8 @@ const signUpCompScreen = () => {
   fn.appendElement(signUpInputsBox, inputMail);
   const inputPass = fn.createElement('input', 'input__pass-signup');
   fn.appendElement(signUpInputsBox, inputPass);
+  inputMail.placeholder = 'email';
+  inputPass.placeholder = 'password';
 
   const btnSend = fn.createElement('button', 'btn__send');
   fn.appendElement(signUpInputsBox, btnSend);
@@ -1054,6 +1058,8 @@ const logInCompScreen = () => {
   fn.appendElement(signUpInputsBox, inputMail);
   const inputPass = fn.createElement('input', 'input__pass-signup');
   fn.appendElement(signUpInputsBox, inputPass);
+  inputMail.placeholder = 'email';
+  inputPass.placeholder = 'password';
 
   const sendAndVerifyBox = fn.createElement('div', 'btn__verify-box');
   fn.appendElement(loginCont, sendAndVerifyBox);
@@ -1109,7 +1115,7 @@ const logInCompScreen = () => {
   });
 
   // GOOGLE OAUTH
-  googleSignUp.addEventListener('click', ()=> fetchToGoogle("auth"));
+  googleSignUp.addEventListener('click', () => fetchToGoogle('auth'));
 };
 
 //  PROFILE
@@ -1192,7 +1198,7 @@ const profileCompScreen = () => {
   googleSync.textContent = 'GOOGLE';
   fn.appendElement(profCont, googleSyncBox);
   fn.appendElement(googleSyncBox, googleSync);
-  googleSync.addEventListener("click",()=> fetchToGoogle("link"));
+  googleSync.addEventListener('click', () => fetchToGoogle('link'));
 };
 
 //  FAVORITOS
