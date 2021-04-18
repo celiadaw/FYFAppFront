@@ -373,6 +373,8 @@ const inputBox = () => {
   fn.appendElement(inputBox, btnBox);
   fn.appendElement(btnBox, btnSearch);
 
+  input.placeholder = "Busca tu curso";
+
   btnSearch.textContent = 'Search';
 
   // Botón de buscar cursos
