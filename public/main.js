@@ -3,6 +3,7 @@ import * as fn from './js/fn.js';
 //variable global que guardará los cursos para no tener que pedir la búsqueda de nuevo a back si no es necesario
 let globalCourses = [];
 let logged = false;
+const BACK_URL="https://shrouded-reaches-80608.herokuapp.com"
 const courses = [
   {
     id:
@@ -229,7 +230,6 @@ const mainHtml = () => {
   nodeLogo.src = './media/node.png';
   reactLogo.src = './media/react.png';
   angularLogo.src = './media/angular.png';
-    
 
   const container = fn.createElement('div', 'home__cont');
   fn.addClass(container, 'wrapper');
@@ -240,7 +240,6 @@ const mainHtml = () => {
   fn.appendElement(logoBox, nodeLogo);
   fn.appendElement(logoBox, reactLogo);
   fn.appendElement(logoBox, angularLogo);
-
 
   fn.appendElement(mainCont, container);
 
@@ -373,7 +372,7 @@ const inputBox = () => {
   fn.appendElement(inputBox, btnBox);
   fn.appendElement(btnBox, btnSearch);
 
-  input.placeholder = "Busca tu curso";
+  input.placeholder = 'Busca tu curso';
 
   btnSearch.textContent = 'Search';
 
@@ -390,14 +389,14 @@ const inputBox = () => {
       comp.forEach((cur) => {
         cur.remove();
       });
-    };
+    }
 
     let appTitle = fn.querySelection('.main__title-box');
     const param = input.value.trim();
 
     fetchToAllCourses(param);
     let logoBoxAnimate = fn.querySelection('.logo__box');
-    if(logoBoxAnimate) {
+    if (logoBoxAnimate) {
       logoBoxAnimate.remove();
     }
 
@@ -412,7 +411,7 @@ const fetchToAuth = async (token) => {
     },
   };
   const response = await fetch(
-    `https://shrouded-reaches-80608.herokuapp.com/authuser`, 
+    `${BACK_URL}/authuser`,
     options,
   ).then((data) => data.json());
 
@@ -426,14 +425,14 @@ const fetchToAuth = async (token) => {
 const fetchGetCodeOauth = async (code, token) => {
   const options = {
     method: 'POST',
-    body: JSON.stringify({code}),
+    body: JSON.stringify({ code }),
     headers: {
       'Content-Type': 'application/json',
       Authorization: `bearer ${token}`,
     },
   };
   const response = await fetch(
-    `https://shrouded-reaches-80608.herokuapp.com/google-vincular/${code}`,
+    `${BACK_URL}/google-vincular/${code}`,
     options,
   ).then((data) => data.json());
   return response.OK;
@@ -451,34 +450,27 @@ const init = async () => {
     mainHtml();
     resetPassScreen(token);
   } else if (window.location.pathname === '/google-oauth') {
-
     const token = window.location.search.split('=')[1];
     localStorage.setItem('Token', token);
     history.pushState(null, '', '/');
     init();
-  
-  } else if(window.location.pathname === '/vincular'){
-
+  } else if (window.location.pathname === '/vincular') {
     let token = localStorage.getItem('Token');
-    if (token){
+    if (token) {
       const code = window.location.search.split('=')[1];
       fetchGetCodeOauth(code, token);
-      }    
+    }
     history.pushState(null, '', '/');
     init();
-    
-  }  
-  else {
-
+  } else {
     if (globalCourses.length !== 0) {
-      
       mainHtml();
       btnLogsHtml();
       inputBox();
       let logoBoxAnimate = fn.querySelection('.logo__box');
-      if(logoBoxAnimate) {
+      if (logoBoxAnimate) {
         logoBoxAnimate.remove();
-      };
+      }
 
       globalCourses.map((cur, index) => {
         resultComp(cur, index);
@@ -501,7 +493,7 @@ const resultComp = (course, index) => {
   let container = fn.querySelection('.main__cont');
 
   const courseComponents = fn.createElement('div', 'course__components');
-  
+
   const imgBox = fn.createElement('div', 'img__box');
   const img = fn.createElement('img');
   img.src = `${course.image}`;
@@ -517,12 +509,11 @@ const resultComp = (course, index) => {
 
   const priceBox = fn.createElement('div', 'price__box');
   const price = fn.createElement('h2');
-  if(course.price === 0) {
+  if (course.price === 0) {
     price.textContent = 'Gratis';
   } else {
     price.textContent = `${course.price} €`;
   }
-
 
   fn.appendElement(imgBox, priceBox);
   fn.appendElement(priceBox, price);
@@ -545,7 +536,6 @@ const resultComp = (course, index) => {
 
     btnFav.addEventListener('click', () => {
       if (course.favorito) {
-        
         if (fetchToDelFav(course)) {
           // btnFav.classList.remove('fas');
           fn.removeClass(btnFav, 'fas');
@@ -594,7 +584,6 @@ const resultComp = (course, index) => {
 
   fn.appendElement(courseComponents, ratingBox);
   fn.appendElement(ratingBox, rating);
-
 };
 // -----------------------------------------------------------RESULTADOS DE LA BÚSQUEDA
 
@@ -638,8 +627,7 @@ const resultCompFav = (course, index) => {
   fn.appendElement(body, container);
 
   const courseComponents = fn.createElement('div', 'course__components');
-  fn.addClass(courseComponents, 'fav')
-
+  fn.addClass(courseComponents, 'fav');
 
   const imgBox = fn.createElement('div', 'img__box');
   const img = fn.createElement('img');
@@ -656,12 +644,11 @@ const resultCompFav = (course, index) => {
 
   const priceBox = fn.createElement('div', 'price__box');
   const price = fn.createElement('h2');
-  if(course.price === '0') {
+  if (course.price === '0') {
     price.textContent = 'Gratis';
   } else {
     price.textContent = `${course.price} €`;
-  };
-
+  }
 
   fn.appendElement(imgBox, priceBox);
   fn.appendElement(priceBox, price);
@@ -722,7 +709,7 @@ const fetchToAllCourses = async (param, contRemoved) => {
     } else options = {};
 
     const response = await fetch(
-      `https://shrouded-reaches-80608.herokuapp.com/courses?search=${param}`,
+      `${BACK_URL}/courses?search=${param}`,
       options,
     ).then((data) => data.json());
     if (response.OK === 1) {
@@ -758,7 +745,7 @@ const fetchToSignUp = async (email, pass, contRemoved) => {
   };
 
   const response = await fetch(
-    `https://shrouded-reaches-80608.herokuapp.com/signup`,
+    `${BACK_URL}/signup`,
     options,
   ).then((data) => data.json());
 
@@ -787,7 +774,7 @@ const fetchToLogin = async (email, pass, contRemoved) => {
   };
 
   const response = await fetch(
-    `https://shrouded-reaches-80608.herokuapp.com/login`,
+    `${BACK_URL}/login`,
     options,
   ).then((data) => data.json());
 
@@ -809,7 +796,7 @@ const fetchToLogOut = async (token, contRemoved) => {
   };
 
   const response = await fetch(
-    `https://shrouded-reaches-80608.herokuapp.com/logout`,
+    `${BACK_URL}/logout`,
     options,
   ).then((data) => data.json());
 
@@ -836,7 +823,7 @@ const fetchToAddFav = async (course, index) => {
       },
     };
     const response = await fetch(
-      `https://shrouded-reaches-80608.herokuapp.com/courses/fav`,
+      `${BACK_URL}/courses/fav`,
       options,
     ).then((data) => data.json());
 
@@ -856,7 +843,7 @@ const fetchToDelFav = async (course) => {
     },
   };
   const response = await fetch(
-    `https://shrouded-reaches-80608.herokuapp.com/courses/delete/${course.favoritoID}`,
+    `${BACK_URL}/courses/delete/${course.favoritoID}`,
     options,
   ).then((data) => data.json());
   return response.OK;
@@ -866,7 +853,7 @@ const fetchToGetFav = async (token, contRemoved) => {
     headers: { Authorization: `bearer ${token}` },
   };
   const response = await fetch(
-    `https://shrouded-reaches-80608.herokuapp.com/courses/fav`,
+    `${BACK_URL}/courses/fav`,
     options,
   ).then((data) => data.json());
 
@@ -892,7 +879,7 @@ const fetchToResetPass = async (token, pass, contRemoved) => {
     body: JSON.stringify({ pass }),
   };
   const response = await fetch(
-    `https://shrouded-reaches-80608.herokuapp.com/changepass`,
+    `${BACK_URL}/changepass`,
     options,
   ).then((data) => data.json());
 
@@ -909,7 +896,7 @@ const fetchToSendMail = async (email) => {
   };
 
   const response = await fetch(
-    `https://shrouded-reaches-80608.herokuapp.com/newpass`,
+    `${BACK_URL}/newpass`,
     options,
   ).then((data) => data.json());
 
@@ -935,7 +922,7 @@ const fetchToProfile = async (
     headers: { Authorization: `bearer ${token}` },
   };
   const response = await fetch(
-    `https://shrouded-reaches-80608.herokuapp.com/user`,
+    `${BACK_URL}/user`,
     options,
   ).then((data) => data.json());
   imgProf.src = response.foto ? response.foto : '/media/user-img.png';
@@ -958,7 +945,7 @@ const fetchToProfile = async (
     };
 
     const response = await fetch(
-      `https://shrouded-reaches-80608.herokuapp.com/user`,
+      `${BACK_URL}/user`,
       options,
     ).then((data) => data.json());
 
@@ -974,7 +961,7 @@ const fetchToProfile = async (
 //FETCH GOOGLE LINK
 const fetchToGoogle = async () => {
   const response = await fetch(
-    `https://shrouded-reaches-80608.herokuapp.com/google-link`,
+    `${BACK_URL}/google-link`,
   ).then((data) => data.json());
   console.log(response);
   window.location.href = response.link;
