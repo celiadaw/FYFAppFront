@@ -20,7 +20,7 @@ html {
 
 /* FAVORITOS BÚSQUEDA */
 .fav {
-    box-shadow: 0 0 8px green;
+    box-shadow: 0 0 20px var(--primary-color);
 }
 .nofav {
     box-shadow: 0 0 8px rgba(0, 0, 0, 5);
@@ -40,9 +40,30 @@ html {
 
     transition: all 2s ease-in-out;
 }
-/* .input__box-search {
-    margin-bottom: 20rem;
-} */
+.input__box-search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input__search, .input__mail-signup, .input__pass-signup {
+    padding: .4rem 2rem;
+    border-radius: 20rem;
+    border: none;
+    outline: none;
+    text-align: center;
+}
+.btn__search-box {
+    border: 2px solid var(--white);
+    width: 6rem;
+    border-radius: 20rem;
+    background-color: var(--white);
+}
+.btn__search {
+    text-transform: uppercase;
+    font-size: 1rem;
+    color: var(--primary-color);
+}
 
 /* CLASES DINÁMICAS */
 .bg {
@@ -61,9 +82,6 @@ html {
 
 }
 
-    
-    
-
 
 .home__cont, .signup__cont {
     height: 100%;
@@ -72,26 +90,42 @@ html {
     align-items: center;
     margin-bottom: 2rem;
 }
-/* .btn__logs-box {
-    flex: 0 0 20%;
-} */
+.btn__logs-box .btn__sign-up {
+    margin-right: 1.2rem;
+}
 .btn__home-box-signup {
     flex: 0 0 30%;
 }
 .btn__logs-box, .btn__home-box-signup {
-    align-self: flex-end;
+    align-self: center;
     padding: 1.2rem;
+    margin-bottom: 4rem;
 }
 /* .btn__sign-up {
     margin-right: 1.2rem;
 } */
-.btn__sign-up, .btn__logs, .btn__home-signup, .btn__send, .btn__send-login {
+.btn__sign-up, .btn__logs, .btn__home-signup, .btn__send-login {
     border: none;
     background: none;
-    margin-right: 1.2rem;
+    margin-bottom: 2rem;
+    color: var(--white);
+    text-transform: uppercase;
+}
+.btn__send {
+    border: none;
+    width: 6rem;
+    background: var(--white);
+    padding: .2rem 1rem;
+    border-radius: 20rem;
+    color: var(--primary-color);
+    align-self: center;
 }
 .main__title-box {
     margin-bottom: 1.2rem;
+}
+.main__title {
+    text-transform: uppercase;
+    color: var(--white);
 }
 .input__search {
     margin-bottom: 1.2rem;
@@ -113,12 +147,9 @@ html {
     align-content: center;
 }
 .btn__send, .text__aux-box {
-    margin-bottom: 1.2rem;
+    margin-bottom: 2rem;
 }
-.btn__send {
-    width: 4rem;
-    align-self: center;  
-}
+
 .text__aux-box {
     display: flex;
     align-items: center;
@@ -126,6 +157,9 @@ html {
 }
 .text__aux {
     margin-right: 1.2rem;
+    text-transform: uppercase;
+    color: var(--white);
+    text-shadow: 0 0 2px #333;
 }
 
 /* NO LOGIN LOGIN VIEW */
@@ -139,10 +173,16 @@ html {
 .btn__verify-box {
     margin-bottom: 1.2rem;
     text-align: center;
+    display: flex;
+    flex-direction: column;
 }
+
 .btn__verify, .btn__login-aux {
     border: none;
-    background: none;
+    background: var(--white);
+    padding: .2rem 1rem;
+    border-radius: 20rem;
+    color: var(--primary-color);
 }
 
 
@@ -153,6 +193,8 @@ html {
     border: none;
     background: none;
     margin-right: 1.2rem;
+    text-transform: uppercase;
+    color: var(--white);
 }
 
 /* VISTA PROFILE */
@@ -205,13 +247,15 @@ html {
     margin: 0 auto;
 }
 .btn__fav-box {
-    padding: 1.2rem;
-    align-self: flex-end;
-    margin-bottom: 10rem;
+    padding: 4rem 1.2rem;
+    align-self: center;
+    margin-bottom: 2rem;
 }
 .btn__home-fav {
     border: none;
     background: none;
+    color: var(--primary-color);
+    text-transform: uppercase;
 }
 .btn__home-fav:not(:last-child) {
     margin-right: 1.2rem;
@@ -249,8 +293,13 @@ html {
     justify-content: flex-start;
 }
 .img__box {
-    object-fit: cover;
+    width: 100%;
+    height: 100%;
     margin-bottom: 2rem;
     text-align: center;
+}
+.img__box img {
+    width: 230px;
+    height: 115px;
 }
 
