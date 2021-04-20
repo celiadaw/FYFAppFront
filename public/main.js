@@ -245,7 +245,6 @@ const mainHtml = () => {
   fn.appendElement(logoBox, reactLogo);
   fn.appendElement(logoBox, angularLogo);
 
-
   return {
     mainCont,
     container,
@@ -403,7 +402,7 @@ const inputBox = () => {
       comp.forEach((cur) => {
         cur.remove();
       });
-    })
+    });
     const param = input.value.trim();
 
     fetchToAllCourses(param);
@@ -414,7 +413,13 @@ const inputBox = () => {
 
     input.value = '';
   });
-
+  // Enter en input es lo mismo que hacer click en botón buscar
+  input.addEventListener('keypress', (e)=> {
+    if (e.key === "Enter") {
+      console.log("CLICK!!!")
+      btnSearch.click();
+    }
+  });
 };
 const fetchToAuth = async (token) => {
   const options = {
@@ -1031,8 +1036,8 @@ const signUpCompScreen = () => {
   fn.appendElement(textAuxBox, btnLoginAux);
 
   const googleSignUpBox = fn.createElement('div', 'google__signup-box');
-  const googleSignUp = fn.createElement('button', 'google__signup');
-  googleSignUp.textContent = 'GOOGLE';
+  const googleSignUp = fn.createElement('img', 'google__signup');
+  googleSignUp.src = './media/google.png';
   fn.appendElement(signUpCont, googleSignUpBox);
   fn.appendElement(googleSignUpBox, googleSignUp);
 
@@ -1106,8 +1111,8 @@ const logInCompScreen = () => {
   btnSignUpOut.textContent = 'Sign up';
 
   const googleLogInBox = fn.createElement('div', 'google__login-box');
-  const googleLogIn = fn.createElement('button', 'google__login');
-  googleLogIn.textContent = 'GOOGLE';
+  const googleLogIn = fn.createElement('img', 'google__login');
+  googleLogIn.src = './media/google.png';
   fn.appendElement(loginCont, googleLogInBox);
   fn.appendElement(googleLogInBox, googleLogIn);
 
