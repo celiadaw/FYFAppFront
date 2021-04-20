@@ -3,8 +3,8 @@ import * as fn from './js/fn.js';
 //variable global que guardará los cursos para no tener que pedir la búsqueda de nuevo a back si no es necesario
 let globalCourses = [];
 let logged = false;
-const BACK_URL = 'https://shrouded-reaches-80608.herokuapp.com';
-//const BACK_URL = 'http://localhost:3000';
+//const BACK_URL = 'https://shrouded-reaches-80608.herokuapp.com';
+const BACK_URL = 'http://localhost:3000';
 const courses = [
   {
     id:
@@ -169,7 +169,7 @@ const resetPassScreen = (token) => {
   fn.appendElement(resetCont, resetInputsBox);
   const inputResetPass = fn.createElement('input', 'input__pass-reset');
   fn.appendElement(resetInputsBox, inputResetPass);
-  inputResetPass.placeholder = "new password";
+  inputResetPass.placeholder = 'new password';
 
   const btnResetSendBox = fn.createElement('div', 'btn__reset-box');
   fn.appendElement(resetCont, btnResetSendBox);
@@ -433,10 +433,10 @@ const fetchGetCodeOauth = async (code, token) => {
       Authorization: `bearer ${token}`,
     },
   };
-  const response = await fetch(
-    `${BACK_URL}/google-vincular/${code}`,
-    options,
-  ).then((data) => data.json());
+  const response = await fetch(`${BACK_URL}/vincular`, options).then((data) =>
+    data.json(),
+  );
+  console.log('FETCH CODE', response);
   return response.OK;
 };
 const init = async () => {
@@ -448,6 +448,10 @@ const init = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   console.log('PARAMETRO', urlParams.get('action'));
   const action = urlParams.get('action');
+  const state = urlParams.get('state');
+  const error = urlParams.get('error');
+
+  console.log(state, action);
 
   if (action === 'newpass') {
     const token = urlParams.get('token');
@@ -460,9 +464,12 @@ const init = async () => {
     history.pushState(null, '', '/');
     init();
   } else if (action === 'vincular') {
+    console.log('VINCULAR!!!');
     let token = localStorage.getItem('Token');
+    console.log('TOKEN', token);
     if (token) {
       const code = urlParams.get('code');
+      console.log('CODE', code);
       fetchGetCodeOauth(code, token);
     }
     history.pushState(null, '', '/');
@@ -485,6 +492,10 @@ const init = async () => {
       btnLogsHtml();
       mainTitleApp();
       inputBox();
+      if (error) {
+        history.pushState(null, '', '/');
+        alert(error);
+      }
     }
   }
 };
@@ -933,7 +944,7 @@ const fetchToProfile = async (
     const foto = imgProf.src;
     const nombre = userDataFirstName.value;
     const apellidos = userDataLastName.value;
-
+    console.log(foto, nombre, apellidos);
     const options = {
       method: 'POST',
       body: JSON.stringify({ foto, nombre, apellidos }),
@@ -942,10 +953,12 @@ const fetchToProfile = async (
         Authorization: `bearer ${token}`,
       },
     };
-
+    console.log(options);
     const response = await fetch(`${BACK_URL}/user`, options).then((data) =>
       data.json(),
     );
+
+    console.log('RESPONSE', response);
 
     if (response.OK) {
       profCont.remove();
@@ -961,7 +974,7 @@ const fetchToGoogle = async (action) => {
   const response = await fetch(
     `${BACK_URL}/google-link/${action}`,
   ).then((data) => data.json());
-  console.log(response);
+  console.log('OAUTH', response);
   if (response.OK === 1) {
     window.location.href = response.link;
   }
@@ -1036,6 +1049,9 @@ const signUpCompScreen = () => {
     inputMail.value = '';
     inputPass.value = '';
   });
+
+  // OAUTH SIGNUP
+  googleSignUp.addEventListener('click', () => fetchToGoogle('signup'));
 };
 //  LOG IN
 const logInCompScreen = () => {
@@ -1079,11 +1095,11 @@ const logInCompScreen = () => {
   fn.appendElement(textAuxBox, btnSignUpOut);
   btnSignUpOut.textContent = 'Sign up';
 
-  const googleSignUpBox = fn.createElement('div', 'google__signup-box');
-  const googleSignUp = fn.createElement('button', 'google__signup');
-  googleSignUp.textContent = 'GOOGLE';
-  fn.appendElement(loginCont, googleSignUpBox);
-  fn.appendElement(googleSignUpBox, googleSignUp);
+  const googleLogInBox = fn.createElement('div', 'google__login-box');
+  const googleLogIn = fn.createElement('button', 'google__login');
+  googleLogIn.textContent = 'GOOGLE';
+  fn.appendElement(loginCont, googleLogInBox);
+  fn.appendElement(googleLogInBox, googleLogIn);
 
   // BACK TO HOME
   btnHome.addEventListener('click', () => {
@@ -1114,8 +1130,8 @@ const logInCompScreen = () => {
     inputPass.value = '';
   });
 
-  // GOOGLE OAUTH
-  googleSignUp.addEventListener('click', () => fetchToGoogle('auth'));
+  // GOOGLE OAUTH LOGIN
+  googleLogIn.addEventListener('click', () => fetchToGoogle('login'));
 };
 
 //  PROFILE
