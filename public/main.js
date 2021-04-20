@@ -237,6 +237,7 @@ const mainHtml = () => {
   const container = fn.createElement('div', 'home__cont');
   fn.addClass(container, 'wrapper');
   fn.appendElement(body, mainCont);
+  fn.appendElement(mainCont, container);
   fn.appendElement(mainCont, logoBox);
 
   fn.appendElement(logoBox, jsLogo);
@@ -244,7 +245,6 @@ const mainHtml = () => {
   fn.appendElement(logoBox, reactLogo);
   fn.appendElement(logoBox, angularLogo);
 
-  fn.appendElement(mainCont, container);
 
   return {
     mainCont,
@@ -384,7 +384,10 @@ const inputBox = () => {
     e.preventDefault();
 
     if (input.value === '') {
-      return null;
+      let comp = document.querySelectorAll('.course__components');
+      comp.forEach((cur) => {
+        cur.remove();
+      });
     }
 
     let comp = document.querySelectorAll('.course__components');
@@ -395,6 +398,12 @@ const inputBox = () => {
     }
 
     let appTitle = fn.querySelection('.main__title-box');
+    appTitle.addEventListener('click', () => {
+      let comp = document.querySelectorAll('.course__components');
+      comp.forEach((cur) => {
+        cur.remove();
+      });
+    })
     const param = input.value.trim();
 
     fetchToAllCourses(param);
@@ -405,6 +414,7 @@ const inputBox = () => {
 
     input.value = '';
   });
+
 };
 const fetchToAuth = async (token) => {
   const options = {

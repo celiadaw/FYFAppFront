@@ -37,7 +37,7 @@ html {
     flex-direction: column;
     padding: .5rem;
     position: relative;
-
+    align-items: center;
     transition: all 2s ease-in-out;
 }
 .input__box-search {
@@ -52,6 +52,11 @@ html {
     border: none;
     outline: none;
     text-align: center;
+}
+.input__data-firstName {
+    outline: none;
+    padding: .4rem 2rem;
+    border-radius: 20rem;
 }
 .btn__search-box {
     border: 2px solid var(--white);
@@ -74,12 +79,6 @@ html {
 
 .logo {
     width: 6rem;
-}
-.logo__box {
-    position: absolute;
-    bottom: 2rem;
-    right: 2.5rem;
-
 }
 
 
@@ -216,14 +215,17 @@ html {
 .btn__prof-box {
     flex: 0 0 20%;
     padding: 1.2rem;
-    align-self: flex-end;
+    align-self: center;
 }
 .btn__home, .btn__prof-logout, .btn__edit {
     border: none;
     background: none;
+    color: var(--primary-color);
+    text-transform: uppercase;
 }
 .user__Data-box {
     display: flex;
+    text-align: center;
 }
 .btn__edit-box {
     margin-top: 1.2rem;
@@ -301,5 +303,14 @@ html {
 .img__box img {
     width: 230px;
     height: 115px;
+}
+
+.firstName__box {
+    text-align: center;
+}
+
+.firstName__text {
+    text-transform: uppercase;
+    color: var(--primary-color);
 }
 
