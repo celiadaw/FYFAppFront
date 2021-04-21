@@ -491,8 +491,10 @@ const init = async () => {
     init();
   } else {
     if (globalCourses.length !== 0) {
+      console.log(907987987);
       mainHtml();
       btnLogsHtml();
+      mainTitleApp();
       inputBox();
       let logoBoxAnimate = fn.querySelection('.logo__box');
       if (logoBoxAnimate) {
