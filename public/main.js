@@ -423,7 +423,6 @@ const inputBox = () => {
   // Enter en input es lo mismo que hacer click en botón buscar
   input.addEventListener('keypress', (e)=> {
     if (e.key === "Enter") {
-      console.log("CLICK!!!")
       btnSearch.click();
     }
   });
@@ -458,7 +457,6 @@ const fetchGetCodeOauth = async (code, token) => {
   const response = await fetch(`${BACK_URL}/vincular`, options).then((data) =>
     data.json(),
   );
-  console.log('FETCH CODE', response);
   return response.OK;
 };
 const init = async () => {
@@ -468,12 +466,10 @@ const init = async () => {
   }
 
   const urlParams = new URLSearchParams(window.location.search);
-  console.log('PARAMETRO', urlParams.get('action'));
   const action = urlParams.get('action');
   const state = urlParams.get('state');
   const error = urlParams.get('error');
 
-  console.log(state, action);
 
   if (action === 'newpass') {
     const token = urlParams.get('token');
@@ -486,12 +482,9 @@ const init = async () => {
     history.pushState(null, '', '/');
     init();
   } else if (action === 'vincular') {
-    console.log('VINCULAR!!!');
     let token = localStorage.getItem('Token');
-    console.log('TOKEN', token);
     if (token) {
       const code = urlParams.get('code');
-      console.log('CODE', code);
       fetchGetCodeOauth(code, token);
     }
     history.pushState(null, '', '/');
@@ -966,7 +959,6 @@ const fetchToProfile = async (
     const foto = imgProf.src;
     const nombre = userDataFirstName.value;
     const apellidos = userDataLastName.value;
-    console.log(foto, nombre, apellidos);
     const options = {
       method: 'POST',
       body: JSON.stringify({ foto, nombre, apellidos }),
@@ -975,12 +967,10 @@ const fetchToProfile = async (
         Authorization: `bearer ${token}`,
       },
     };
-    console.log(options);
     const response = await fetch(`${BACK_URL}/user`, options).then((data) =>
       data.json(),
     );
 
-    console.log('RESPONSE', response);
 
     if (response.OK) {
       profCont.remove();
@@ -996,7 +986,6 @@ const fetchToGoogle = async (action) => {
   const response = await fetch(
     `${BACK_URL}/google-link/${action}`,
   ).then((data) => data.json());
-  console.log('OAUTH', response);
   if (response.OK === 1) {
     window.location.href = response.link;
   }
