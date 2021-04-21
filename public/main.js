@@ -1037,7 +1037,7 @@ const signUpCompScreen = () => {
 
   const googleSignUpBox = fn.createElement('div', 'google__signup-box');
   const googleSignUp = fn.createElement('img', 'google__signup');
-  googleSignUp.src = './media/google.png';
+  googleSignUp.src = './media/googleSignUp.png';
   fn.appendElement(signUpCont, googleSignUpBox);
   fn.appendElement(googleSignUpBox, googleSignUp);
 
@@ -1112,7 +1112,7 @@ const logInCompScreen = () => {
 
   const googleLogInBox = fn.createElement('div', 'google__login-box');
   const googleLogIn = fn.createElement('img', 'google__login');
-  googleLogIn.src = './media/google.png';
+  googleLogIn.src = './media/googleLogin.png';
   fn.appendElement(loginCont, googleLogInBox);
   fn.appendElement(googleLogInBox, googleLogIn);
 
