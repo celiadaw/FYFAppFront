@@ -43,15 +43,34 @@ html {
   flex-direction: column;
   align-items: center;
 }
+.input__mail-resetBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.input__mail-reset {
+    margin-bottom: 1.2rem;
+}
 
-.input__search,
-.input__mail-signup,
-.input__pass-signup {
-  padding: 0.4rem 2rem;
-  border-radius: 20rem;
-  border: none;
-  outline: none;
-  text-align: center;
+.reset__mail-cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4rem;
+}
+.reset__cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4rem;
+}
+
+.input__search, .input__mail-signup, .input__pass-signup, .input__mail-reset, .input__pass-reset {
+    padding: .4rem 2rem;
+    border-radius: 20rem;
+    border: none;
+    outline: none;
+    text-align: center;
 }
 .input__data-firstName {
   outline: none;
@@ -64,10 +83,16 @@ html {
   border-radius: 20rem;
   background-color: var(--white);
 }
-.btn__search {
-  text-transform: uppercase;
-  font-size: 1rem;
-  color: var(--primary-color);
+.btn__mail-reset {
+    background: var(--white);
+    border: none;
+    padding: .1rem 1rem;
+    border-radius: 20rem;
+}
+.btn__search, .btn__mail-reset {
+    text-transform: uppercase;
+    font-size: 1rem;
+    color: var(--primary-color);
 }
 
 /* CLASES DINÁMICAS */
@@ -108,15 +133,12 @@ html {
 /* .btn__sign-up {
     margin-right: 1.2rem;
 } */
-.btn__sign-up,
-.btn__logs,
-.btn__home-signup,
-.btn__send-login {
-  border: none;
-  background: none;
-  margin-bottom: 2rem;
-  color: var(--white);
-  text-transform: uppercase;
+.btn__sign-up, .btn__logs, .btn__home-signup, .btn__send-login, .btn__reset-mailHome {
+    border: none;
+    background: none;
+    margin-bottom: 2rem;
+    color: var(--white);
+    text-transform: uppercase;
 }
 .btn__send {
   border: none;
@@ -272,6 +294,16 @@ html {
   padding: 4rem 1.2rem;
   align-self: center;
   margin-bottom: 2rem;
+}
+.btn__home-reset {
+    border: none;
+    background: none;
+    color: var(--white);
+    text-transform: uppercase;
+}
+.input__box-reset {
+    margin-top: 4rem;
+    margin-bottom: 1.2rem;
 }
 .btn__home-fav {
   border: none;

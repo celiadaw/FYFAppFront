@@ -152,6 +152,8 @@ const courses = [
 ];
 //  RESET PASSWORD
 const resetPassScreen = (token) => {
+  let homeCont = fn.querySelection('.home__cont');
+  homeCont.remove();
   const mainCont = fn.querySelection('.main__cont');
   // fn.remover(container);
   const resetCont = fn.createElement('div', 'reset__cont');
@@ -184,10 +186,10 @@ const resetPassScreen = (token) => {
 
   btnResetSend.addEventListener('click', () => {
     let pass = inputResetPass.value;
-    let homeCont = fn.querySelection('.home__cont');
 
     fetchToResetPass(token, pass, resetCont);
   });
+  
 };
 
 const resetPassMailScreen = () => {
@@ -210,6 +212,11 @@ const resetPassMailScreen = () => {
   fn.appendElement(resetMailCont, inputMailResetBox);
   fn.appendElement(inputMailResetBox, inputResetMail);
   fn.appendElement(inputMailResetBox, btnResetMailSend);
+
+  btnResetMailHome.addEventListener('click', () => {
+    mainCont.remove();
+    init();
+  });
 
   btnResetMailSend.addEventListener('click', () => {
     let email = inputResetMail.value;
@@ -1231,109 +1238,3 @@ const profileCompScreen = () => {
   fn.appendElement(googleSyncBox, googleSync);
   googleSync.addEventListener('click', () => fetchToGoogle('link'));
 };
-
-//  FAVORITOS
-// const favCompScreen = (course) => {
-
-//   let body = fn.querySelection('body');
-//   let favMainCont = fn.querySelection('.main__cont');
-//     fn.appendElement(body, favMainCont);
-//   const compCont = fn.createElement('div', 'fav__main-cont');
-
-//   const btnFavBox = fn.createElement('div', 'btn__prof-box');
-
-//   fn.appendElement(favMainCont, btnFavBox);
-//   const btnFavHome = fn.createElement('button', 'btn__home');
-//   fn.appendElement(btnFavBox, btnFavHome);
-//   btnFavHome.textContent = 'Home';
-//   const btnFavLogOut = fn.createElement('button', 'btn__prof-logout');
-//   fn.appendElement(btnFavBox, btnFavLogOut);
-//   btnFavLogOut.textContent = 'Log out';
-
-//   const favInputBox = fn.createElement('div', 'favinput__search-box');
-//   fn.appendElement(favMainCont, favInputBox);
-//   const favInput = fn.createElement('input', 'favinput__search');
-//   fn.appendElement(favInputBox, favInput);
-
-//   const favBtnSearchBox = fn.createElement('div', 'favBtn__search-box');
-//   fn.appendElement(favInputBox, favBtnSearchBox);
-//   const favBtnSearch = fn.createElement('button', 'favBtn__search');
-//   fn.appendElement(favBtnSearchBox, favBtnSearch);
-//   favBtnSearch.textContent = 'Search';
-
-//   const favCont = fn.createElement('div', 'fav__cont');
-//     fn.appendElement(compCont, favCont);
-//     fn.addClass(favCont, 'wrapper');
-//   const courseComponents = fn.createElement('div', 'course__components');
-//     fn.appendElement(favCont, courseComponents);
-
-//   const imgBox = fn.createElement('div', 'img__box');
-//   fn.appendElement(courseComponents, imgBox);
-//   const img = fn.createElement('img');
-//   img.src = `${course.image}`;
-//     fn.appendElement(imgBox, img);
-
-//   // Click a la imagen para ir a vista detalle
-//   img.addEventListener('click', (e) => {
-//     e.preventDefault();
-//     window.open(`${course.url}`);
-//   });
-
-//   const priceBox = fn.createElement('div', 'price__box');
-//   const price = fn.createElement('h2');
-//   price.textContent = `${course.price}`;
-//   fn.appendElement(imgBox, priceBox);
-//   fn.appendElement(priceBox, price);
-
-//   const titleBox = fn.createElement('h3', 'title__box');
-//   const title = fn.createElement('h3');
-//   title.textContent = `${course.title}`;
-//   fn.appendElement(courseComponents, titleBox);
-//   fn.appendElement(titleBox, title);
-
-//   if (logged) {
-//     const btnFav = fn.createElement('button', 'btnFav');
-//     fn.appendElement(titleBox, btnFav);
-//     btnFav.textContent = 'FAVBTN';
-//   }
-
-//   // Click al título para ir a vista detalle
-//   title.addEventListener('click', (e) => {
-//     e.preventDefault();
-//     window.open(`${course.url}`);
-//   });
-
-//   const descriptionBox = fn.createElement('div', 'description__box');
-//   const description = fn.createElement('p');
-//   description.textContent = `${course.resume}`;
-
-//   fn.appendElement(courseComponents, descriptionBox);
-//   fn.appendElement(descriptionBox, description);
-
-//   const ratingBox = fn.createElement('div', 'rating__box');
-//   const rating = fn.createElement('p');
-//   rating.textContent = `${course.currentRating}`;
-
-//   fn.appendElement(courseComponents, ratingBox);
-//   fn.appendElement(ratingBox, rating);
-
-//   const courseLevelBox = fn.createElement('div', 'course__level-box');
-//   const courseLevel = fn.createElement('p');
-//   courseLevel.textContent = `${course.level}`;
-
-//   fn.appendElement(courseComponents, courseLevelBox);
-//   fn.appendElement(courseLevelBox, courseLevel); // Valoración (estrellas)
-
-//   // Botón Home
-//   btnFavHome.addEventListener('click', () => {
-//     favMainCont.remove();
-//     console.log(5555);
-
-//   });
-
-//   // Botón Log out
-//   btnFavLogOut.addEventListener('click', () => {
-//     favCont.remove();
-//     init();
-//   });
-// };
